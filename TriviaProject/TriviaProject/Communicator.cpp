@@ -9,12 +9,12 @@ static const unsigned int IFACE = 0;
 /// </summary>
 void Communicator::startHandleRequests()
 {
-	while (true)
+	try
 	{
-		try
+		bindAndListen(); // want to bind and then start listening
+		while (true)
 		{
 			SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
-
 			if (client_socket == INVALID_SOCKET)
 			{
 				throw exception(__FUNCTION__);
@@ -25,10 +25,10 @@ void Communicator::startHandleRequests()
 			thread client_thread(&Communicator::handleNewClient, this, client_socket);
 			client_thread.detach();
 		}
-		catch (const  exception& e)
-		{
-			cout << "Exception was catch in function startHandleRequests. What = " << e.what() << endl;
-		}
+	}
+	catch (const  exception& e)
+	{
+		cout << e.what() << endl;
 	}
 }
 
@@ -37,31 +37,24 @@ void Communicator::startHandleRequests()
 /// </summary>
 void Communicator::bindAndListen()
 {
-	try
-	{
-		struct sockaddr_in sa = { 0 };
-		sa.sin_port = htons(PORT);
-		sa.sin_family = AF_INET;
-		sa.sin_addr.s_addr = IFACE;
+	struct sockaddr_in sa = { 0 };
+	sa.sin_port = htons(PORT);
+	sa.sin_family = AF_INET;
+	sa.sin_addr.s_addr = IFACE;
 
-		// again stepping out to the global namespace
-		if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
-		{
-			throw exception(__FUNCTION__ " - bind");
-		}
-		cout << "binded" << endl;
-
-		if (::listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
-		{
-			throw exception(__FUNCTION__ " - listen");
-		}
-		cout << "listening..." << endl;
-	}
-	catch (const exception& e)
+	// again stepping out to the global namespace
+	if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
 	{
-		cout << "Exception was catch in function bindAndListen. Socket = " << m_serverSocket << ",what = " << e.what() << endl;
+		throw exception(__FUNCTION__ " - bind");
 	}
-	closesocket(m_serverSocket);
+	cout << "binded" << endl;
+
+	if (::listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
+	{
+		throw exception(__FUNCTION__ " - listen");
+	}
+	cout << "listening..." << endl;
+	//closesocket(m_serverSocket);
 }
 
 /// <summary>
