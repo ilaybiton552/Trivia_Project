@@ -11,6 +11,13 @@ void Communicator::startHandleRequests()
 {
 	try
 	{
+		// opening the server socket
+		m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		if (m_serverSocket == INVALID_SOCKET)
+		{
+			throw std::exception(__FUNCTION__ " - socket");
+		}
+
 		bindAndListen(); // want to bind and then start listening
 		while (true)
 		{
@@ -43,18 +50,17 @@ void Communicator::bindAndListen()
 	sa.sin_addr.s_addr = IFACE;
 
 	// again stepping out to the global namespace
-	if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
+	if (bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
 	{
 		throw exception(__FUNCTION__ " - bind");
 	}
 	cout << "binded" << endl;
 
-	if (::listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
+	if (listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
 	{
 		throw exception(__FUNCTION__ " - listen");
 	}
 	cout << "listening..." << endl;
-	//closesocket(m_serverSocket);
 }
 
 /// <summary>
