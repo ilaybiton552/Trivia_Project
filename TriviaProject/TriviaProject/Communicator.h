@@ -1,7 +1,12 @@
 #pragma once
 #include <WinSock2.h>
 #include <map>
+#include <iostream>
 #include "IRequestHandler.h"
+
+using std::map;
+using std::cout;
+using std::endl;
 
 class Communicator
 {
@@ -15,6 +20,6 @@ private:
 
 	//Fields
 	SOCKET m_serverSocket;
-	std::map<SOCKET, IRequestHandler*> m_clients;
+	map<SOCKET, IRequestHandler*> m_clients;
 };
 
