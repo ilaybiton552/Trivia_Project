@@ -20,7 +20,6 @@ public:
 private:
 	//Methods
 	void bindAndListen();
-	void acceptClient();
 	void handleNewClient(const SOCKET client_socket);
 
 	//Fields

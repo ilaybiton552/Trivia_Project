@@ -4,6 +4,31 @@ static const unsigned short PORT = 8826; // the server socket port that listen
 static const unsigned int IFACE = 0;
 
 /// <summary>
+/// the function start to handle new clients, accepts clients and create a thread for every new client
+/// </summary>
+void Communicator::startHandleRequests()
+{
+	try
+	{
+		SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
+
+		if (client_socket == INVALID_SOCKET)
+		{
+			throw exception(__FUNCTION__);
+		}
+
+		cout << "Client accepted !" << endl;
+		// create new thread for client	and detach from it
+		thread client_thread(&Communicator::handleNewClient, this, client_socket);
+		client_thread.detach();
+	}
+	catch (const  exception& e)
+	{
+		cout << "Exception was catch in function startHandleRequests. What = " << e.what() << endl;
+	}
+}
+
+/// <summary>
 /// the function creates a socket that listen to connecting requests from clients
 /// </summary>
 void Communicator::bindAndListen()
@@ -33,31 +58,6 @@ void Communicator::bindAndListen()
 		cout << "Exception was catch in function bindAndListen. Socket = " << m_serverSocket << ",what = " << e.what() << endl;
 	}
 	closesocket(m_serverSocket);
-}
-
-/// <summary>
-/// the function accepts clients and create a thread for new client
-/// </summary>
-void Communicator::acceptClient()
-{
-	try
-	{
-		SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
-
-		if (client_socket == INVALID_SOCKET)
-		{
-			throw exception(__FUNCTION__);
-		}
-
-		cout << "Client accepted !" << endl;
-		// create new thread for client	and detach from it
-		thread client_thread(&Communicator::handleNewClient, this, client_socket);
-		client_thread.detach();
-	}
-	catch (const  exception& e)
-	{
-		cout << "Exception was catch in function acceptClient. What = " << e.what() << endl;
-	}
 }
 
 /// <summary>
