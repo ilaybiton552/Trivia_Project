@@ -35,6 +35,9 @@ void Communicator::bindAndListen()
 	closesocket(m_serverSocket);
 }
 
+/// <summary>
+/// the function accepts clients and create a thread for new client
+/// </summary>
 void Communicator::acceptClient()
 {
 	try
@@ -57,6 +60,10 @@ void Communicator::acceptClient()
 	}
 }
 
+/// <summary>
+/// the function handles the new client
+/// </summary>
+/// <param name="client_socket">the client socket to handle</param>
 void Communicator::handleNewClient(const SOCKET client_socket)
 {
 	try
