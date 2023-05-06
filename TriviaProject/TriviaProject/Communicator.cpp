@@ -5,19 +5,42 @@ static const unsigned int IFACE = 0;
 #define HELLO_MSG_LEN 5
 
 /// <summary>
+/// Constructor of Communicater
+/// </summary>
+Communicator::Communicator()
+{
+	// opening the server socket
+	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (m_serverSocket == INVALID_SOCKET)
+	{
+		throw std::exception(__FUNCTION__ " - socket");
+	}
+}
+
+/// <summary>
+/// Destructor of Communicator
+/// </summary>
+Communicator::~Communicator()
+{
+	try
+	{
+		closesocket(m_serverSocket);
+		for (auto it = m_clients.begin(); it != m_clients.end(); ++it)
+		{
+			closesocket(it->first); // closing the clients socket
+			delete it->second; // deleting the allocated memory for the pointer
+		}
+	}
+	catch(...) {}
+}
+
+/// <summary>
 /// the function start to handle new clients, accepts clients and create a thread for every new client
 /// </summary>
 void Communicator::startHandleRequests()
 {
 	try
 	{
-		// opening the server socket
-		m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		if (m_serverSocket == INVALID_SOCKET)
-		{
-			throw std::exception(__FUNCTION__ " - socket");
-		}
-
 		bindAndListen(); // want to bind and then start listening
 		while (true)
 		{
@@ -71,7 +94,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 {
 	try
 	{
-		LoginRequestHandler* pLoginRequest;
+		LoginRequestHandler* pLoginRequest = new LoginRequestHandler;
 		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
 
 		const char* helloMsg = "Hello";
@@ -97,14 +120,10 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		{
 			throw exception("The client didn't answer properly");
 		}
-		else
-		{
-			cout << "Client answer: " << received << endl;
-		}
+		cout << "Client answer: " << received << endl;
 	}
 	catch (const exception& e)
 	{
 		cout << "Exception was catch in function handleNewClient. Socket = " << client_socket << ", what = " << e.what() << endl;
 	}
-	closesocket(client_socket);
 }
