@@ -2,11 +2,15 @@
 #include <WinSock2.h>
 #include <map>
 #include <iostream>
+#include <thread>
+#include <exception>
 #include "IRequestHandler.h"
 
 using std::map;
 using std::cout;
 using std::endl;
+using std::thread;
+using std::exception;
 
 class Communicator
 {
@@ -16,6 +20,7 @@ public:
 private:
 	//Methods
 	void bindAndListen();
+	void acceptClient();
 	void handleNewClient(const SOCKET client_socket);
 
 	//Fields
