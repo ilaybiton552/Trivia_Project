@@ -1,4 +1,5 @@
 #pragma comment (lib, "ws2_32.lib")
+
 #include "MagshMessageServer.h"
 #include "WSAInitializer.h"
 #include <iostream>
