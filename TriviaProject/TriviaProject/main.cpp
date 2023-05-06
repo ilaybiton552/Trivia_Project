@@ -1,32 +1,27 @@
 #pragma comment (lib, "ws2_32.lib")
-
-#include "MTServer.h"
+#include "Server.h"
 #include "WSAInitializer.h"
 #include <iostream>
-#include <fstream>
 
-// In a lot of places in the code we pass to function constant reference (const Bla&)
-// to an object and not the object itself, 
+using std::cout;
+using std::endl;
+using std::exception;
 
 int main()
 {
-	// Q: why is this try necessarily ?
-	// A: we want to know what happened that made the server crush
 	try
 	{
-
-		TRACE("Starting...");
-		// NOTICE at the end of this block the WSA will be closed 
+		cout << "Starting..." << endl;
 		WSAInitializer wsa_init;
-		MTServer md_server;
-		md_server.serve();
+		Server md_server;
+		md_server.run();
 	}
-	catch (const std::exception& e)
+	catch (const exception& e)
 	{
-		std::cout << "Exception was thrown in function: " << e.what() << std::endl;
+		cout << "Exception was thrown in function: " << e.what() << endl;
 	}
 	catch (...)
 	{
-		std::cout << "Unknown exception in main !" << std::endl;
+		cout << "Unknown exception in main !" << endl;
 	}
 }
