@@ -9,23 +9,26 @@ static const unsigned int IFACE = 0;
 /// </summary>
 void Communicator::startHandleRequests()
 {
-	try
+	while (true)
 	{
-		SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
-
-		if (client_socket == INVALID_SOCKET)
+		try
 		{
-			throw exception(__FUNCTION__);
-		}
+			SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 
-		cout << "Client accepted !" << endl;
-		// create new thread for client	and detach from it
-		thread client_thread(&Communicator::handleNewClient, this, client_socket);
-		client_thread.detach();
-	}
-	catch (const  exception& e)
-	{
-		cout << "Exception was catch in function startHandleRequests. What = " << e.what() << endl;
+			if (client_socket == INVALID_SOCKET)
+			{
+				throw exception(__FUNCTION__);
+			}
+
+			cout << "Client accepted !" << endl;
+			// create new thread for client	and detach from it
+			thread client_thread(&Communicator::handleNewClient, this, client_socket);
+			client_thread.detach();
+		}
+		catch (const  exception& e)
+		{
+			cout << "Exception was catch in function startHandleRequests. What = " << e.what() << endl;
+		}
 	}
 }
 
