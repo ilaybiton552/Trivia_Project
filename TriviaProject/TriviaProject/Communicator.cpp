@@ -72,7 +72,8 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 {
 	try
 	{
-		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, &LoginRequestHandler())); // add the client to the client map
+		LoginRequestHandler* pLoginRequest;
+		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
 
 		const char* helloMsg = "Hello";
 		cout << "Sending Hello message to client..." << endl;
