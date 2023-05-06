@@ -5,6 +5,7 @@
 
 using std::cout;
 using std::endl;
+using std::exception;
 
 int main()
 {
@@ -15,7 +16,7 @@ int main()
 		Server md_server;
 		md_server.run();
 	}
-	catch (const std::exception& e)
+	catch (const exception& e)
 	{
 		cout << "Exception was thrown in function: " << e.what() << endl;
 	}
