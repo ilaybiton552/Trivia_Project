@@ -11,7 +11,7 @@ using std::getline;
 void Server::run()
 {
 	// creating a thread which gets new clients
-	thread t_connector(&Communicator::startHandleRequests, this);
+	thread t_connector(&Communicator::startHandleRequests, m_communicator);
 	t_connector.detach();
 
 	// getting commands from user
