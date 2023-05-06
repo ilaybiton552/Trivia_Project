@@ -1,4 +1,4 @@
-#include "MagshMessageServer.h"
+#include "MTServer.h"
 #include <exception>
 #include <iostream>
 #include <string>
@@ -14,7 +14,7 @@ using std::unique_lock;
 using std::vector;
 
 
-MagshMessageServer::MagshMessageServer()
+MTServer::MTServer()
 {
 	// notice that we step out to the global namespace
 	// for the resolution of the function socket
@@ -23,7 +23,7 @@ MagshMessageServer::MagshMessageServer()
 		throw std::exception( __FUNCTION__ " - socket");
 }
 
-MagshMessageServer::~MagshMessageServer()
+MTServer::~MTServer()
 {
 	TRACE(__FUNCTION__ " closing accepting socket");
 	// why is this try necessarily ?
@@ -36,12 +36,12 @@ MagshMessageServer::~MagshMessageServer()
 	catch (...) {}
 }
 
-void MagshMessageServer::serve()
+void MTServer::serve()
 {
 	bindAndListen();
 
 	// create new thread for handling message
-	std::thread tr(&MagshMessageServer::handleReceivedMessages, this);
+	std::thread tr(&MTServer::handleReceivedMessages, this);
 	tr.detach();
 
 	while (true)
@@ -56,7 +56,7 @@ void MagshMessageServer::serve()
 
 // listen to connecting requests from clients
 // accept them, and create thread for each client
-void MagshMessageServer::bindAndListen()
+void MTServer::bindAndListen()
 {
 	struct sockaddr_in sa = { 0 };
 	sa.sin_port = htons(PORT);
@@ -72,7 +72,7 @@ void MagshMessageServer::bindAndListen()
 	TRACE("listening...");
 }
 
-void MagshMessageServer::acceptClient()
+void MTServer::acceptClient()
 {
 	SOCKET client_socket = accept(_socket, NULL, NULL);
 	if (client_socket == INVALID_SOCKET)
@@ -80,14 +80,14 @@ void MagshMessageServer::acceptClient()
 
 	TRACE("Client accepted !");
 	// create new thread for client	and detach from it
-	std::thread tr(&MagshMessageServer::clientHandler, this, client_socket);
+	std::thread tr(&MTServer::clientHandler, this, client_socket);
 	tr.detach();
 
 }
 
 
 
-void MagshMessageServer::clientHandler(const SOCKET client_socket)
+void MTServer::clientHandler(const SOCKET client_socket)
 {
 	RecvMessage* currRcvMsg = nullptr;
 	try
@@ -116,7 +116,7 @@ void MagshMessageServer::clientHandler(const SOCKET client_socket)
 	closesocket(client_socket);
 }
 
-void MagshMessageServer::addReceivedMessage(RecvMessage* msg)
+void MTServer::addReceivedMessage(RecvMessage* msg)
 {
 	unique_lock<mutex> lck(_mtxReceivedMessages);
 
@@ -126,7 +126,7 @@ void MagshMessageServer::addReceivedMessage(RecvMessage* msg)
 	
 }
 
-RecvMessage* MagshMessageServer::build_receive_message(const SOCKET client_socket, const int msg_code)
+RecvMessage* MTServer::build_receive_message(const SOCKET client_socket, const int msg_code)
 {
 	RecvMessage* msg = nullptr;
 	vector<string> values;
@@ -156,7 +156,7 @@ RecvMessage* MagshMessageServer::build_receive_message(const SOCKET client_socke
 
 
 // remove the user from queue
-void MagshMessageServer::safeDeleteUser(const SOCKET id)
+void MTServer::safeDeleteUser(const SOCKET id)
 {
 	try
 	{
@@ -174,7 +174,7 @@ void MagshMessageServer::safeDeleteUser(const SOCKET id)
 	
 }
 
-void MagshMessageServer::handleReceivedMessages()
+void MTServer::handleReceivedMessages()
 {
 	int msgCode = 0;
 	SOCKET clientSock = 0;
@@ -245,7 +245,7 @@ void MagshMessageServer::handleReceivedMessages()
 }
 
 
-std::string MagshMessageServer::getAllUsernames()
+std::string MTServer::getAllUsernames()
 {
 	const std::string delimiter = "&";
 	return std::accumulate(std::begin(_clients), std::end(_clients), std::string(),
@@ -258,7 +258,7 @@ std::string MagshMessageServer::getAllUsernames()
 
 
 // get current user name (the writer)
-std::string MagshMessageServer::getCurrentUser()
+std::string MTServer::getCurrentUser()
 {
 
 	if (_clients.size() < 1)
@@ -268,7 +268,7 @@ std::string MagshMessageServer::getCurrentUser()
 }
 
 // get next user in queue
-std::string MagshMessageServer::getNextUser()
+std::string MTServer::getNextUser()
 {
 	if (_clients.size() < 2)
 		return "";
@@ -276,7 +276,7 @@ std::string MagshMessageServer::getNextUser()
 	return _clients[1].second;
 }
 
-std::string MagshMessageServer::get_user_name(const SOCKET id)
+std::string MTServer::get_user_name(const SOCKET id)
 {
 	for (const std::pair<SOCKET, string>& elem : _clients)
 	{

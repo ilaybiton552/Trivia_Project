@@ -129,14 +129,14 @@
   <ItemGroup>
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MagshChat.h" />
-    <ClInclude Include="MagshMessageServer.h" />
+    <ClInclude Include="MTServer.h" />
     <ClInclude Include="RecvMessage.h" />
     <ClInclude Include="WSAInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="MagshChat.cpp" />
-    <ClCompile Include="MagshMessageServer.cpp" />
+    <ClCompile Include="MTServer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RecvMessage.cpp" />
     <ClCompile Include="WSAInitializer.cpp" />

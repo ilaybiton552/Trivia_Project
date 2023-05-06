@@ -12,11 +12,11 @@
 // Q: why do we need this class ?
 // A: this is the main class which holds all the resources,
 // accept new clients and handle them.
-class MagshMessageServer
+class MTServer
 {
 public:
-	MagshMessageServer();
-	~MagshMessageServer();
+	MTServer();
+	~MTServer();
 	void serve();
 
 

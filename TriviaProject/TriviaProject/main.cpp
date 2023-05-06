@@ -1,6 +1,6 @@
 #pragma comment (lib, "ws2_32.lib")
 
-#include "MagshMessageServer.h"
+#include "MTServer.h"
 #include "WSAInitializer.h"
 #include <iostream>
 #include <fstream>
@@ -18,7 +18,7 @@ int main()
 		TRACE("Starting...");
 		// NOTICE at the end of this block the WSA will be closed 
 		WSAInitializer wsa_init;
-		MagshMessageServer md_server;
+		MTServer md_server;
 		md_server.serve();
 	}
 	catch (const std::exception& e)
