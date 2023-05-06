@@ -2,6 +2,7 @@
 
 static const unsigned short PORT = 8826; // the server socket port that listen
 static const unsigned int IFACE = 0;
+#define HELLO_MSG_LEN 5
 
 /// <summary>
 /// the function start to handle new clients, accepts clients and create a thread for every new client
@@ -68,7 +69,35 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 {
 	try
 	{
+		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, &LoginRequestHandler())); // add the client to the client map
 
+		const char* helloMsg = "Hello";
+		cout << "Sending Hello message to client..." << endl;
+		if (send(client_socket, helloMsg, HELLO_MSG_LEN, 0) == INVALID_SOCKET) // send the hello message to the client
+		{
+			throw exception("Error while sending message to client");
+		}
+
+		char* data = new char[HELLO_MSG_LEN + 1];
+		int res = recv(client_socket, data, HELLO_MSG_LEN, 0); // get the client answer
+		if (res == INVALID_SOCKET)
+		{
+			string err = "Error while recieving from socket: ";
+			err += std::to_string(client_socket);
+			throw exception(err.c_str());
+		}
+		data[HELLO_MSG_LEN] = 0;
+		string received(data);
+		delete[] data;
+
+		if (received != "Hello")
+		{
+			throw exception("The client didn't answer properly");
+		}
+		else
+		{
+			cout << "Client answer: " << received << endl;
+		}
 	}
 	catch (const exception& e)
 	{

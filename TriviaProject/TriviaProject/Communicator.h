@@ -4,13 +4,17 @@
 #include <iostream>
 #include <thread>
 #include <exception>
+#include <string>
 #include "IRequestHandler.h"
+#include "LoginRequestHandler.h"
 
 using std::map;
+using std::pair;
 using std::cout;
 using std::endl;
 using std::thread;
 using std::exception;
+using std::string;
 
 class Communicator
 {
