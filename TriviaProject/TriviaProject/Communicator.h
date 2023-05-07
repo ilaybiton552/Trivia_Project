@@ -19,6 +19,9 @@ using std::string;
 class Communicator
 {
 public:
+	Communicator();
+	~Communicator();
+
 	//Method
 	void startHandleRequests();
 private:
