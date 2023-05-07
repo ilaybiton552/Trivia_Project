@@ -19,8 +19,8 @@ using std::string;
 class Communicator
 {
 public:
-	Communicator();
-	~Communicator();
+	Communicator(); // c'tor
+	~Communicator(); // d'tor
 
 	//Method
 	void startHandleRequests();
