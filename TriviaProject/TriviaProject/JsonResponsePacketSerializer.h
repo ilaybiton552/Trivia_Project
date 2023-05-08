@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Structs.h"
 
 using std::vector;
 
