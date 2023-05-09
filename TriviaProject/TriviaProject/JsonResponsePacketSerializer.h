@@ -12,5 +12,7 @@ public:
 	static vector<unsigned char> serializeResponse(ErrorResponse errorResponse);
 	static vector<unsigned char> serializeResponse(LoginResponse loginResponse);
 	static vector<unsigned char> serializeResponse(SignupResponse signupResponse);
+private:
+	unsigned char convertNumberToByte(const int num);
 };
 
