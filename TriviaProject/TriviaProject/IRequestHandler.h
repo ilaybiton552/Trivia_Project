@@ -1,5 +1,9 @@
 #pragma once
 #include "Structs.h"
+
+struct RequestInfo; // problem of circular reference
+struct RequestResult; // problem of circular reference
+
 class IRequestHandler
 {
 public:
