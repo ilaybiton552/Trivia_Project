@@ -1,2 +1,3 @@
 LoginResponse - 201
 SignupResponse - 202
+ErrorResponse - 200
