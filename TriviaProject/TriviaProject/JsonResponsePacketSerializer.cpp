@@ -7,10 +7,16 @@
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse errorResponse)
 {
-    vector<unsigned char> buffer;
+    vector<unsigned char> buffer; // buffer as the protocol structure
+    vector<unsigned char> data; // the data of the message
+    vector<unsigned char> dataSize; // the size of the data
 
     buffer.push_back(convertNumberToByte(ERROR_RESPONSE_CODE)[FIRST_BYTE_INDEX]);
     json response = { {"message", errorResponse.message} };
+    data = convertJsonToByte(response);
+    dataSize = convertNumberToByte(data.size());
+    buffer.insert(buffer.end(), dataSize.begin(), dataSize.end());
+    buffer.insert(buffer.end(), data.begin(), data.end());
 
     return buffer;
 }
