@@ -7,6 +7,8 @@
 using std::string;
 using std::vector;
 
+class IRequestHandler; // problem of circular reference
+
 struct ErrorResponse
 {
 	string message;
