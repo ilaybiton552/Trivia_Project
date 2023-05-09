@@ -3,6 +3,10 @@
 #include "Structs.h"
 #include "json.hpp"
 
+#define MAX_BYTES_UNSIGNED_INT 4
+#define NUM_OF_BITS_IN_BYTE 8
+#define MAX_VALUE_OF_BYTE 255
+
 using json = nlohmann::json;
 using std::vector;
 
@@ -13,6 +17,6 @@ public:
 	static vector<unsigned char> serializeResponse(LoginResponse loginResponse);
 	static vector<unsigned char> serializeResponse(SignupResponse signupResponse);
 private:
-	unsigned char convertNumberToByte(const int num);
+	vector<unsigned char> convertNumberToByte(const unsigned int num);
 };
 
