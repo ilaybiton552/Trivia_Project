@@ -23,5 +23,6 @@ public:
 private:
 	static vector<unsigned char> convertNumberToByte(const unsigned int num);
 	static vector<unsigned char> convertJsonToByte(const json jsonObject);
+	static vector<unsigned char> makeSerializedPacket(const json jsonObject);
 };
 
