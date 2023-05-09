@@ -7,18 +7,8 @@
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse errorResponse)
 {
-    vector<unsigned char> buffer; // buffer as the protocol structure
-    vector<unsigned char> data; // the data of the message
-    vector<unsigned char> dataSize; // the size of the data
-
-    buffer.push_back(convertNumberToByte(ERROR_RESPONSE_CODE)[FIRST_BYTE_INDEX]);
     json response = { {"message", errorResponse.message} };
-    data = convertJsonToByte(response);
-    dataSize = convertNumberToByte(data.size());
-    buffer.insert(buffer.end(), dataSize.begin(), dataSize.end());
-    buffer.insert(buffer.end(), data.begin(), data.end());
-
-    return buffer;
+    return makeSerializedPacket(response);
 }
 
 /// <summary>
@@ -28,8 +18,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorRespo
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginResponse loginResponse)
 {
-    vector<unsigned char> buffer;
-    return buffer;
+    json response = { {"status", loginResponse.status} };
+    return makeSerializedPacket(response);
 }
 
 /// <summary>
@@ -39,8 +29,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginRespo
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResponse signupResponse)
 {
-    vector<unsigned char> buffer;
-    return buffer;
+    json response = { {"status", signupResponse.status} };
+    return makeSerializedPacket(response);
 }
 
 /// <summary>
@@ -74,4 +64,24 @@ vector<unsigned char> JsonResponsePacketSerializer::convertJsonToByte(const json
         jsonAsBytes.push_back(byte);
     }
     return jsonAsBytes;
+}
+
+/// <summary>
+/// Creates the serialized packet
+/// </summary>
+/// <param name="packetData">json, the data of the packet</param>
+/// <returns>vector of bytes, the serialized packet</returns>
+vector<unsigned char> JsonResponsePacketSerializer::makeSerializedPacket(const json packetData)
+{
+    vector<unsigned char> buffer; // buffer as the protocol structure
+    vector<unsigned char> data; // the data of the message
+    vector<unsigned char> dataSize; // the size of the data
+
+    buffer.push_back(convertNumberToByte(ERROR_RESPONSE_CODE)[FIRST_BYTE_INDEX]);
+    data = convertJsonToByte(packetData);
+    dataSize = convertNumberToByte(data.size());
+    buffer.insert(buffer.end(), dataSize.begin(), dataSize.end());
+    buffer.insert(buffer.end(), data.begin(), data.end());
+
+    return buffer;
 }
