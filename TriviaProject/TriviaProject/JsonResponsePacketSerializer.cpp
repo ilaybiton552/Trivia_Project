@@ -8,6 +8,10 @@
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse errorResponse)
 {
     vector<unsigned char> buffer;
+
+    buffer.push_back(convertNumberToByte(ERROR_RESPONSE_CODE)[FIRST_BYTE_INDEX]);
+    json response = { {"message", errorResponse.message} };
+
     return buffer;
 }
 
@@ -48,4 +52,20 @@ vector<unsigned char> JsonResponsePacketSerializer::convertNumberToByte(const un
     }
     std::reverse(numberInBytes.begin(), numberInBytes.end());
     return numberInBytes;
+}
+
+/// <summary>
+/// Converts json to bytes
+/// </summary>
+/// <param name="jsonObject">json, the object to convert</param>
+/// <returns>vector of bytes, the json as bytes</returns>
+vector<unsigned char> JsonResponsePacketSerializer::convertJsonToByte(const json jsonObject)
+{
+    vector<unsigned char> jsonAsBytes;
+    string jsonAsString = jsonObject.dump();
+    for (const unsigned char byte : jsonAsString)
+    {
+        jsonAsBytes.push_back(byte);
+    }
+    return jsonAsBytes;
 }
