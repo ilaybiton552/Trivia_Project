@@ -1,13 +1,25 @@
 #include "JsonRequestPacketDeserializer.h"
 
-LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequst(vector<unsigned char> buffer)
+/// <summary>
+/// Deserizlizes login request
+/// </summary>
+/// <param name="buffer">vector of bytes, the login request from the client</param>
+/// <returns>struct LoginRequest, struct with the data of login request</returns>
+LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequst(const vector<unsigned char>& buffer)
 {
-
+    LoginRequest loginRequest;
+    return loginRequest;
 }
 
-SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequst(vector<unsigned char> buffer)
+/// <summary>
+/// Deserizlizes signup request
+/// </summary>
+/// <param name="buffer">vector of bytes, the signup request from the client</param>
+/// <returns>struct SignupRequest, struct with the data of signup request</returns>
+SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequst(const vector<unsigned char>& buffer)
 {
-
+    SignupRequest signupRequest;
+    return signupRequest;
 }
 
 /// <summary>
@@ -15,7 +27,7 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequst(vector<unsi
 /// </summary>
 /// <param name="buffer">the bytes to convert</param>
 /// <returns>the converted bytes as number</returns>
-unsigned int JsonRequestPacketDeserializer::convertByteToNumber(vector<unsigned char> buffer)
+unsigned int JsonRequestPacketDeserializer::convertByteToNumber(const vector<unsigned char>& buffer)
 {
     int num = 0;
 
@@ -25,4 +37,30 @@ unsigned int JsonRequestPacketDeserializer::convertByteToNumber(vector<unsigned 
     }
 
     return num;
+}
+
+/// <summary>
+/// Converts the data of the buffer to json
+/// </summary>
+/// <param name="buffer">vector of bytes, the request from the client</param>
+/// <returns>json, the json from the packet</returns>
+json JsonRequestPacketDeserializer::getJsonFromBuffer(const vector<unsigned char>& buffer)
+{
+    string data;
+    vector<unsigned char> dataBytes;
+
+    // gets the number of bytes of the data
+    for (int i = START_OF_NUM_OF_BYTES; i <= MAX_BYTES_UNSIGNED_INT; i++)
+    {
+        dataBytes.push_back(buffer[i]);
+    }
+    unsigned int numOfBytes = convertByteToNumber(dataBytes);
+
+    // get the json as string
+    for (unsigned int i = START_OF_DATA; i < numOfBytes + START_OF_DATA; i++)
+    {
+        data += buffer[i];
+    }
+
+    return json::parse(data);
 }
