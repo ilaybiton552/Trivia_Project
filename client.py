@@ -6,6 +6,9 @@ SERVER_PORT = 8826
 RECV = 1024
 LOGIN_REQUEST_CODE = 101
 SIGNUP_REQUEST_CODE = 102
+LOGIN = 1
+SIGNUP = 2
+EXIT = 0
 
 def client_socket():
     """
@@ -37,6 +40,17 @@ def login_message():
     login_request = json.dumps(login_request)
     return login_request
 
+def signup_message():
+    """
+    the function receives signup information
+    :return: the signup request
+    """
+    username = input("Please enter your username: ")
+    password = input("Please enter the password: ")
+    email = input("Please enter your email: ")
+    signup_request = {"username": username, "password": password, "email": email}
+    signup_request = json.dumps(signup_request)
+    return signup_request
 
 def serialize_message(message, code, sock):
     """
@@ -55,14 +69,46 @@ def deserialize_message(message):
     data_length = int.from_bytes(message[1:5], "little", signed=False)
     data = message[5:-1].decode('utf-8') + '}'
 
+def menu():
+    """
+    the function prints the menu and receives user choice
+    :return: user's choice
+    """
+    print("What would you like to do?")
+    print("1 - Login")
+    print("2 - Signup")
+    print("0 - Exit")
+    choice = -1
+    while not (0 <= choice <= 2):
+        try:
+            choice = int(input("Please enter your choice: "))
+        except Exception as ex:
+            print("Invalid input!" + str(ex))
+
+    return choice
+
+def action(choice, sock):
+    """
+    the function does the wanted action
+    :param choice: user's choice of action
+    :param sock: Socket sock
+    :return: None
+    """
+    if choice is LOGIN:
+        serialize_message(login_message(), LOGIN_REQUEST_CODE, sock)
+    elif choice is SIGNUP:
+        serialize_message(signup_message(), SIGNUP_REQUEST_CODE, sock)
+    elif choice is EXIT:
+        print("Goodbye!")
+
 def main():
     try:
         sock = client_socket()
-        serialize_message(login_message(), LOGIN_REQUEST_CODE, sock)
+        action(menu(), sock)
         sock.close()
     except Exception as exc:
         print("The exception is: ", exc)
-    input() # press any key to exit
+    input()  # press any key to exit
 
 
 if __name__ == "__main__":
