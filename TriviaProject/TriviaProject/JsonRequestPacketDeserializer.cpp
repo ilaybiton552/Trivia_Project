@@ -8,6 +8,9 @@
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequst(const vector<unsigned char>& buffer)
 {
     LoginRequest loginRequest;
+    json data = getJsonFromBuffer(buffer);
+    loginRequest.password = data["password"];
+    loginRequest.username = data["username"];
     return loginRequest;
 }
 
@@ -19,6 +22,10 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequst(const vector<
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequst(const vector<unsigned char>& buffer)
 {
     SignupRequest signupRequest;
+    json data = getJsonFromBuffer(buffer);
+    signupRequest.email = data["email"];
+    signupRequest.password = data["password"];
+    signupRequest.username = data["username"];
     return signupRequest;
 }
 
