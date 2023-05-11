@@ -16,9 +16,9 @@ class JsonRequestPacketDeserializer
 public:
 	static LoginRequest deserializeLoginRequest(const vector<unsigned char>& buffer);
 	static SignupRequest deserializeSignupRequest(const vector<unsigned char>& buffer);
+	static unsigned int convertByteToNumber(const vector<unsigned char>& buffer);
 
 private:
-	static unsigned int convertByteToNumber(const vector<unsigned char>& buffer);
 	static json getJsonFromBuffer(const vector<unsigned char>& buffer);
 };
 

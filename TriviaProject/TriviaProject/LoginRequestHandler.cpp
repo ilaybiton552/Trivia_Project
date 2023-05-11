@@ -11,7 +11,7 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 {
     vector<unsigned char> codeRequestByte;
     codeRequestByte.push_back(requestInfo.buffer[0]);
-    int codeRequest = convertByteToNumber(codeRequestByte);
+    int codeRequest = JsonRequestPacketDeserializer::convertByteToNumber(codeRequestByte);
 	return (codeRequest == LOGIN_REQUEST || codeRequest == SIGNUP_REQUEST);
 }
 
@@ -27,7 +27,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 
     vector<unsigned char> codeRequestByte;
     codeRequestByte.push_back(requestInfo.buffer[0]);
-    int codeRequest = convertByteToNumber(codeRequestByte);
+    int codeRequest = JsonRequestPacketDeserializer::convertByteToNumber(codeRequestByte);
 
     if (codeRequest == LOGIN_REQUEST)
     {
@@ -45,22 +45,4 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
     }
 
 	return requestResult;
-}
-
-
-/// <summary>
-/// the function converts bytes to integer
-/// </summary>
-/// <param name="buffer">the bytes to convert</param>
-/// <returns>the converted bytes as number</returns>
-unsigned int LoginRequestHandler::convertByteToNumber(const vector<unsigned char>& buffer)
-{
-    int num = 0;
-
-    for (int i = 0; i < MAX_BYTES_UNSIGNED_INT; i++) // from bytes to int
-    {
-        num = (num << NUM_OF_BITS_IN_BYTE) + buffer[i];
-    }
-
-    return num;
 }
