@@ -14,8 +14,8 @@ using json = nlohmann::json;
 class JsonRequestPacketDeserializer
 {
 public:
-	static LoginRequest deserializeLoginRequst(const vector<unsigned char>& buffer);
-	static SignupRequest deserializeSignupRequst(const vector<unsigned char>& buffer);
+	static LoginRequest deserializeLoginRequest(const vector<unsigned char>& buffer);
+	static SignupRequest deserializeSignupRequest(const vector<unsigned char>& buffer);
 
 private:
 	static unsigned int convertByteToNumber(const vector<unsigned char>& buffer);

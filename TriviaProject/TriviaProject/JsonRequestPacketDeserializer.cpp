@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="buffer">vector of bytes, the login request from the client</param>
 /// <returns>struct LoginRequest, struct with the data of login request</returns>
-LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequst(const vector<unsigned char>& buffer)
+LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const vector<unsigned char>& buffer)
 {
     LoginRequest loginRequest;
     json data = getJsonFromBuffer(buffer);
@@ -19,7 +19,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequst(const vector<
 /// </summary>
 /// <param name="buffer">vector of bytes, the signup request from the client</param>
 /// <returns>struct SignupRequest, struct with the data of signup request</returns>
-SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequst(const vector<unsigned char>& buffer)
+SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vector<unsigned char>& buffer)
 {
     SignupRequest signupRequest;
     json data = getJsonFromBuffer(buffer);
