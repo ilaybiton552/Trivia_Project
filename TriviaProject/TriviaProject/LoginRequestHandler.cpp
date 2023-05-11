@@ -1,5 +1,6 @@
 #include "LoginRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 
 /// <summary>
 /// Checks if the request is relevant
@@ -32,11 +33,15 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
     {
         LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
         // success in login (for now)
+        LoginResponse loginResponse = { SUCCESS_LOGIN_SIGNUP };
+        requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
     }
     else // signup request
     {
         SignupRequest signRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
         // success in signup (for now)
+        SignupResponse signupResponse = { SUCCESS_LOGIN_SIGNUP };
+        requestResult.response = JsonResponsePacketSerializer::serializeResponse(signupResponse);
     }
 
 	return requestResult;

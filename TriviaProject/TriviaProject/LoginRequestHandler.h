@@ -6,6 +6,7 @@
 #define MAX_BYTES_UNSIGNED_INT 4
 #define LOGIN_REQUEST 101
 #define SIGNUP_REQUEST 102
+#define SUCCESS_LOGIN_SIGNUP 1
 
 class LoginRequestHandler : public IRequestHandler
 {
