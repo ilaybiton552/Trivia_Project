@@ -56,14 +56,37 @@ int SqliteDatabase::doesUserExist(const string username)
 	return (userInfo != ""); // if the database returned userinfo - user exists, else - the user doesn't exist
 }
 
+/// <summary>
+/// the function checks if the password matches the username
+/// </summary>
+/// <param name="username">the username to check</param>
+/// <param name="password">the password to check</param>
+/// <returns>if the password matches the username</returns>
 int SqliteDatabase::doesPasswordMatch(const string username, const string password)
 {
+	string query = "SELECT * FROM Users WHERE (USERNAME IS \"" + username + "\" AND PASSWORD IS \"" + password + "\"); "; // the query with username and password to check
+	string userInfo = "";
+	char* errMessage = nullptr;
+	int res = sqlite3_exec(this->m_database, query.c_str(), getUserInfo, &userInfo, &errMessage); // the query that return user info
+	if (res != SQLITE_OK)
+	{
+		std::cout << "Error has occurred: " << errMessage << std::endl;
+	}
 
+	return (userInfo != ""); // if the database returned userinfo - the password match, else - the password doesn't match
 }
 
+/// <summary>
+/// the function adds user to the database
+/// </summary>
+/// <param name="username">the username</param>
+/// <param name="password">the password</param>
+/// <param name="email"></param>
+/// <returns></returns>
 int SqliteDatabase::addNewUser(const string username, const string password, const string email)
 {
-
+	string query = "INSERT INTO Users VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
+	sqlQuery(this->m_database, query.c_str());
 }
 
 /// <summary>
@@ -84,6 +107,10 @@ bool SqliteDatabase::sqlQuery(sqlite3* db, const char* sqlStatement)
 
 	return true;
 }
+
+/// <summary>
+/// the function convets the sql data to string with user information
+/// </summary>
 
 int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColName)
 {
