@@ -12,21 +12,12 @@ EXIT = 0
 
 def client_socket():
     """
-    Opens a client socket and talks with the server
+    Opens a client socket
     :return: Socket sock
     """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # open the socket
     server_address = (SERVER_IP, SERVER_PORT)
-    sock.connect(server_address)
-
-    server_msg = sock.recv(RECV).decode()
-    print("Server message: ", server_msg)
-
-    client_msg = input("Enter the message for the server: ")
-    print(client_msg)
-    if (client_msg == "Hello"):
-        sock.sendall(client_msg.encode())
-
+    sock.connect(server_address)  # connects to the server
     return sock
 
 def login_message():
