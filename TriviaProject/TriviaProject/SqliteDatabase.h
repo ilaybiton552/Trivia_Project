@@ -25,5 +25,6 @@ private:
 
 	//Method
 	bool sqlQuery(sqlite3* db, const char* sqlStatement);
+	static int getUserInfo(void* data, int argc, char** argv, char** azColName);
 };
 
