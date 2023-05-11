@@ -37,9 +37,23 @@ bool SqliteDatabase::close()
 	return true;
 }
 
+/// <summary>
+/// the function checks if user exists according to his username
+/// </summary>
+/// <param name="username">the username to check if exists</param>
+/// <returns>if the user exists</returns>
 int SqliteDatabase::doesUserExist(const string username)
 {
-
+	string query = "SELECT * FROM Users WHERE (USERNAME IS \"" + username + "\");"; // the query with username to check
+	string userInfo = "";
+	char* errMessage = nullptr;
+	int res = sqlite3_exec(this->m_database, query.c_str(), getUserInfo, &userInfo, &errMessage); // the query that return user info
+	if (res != SQLITE_OK)
+	{
+		std::cout << "Error has occurred: " << errMessage << std::endl;
+	}
+	
+	return (userInfo != ""); // if the database returned userinfo - user exists, else - the user doesn't exist
 }
 
 int SqliteDatabase::doesPasswordMatch(const string username, const string password)
@@ -70,3 +84,16 @@ bool SqliteDatabase::sqlQuery(sqlite3* db, const char* sqlStatement)
 
 	return true;
 }
+
+int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColName)
+{
+	string info = *(static_cast<string*>(data));
+
+	for (int i = 0; i < argc; i++)
+	{
+		info += argv[i];
+	}
+
+	return 0;
+}
+
