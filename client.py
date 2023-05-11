@@ -56,9 +56,19 @@ def serialize_message(message, code, sock):
     sock.sendall(message)
 
 def deserialize_message(message):
+    """
+    the function deserialize the message from the server
+    :param message: the message that the server sends
+    :return: None
+    """
     code = message[0]
     data_length = int.from_bytes(message[1:5], "little", signed=False)
     data = message[5:-1].decode('utf-8') + '}'
+
+    print("Server's response: ")
+    print("Message code: " + str(code))
+    print("Data length: " + str(data_length))
+    print("Message content: " + data)
 
 def menu():
     """
@@ -96,6 +106,7 @@ def main():
     try:
         sock = client_socket()
         action(menu(), sock)
+        deserialize_message(sock.recv(RECV))
         sock.close()
     except Exception as exc:
         print("The exception is: ", exc)
