@@ -2,7 +2,6 @@
 
 static const unsigned short PORT = 8826; // the server socket port that listen
 static const unsigned int IFACE = 0;
-#define HELLO_MSG_LEN 5
 
 /// <summary>
 /// Constructor of Communicater
@@ -97,30 +96,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		LoginRequestHandler* pLoginRequest = new LoginRequestHandler;
 		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
 
-		const char* helloMsg = "Hello";
-		cout << "Sending Hello message to client..." << endl;
-		if (send(client_socket, helloMsg, HELLO_MSG_LEN, 0) == INVALID_SOCKET) // send the hello message to the client
-		{
-			throw exception("Error while sending message to client");
-		}
-
-		char* data = new char[HELLO_MSG_LEN + 1];
-		int res = recv(client_socket, data, HELLO_MSG_LEN, 0); // get the client answer
-		if (res == INVALID_SOCKET)
-		{
-			string err = "Error while recieving from socket: ";
-			err += std::to_string(client_socket);
-			throw exception(err.c_str());
-		}
-		data[HELLO_MSG_LEN] = 0;
-		string received(data);
-		delete[] data;
-
-		if (received != "Hello")
-		{
-			throw exception("The client didn't answer properly");
-		}
-		cout << "Client answer: " << received << endl;
+		vector<unsigned char> clientsMessage = receiveMessage(client_socket);
 	}
 	catch (const exception& e)
 	{
@@ -140,9 +116,11 @@ vector<unsigned char> Communicator::receiveMessage(const SOCKET& clientSocket)
 	bool receiving = true; // if still receiving from the client
 	int numOfBytes = 0; // number of bytes received from client
 
+	cout << "Client's message: ";
 	while (receiving)
 	{
 		numOfBytes = recv(clientSocket, (char*)buffer, RECV, 0);
+		cout << buffer;
 		if (numOfBytes == SOCKET_ERROR)
 		{
 			throw exception("Error getting client's message from socket: " + clientSocket);
@@ -153,6 +131,7 @@ vector<unsigned char> Communicator::receiveMessage(const SOCKET& clientSocket)
 		}
 		insertBackIntoVector(message, buffer, numOfBytes);
 	}
+	cout << endl;
 
 	return message;
 }
