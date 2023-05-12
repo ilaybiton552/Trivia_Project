@@ -8,6 +8,8 @@
 #include "IRequestHandler.h"
 #include "LoginRequestHandler.h"
 
+#define RECV 1024
+
 using std::map;
 using std::pair;
 using std::cout;
@@ -28,6 +30,8 @@ private:
 	//Methods
 	void bindAndListen();
 	void handleNewClient(const SOCKET client_socket);
+	vector<unsigned char> receiveMessage(const SOCKET& clientSocket);
+	void insertBackIntoVector(vector<unsigned char>& message, const unsigned char* buffer, const int numOfBytes);
 
 	//Fields
 	SOCKET m_serverSocket;

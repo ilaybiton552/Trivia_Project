@@ -127,3 +127,46 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		cout << "Exception was catch in function handleNewClient. Socket = " << client_socket << ", what = " << e.what() << endl;
 	}
 }
+
+/// <summary>
+/// Receiving messages
+/// </summary>
+/// <param name="clientSocket">SOCKET, the socket of the client to wait for receive</param>
+/// <returns>vector of bytes, the message of the client</returns>
+vector<unsigned char> Communicator::receiveMessage(const SOCKET& clientSocket)
+{
+	unsigned char buffer[RECV];
+	vector<unsigned char> message;
+	bool receiving = true; // if still receiving from the client
+	int numOfBytes = 0; // number of bytes received from client
+
+	while (receiving)
+	{
+		numOfBytes = recv(clientSocket, (char*)buffer, RECV, 0);
+		if (numOfBytes == SOCKET_ERROR)
+		{
+			throw exception("Error getting client's message from socket: " + clientSocket);
+		}
+		if (numOfBytes <= RECV)
+		{
+			receiving = false;
+		}
+		insertBackIntoVector(message, buffer, numOfBytes);
+	}
+
+	return message;
+}
+
+/// <summary>
+/// Inserts into the vector of the message the buffer info
+/// </summary>
+/// <param name="message">vector of bytes, the message of the client</param>
+/// <param name="buffer">array of bytes, the buffer from the socket</param>
+/// <param name="numOfBytes">int, the number of bytes to read from the socket</param>
+void Communicator::insertBackIntoVector(vector<unsigned char>& message, const unsigned char* buffer, const int numOfBytes)
+{
+	for (int i = 0; i < numOfBytes; i++)
+	{
+		message.push_back(buffer[i]);
+	}
+}
