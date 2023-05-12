@@ -1,0 +1,5 @@
+LoginResponse - 201
+SignupResponse - 202
+ErrorResponse - 200
+LoginRequest - 101
+SignupRequest - 102
