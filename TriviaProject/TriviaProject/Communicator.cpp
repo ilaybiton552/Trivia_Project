@@ -51,6 +51,10 @@ void Communicator::startHandleRequests()
 			}
 
 			cout << "Client accepted !" << endl;
+
+			LoginRequestHandler* pLoginRequest = new LoginRequestHandler;
+			m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
+
 			// create new thread for client	and detach from it
 			thread client_thread(&Communicator::handleNewClient, this, client_socket);
 			client_thread.detach();
@@ -94,9 +98,6 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 {
 	try
 	{
-		LoginRequestHandler* pLoginRequest = new LoginRequestHandler;
-		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
-
 		RequestInfo requestInfo = receiveMessage(client_socket);
 	}
 	catch (const exception& e)
