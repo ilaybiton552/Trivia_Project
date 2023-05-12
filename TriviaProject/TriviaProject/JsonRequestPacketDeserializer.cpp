@@ -30,44 +30,12 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vect
 }
 
 /// <summary>
-/// the function converts bytes to integer
-/// </summary>
-/// <param name="buffer">the bytes to convert</param>
-/// <returns>the converted bytes as number</returns>
-unsigned int JsonRequestPacketDeserializer::convertByteToNumber(const vector<unsigned char>& buffer)
-{
-    int num = 0;
-
-    for (int i = 0; i < MAX_BYTES_UNSIGNED_INT; i++) // from bytes to int
-    {
-        num = (num << NUM_OF_BITS_IN_BYTE) + buffer[i];
-    }
-
-    return num;
-}
-
-/// <summary>
 /// Converts the data of the buffer to json
 /// </summary>
 /// <param name="buffer">vector of bytes, the request from the client</param>
 /// <returns>json, the json from the packet</returns>
 json JsonRequestPacketDeserializer::getJsonFromBuffer(const vector<unsigned char>& buffer)
 {
-    string data;
-    vector<unsigned char> dataBytes;
-
-    // gets the number of bytes of the data
-    for (int i = START_OF_NUM_OF_BYTES; i <= MAX_BYTES_UNSIGNED_INT; i++)
-    {
-        dataBytes.push_back(buffer[i]);
-    }
-    unsigned int numOfBytes = convertByteToNumber(dataBytes);
-
-    // get the json as string
-    for (unsigned int i = START_OF_DATA; i < numOfBytes + START_OF_DATA; i++)
-    {
-        data += buffer[i];
-    }
-
+    string data(buffer.begin(), buffer.end()); // converts the vector to string
     return json::parse(data);
 }
