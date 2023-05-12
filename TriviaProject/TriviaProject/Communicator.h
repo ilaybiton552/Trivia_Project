@@ -9,6 +9,8 @@
 #include "LoginRequestHandler.h"
 
 #define RECV 1024
+#define REQUEST_ID_INDEX 0
+#define INITIALIZE_RECV 5
 
 using std::map;
 using std::pair;
@@ -30,8 +32,9 @@ private:
 	//Methods
 	void bindAndListen();
 	void handleNewClient(const SOCKET client_socket);
-	vector<unsigned char> receiveMessage(const SOCKET& clientSocket);
+	RequestInfo receiveMessage(const SOCKET& clientSocket);
 	void insertBackIntoVector(vector<unsigned char>& message, const unsigned char* buffer, const int numOfBytes);
+	int initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket);
 
 	//Fields
 	SOCKET m_serverSocket;

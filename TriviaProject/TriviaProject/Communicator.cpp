@@ -1,4 +1,5 @@
 #include "Communicator.h"
+#include "JsonRequestPacketDeserializer.h"
 
 static const unsigned short PORT = 8826; // the server socket port that listen
 static const unsigned int IFACE = 0;
@@ -96,7 +97,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		LoginRequestHandler* pLoginRequest = new LoginRequestHandler;
 		m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
 
-		vector<unsigned char> clientsMessage = receiveMessage(client_socket);
+		RequestInfo requestInfo = receiveMessage(client_socket);
 	}
 	catch (const exception& e)
 	{
@@ -108,32 +109,32 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 /// Receiving messages
 /// </summary>
 /// <param name="clientSocket">SOCKET, the socket of the client to wait for receive</param>
-/// <returns>vector of bytes, the message of the client</returns>
-vector<unsigned char> Communicator::receiveMessage(const SOCKET& clientSocket)
+/// <returns>Request, the info of the message of the client</returns>
+RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 {
 	unsigned char buffer[RECV];
 	vector<unsigned char> message;
-	bool receiving = true; // if still receiving from the client
-	int numOfBytes = 0; // number of bytes received from client
+	RequestInfo requestInfo;
+	int recvResult = 0; // number of bytes received from client
+	int messageNumOfBytes = 0; // number of bytes on the data message
 
 	cout << "Client's message: ";
-	while (receiving)
+	messageNumOfBytes = initializeReceive(requestInfo, clientSocket);
+	while (messageNumOfBytes != 0)
 	{
-		numOfBytes = recv(clientSocket, (char*)buffer, RECV, 0);
-		cout << buffer;
-		if (numOfBytes == SOCKET_ERROR)
+		recvResult = recv(clientSocket, (char*)buffer, RECV, 0);
+		if (recvResult == SOCKET_ERROR)
 		{
 			throw exception("Error getting client's message from socket: " + clientSocket);
 		}
-		if (numOfBytes <= RECV)
-		{
-			receiving = false;
-		}
-		insertBackIntoVector(message, buffer, numOfBytes);
+		cout << buffer;
+		messageNumOfBytes -= recvResult;
+		insertBackIntoVector(message, buffer, recvResult);
 	}
 	cout << endl;
+	requestInfo.buffer = message;
 
-	return message;
+	return requestInfo;
 }
 
 /// <summary>
@@ -148,4 +149,31 @@ void Communicator::insertBackIntoVector(vector<unsigned char>& message, const un
 	{
 		message.push_back(buffer[i]);
 	}
+}
+
+/// <summary>
+/// Performs the initialize receive
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <param name="clientSocket">SOCKET, the socket of the client to wait for receive</param>
+/// <returns>int, the number of bytes the data has</returns>
+int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket)
+{
+	unsigned char buffer[RECV];
+
+	// receives message code and num of data size
+	int recvResult = recv(clientSocket, (char*)buffer, INITIALIZE_RECV, 0);
+	if (recvResult == SOCKET_ERROR)
+	{
+		throw exception("Error getting client's message from socket: " + clientSocket);
+	}
+	requestInfo.receivalTime = time(0);
+	cout << buffer;
+	requestInfo.id = JsonRequestPacketDeserializer::convertByteToNumber(vector<unsigned char>(buffer[REQUEST_ID_INDEX]));
+
+	vector<unsigned char> dataBytes;
+	insertBackIntoVector(dataBytes, buffer, INITIALIZE_RECV);
+	dataBytes.erase(dataBytes.begin());
+
+	return JsonRequestPacketDeserializer::convertByteToNumber(dataBytes);
 }
