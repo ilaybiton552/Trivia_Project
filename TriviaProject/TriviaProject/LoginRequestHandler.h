@@ -13,5 +13,6 @@ class LoginRequestHandler : public IRequestHandler
 public:
 	virtual bool isRequestRelevant(const RequestInfo& requestInfo) override;
 	virtual RequestResult handleRequest(const RequestInfo& requestInfo) override;
+	static unsigned int convertByteToNumber(const vector<unsigned char>& buffer);
 };
 

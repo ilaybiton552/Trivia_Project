@@ -1,5 +1,4 @@
 #include "Communicator.h"
-#include "JsonRequestPacketDeserializer.h"
 
 static const unsigned short PORT = 8826; // the server socket port that listen
 static const unsigned int IFACE = 0;
@@ -170,11 +169,11 @@ int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clie
 	}
 	requestInfo.receivalTime = time(0);
 	cout << buffer;
-	requestInfo.id = JsonRequestPacketDeserializer::convertByteToNumber(vector<unsigned char>(buffer[REQUEST_ID_INDEX]));
+	requestInfo.id = LoginRequestHandler::convertByteToNumber(vector<unsigned char>(buffer[REQUEST_ID_INDEX]));
 
 	vector<unsigned char> dataBytes;
 	insertBackIntoVector(dataBytes, buffer, INITIALIZE_RECV);
 	dataBytes.erase(dataBytes.begin());
 
-	return JsonRequestPacketDeserializer::convertByteToNumber(dataBytes);
+	return LoginRequestHandler::convertByteToNumber(dataBytes);
 }
