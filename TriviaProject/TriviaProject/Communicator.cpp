@@ -1,4 +1,5 @@
 #include "Communicator.h"
+#include "JsonResponsePacketSerializer.h"
 
 static const unsigned short PORT = 8826; // the server socket port that listen
 static const unsigned int IFACE = 0;
@@ -98,6 +99,17 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 	try
 	{
 		RequestInfo requestInfo = receiveMessage(client_socket);
+		IRequestHandler* clientHandler = m_clients[client_socket];
+		if (clientHandler->isRequestRelevant(requestInfo))
+		{
+			RequestResult requestResult = clientHandler->handleRequest(requestInfo);
+			sendMessageToClient(requestResult.response, client_socket);
+		}
+		else
+		{
+			ErrorResponse errorResponse = { "ERROR" };
+			sendMessageToClient(JsonResponsePacketSerializer::serializeResponse(errorResponse), client_socket);
+		}
 	}
 	catch (const exception& e)
 	{
@@ -112,7 +124,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 /// <returns>Request, the info of the message of the client</returns>
 RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 {
-	unsigned char buffer[RECV];
+	unsigned char buffer[RECV_OR_SEND];
 	vector<unsigned char> message;
 	RequestInfo requestInfo;
 	int recvResult = 0; // number of bytes received from client
@@ -122,7 +134,7 @@ RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 	messageNumOfBytes = initializeReceive(requestInfo, clientSocket);
 	while (messageNumOfBytes != 0)
 	{
-		recvResult = recv(clientSocket, (char*)buffer, RECV, 0);
+		recvResult = recv(clientSocket, (char*)buffer, RECV_OR_SEND, 0);
 		if (recvResult == SOCKET_ERROR)
 		{
 			throw exception("Error getting client's message from socket: " + clientSocket);
@@ -159,10 +171,10 @@ void Communicator::insertBackIntoVector(vector<unsigned char>& message, const un
 /// <returns>int, the number of bytes the data has</returns>
 int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket)
 {
-	unsigned char buffer[RECV];
+	unsigned char buffer[RECV_OR_SEND];
 
 	// receives message code and num of data size
-	int recvResult = recv(clientSocket, (char*)buffer, INITIALIZE_RECV, 0);
+	int recvResult = recv(clientSocket, (char*)buffer, HEADER_MESSAGE_SIZE, 0);
 	if (recvResult == SOCKET_ERROR)
 	{
 		throw exception("Error getting client's message from socket: " + clientSocket);
@@ -172,8 +184,39 @@ int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clie
 	requestInfo.id = LoginRequestHandler::convertByteToNumber(vector<unsigned char>(buffer[REQUEST_ID_INDEX]));
 
 	vector<unsigned char> dataBytes;
-	insertBackIntoVector(dataBytes, buffer, INITIALIZE_RECV);
+	insertBackIntoVector(dataBytes, buffer, HEADER_MESSAGE_SIZE);
 	dataBytes.erase(dataBytes.begin());
 
 	return LoginRequestHandler::convertByteToNumber(dataBytes);
+}
+
+/// <summary>
+/// Sends a response for the client
+/// </summary>
+/// <param name="buffer">vector of bytes, the message to send</param>
+/// <param name="clientSocket">SOCKET, the socket of the client</param>
+void Communicator::sendMessageToClient(const vector<unsigned char>& message, const SOCKET& clientSocket)
+{
+	int numOfBytesToSend = 0;
+	vector<unsigned char> dataSize;
+
+	// num of bytes to send
+	for (int i = 1; i < HEADER_MESSAGE_SIZE; i++)
+	{
+		dataSize.push_back(message[i]);
+	}
+	numOfBytesToSend = LoginRequestHandler::convertByteToNumber(dataSize) + HEADER_MESSAGE_SIZE;
+	
+	// convert vector to array
+	unsigned char* buffer = new unsigned char[numOfBytesToSend];
+	for (int i = 0; i < numOfBytesToSend; i++)
+	{
+		buffer[i] = message[i];
+	}
+
+	int sendResult = send(clientSocket, (char*)buffer, numOfBytesToSend, 0);
+	if (sendResult == SOCKET_ERROR)
+	{
+		throw exception("Error sending message to client,  socket: " + clientSocket);
+	}
 }

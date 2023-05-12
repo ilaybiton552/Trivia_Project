@@ -8,9 +8,9 @@
 #include "IRequestHandler.h"
 #include "LoginRequestHandler.h"
 
-#define RECV 1024
+#define RECV_OR_SEND 1024
 #define REQUEST_ID_INDEX 0
-#define INITIALIZE_RECV 5
+#define HEADER_MESSAGE_SIZE 5
 
 using std::map;
 using std::pair;
@@ -35,6 +35,7 @@ private:
 	RequestInfo receiveMessage(const SOCKET& clientSocket);
 	void insertBackIntoVector(vector<unsigned char>& message, const unsigned char* buffer, const int numOfBytes);
 	int initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket);
+	void sendMessageToClient(const vector<unsigned char>& message, const SOCKET& clientSocket);
 
 	//Fields
 	SOCKET m_serverSocket;
