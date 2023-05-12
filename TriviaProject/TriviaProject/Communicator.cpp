@@ -214,9 +214,11 @@ void Communicator::sendMessageToClient(const vector<unsigned char>& message, con
 		buffer[i] = message[i];
 	}
 
+	cout << "Sending to client: " << buffer << endl;
 	int sendResult = send(clientSocket, (char*)buffer, numOfBytesToSend, 0);
 	if (sendResult == SOCKET_ERROR)
 	{
 		throw exception("Error sending message to client,  socket: " + clientSocket);
 	}
+	delete[] buffer;
 }
