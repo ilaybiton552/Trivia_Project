@@ -53,21 +53,6 @@ unsigned int JsonRequestPacketDeserializer::convertByteToNumber(const vector<uns
 /// <returns>json, the json from the packet</returns>
 json JsonRequestPacketDeserializer::getJsonFromBuffer(const vector<unsigned char>& buffer)
 {
-    string data;
-    vector<unsigned char> dataBytes;
-
-    // gets the number of bytes of the data
-    for (int i = START_OF_NUM_OF_BYTES; i <= MAX_BYTES_UNSIGNED_INT; i++)
-    {
-        dataBytes.push_back(buffer[i]);
-    }
-    unsigned int numOfBytes = convertByteToNumber(dataBytes);
-
-    // get the json as string
-    for (unsigned int i = START_OF_DATA; i < numOfBytes + START_OF_DATA; i++)
-    {
-        data += buffer[i];
-    }
-
+    string data(buffer.begin(), buffer.end()); // converts the vector to string
     return json::parse(data);
 }
