@@ -46,7 +46,9 @@ int SqliteDatabase::doesUserExist(const string username)
 {
 	string query = "SELECT * FROM Users WHERE (USERNAME IS \"" + username + "\");"; // the query with username to check
 	string userInfo = "";
+
 	sqlQuery(query.c_str(), getUserInfo, &userInfo);
+
 	return (userInfo != ""); // if the database returned userinfo - user exists, else - the user doesn't exist
 }
 
@@ -60,12 +62,8 @@ int SqliteDatabase::doesPasswordMatch(const string username, const string passwo
 {
 	string query = "SELECT * FROM Users WHERE (USERNAME IS \"" + username + "\" AND PASSWORD IS \"" + password + "\"); "; // the query with username and password to check
 	string userInfo = "";
-	char* errMessage = nullptr;
-	int res = sqlite3_exec(this->m_database, query.c_str(), getUserInfo, &userInfo, &errMessage); // the query that return user info
-	if (res != SQLITE_OK)
-	{
-		std::cout << "Error has occurred: " << errMessage << std::endl;
-	}
+
+	sqlQuery(query.c_str(), getUserInfo, &userInfo); // the query that return user info
 
 	return (userInfo != ""); // if the database returned userinfo - the password match, else - the password doesn't match
 }
@@ -90,7 +88,7 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 /// <param name="callback">the callback function</param>
 /// <param name="callbackArgument">the callback argument</param>
 /// <returns>if the query done without errors</returns>
-bool SqliteDatabase::sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* callbackArgument = nullptr)
+bool SqliteDatabase::sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**), void* callbackArgument = nullptr)
 {
 	char** errMessage = nullptr;
 	int res = sqlite3_exec(this->m_database, sqlStatement, callback, callbackArgument, errMessage); // does the query
