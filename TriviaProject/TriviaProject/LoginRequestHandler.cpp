@@ -9,10 +9,7 @@
 /// <returns>bool, if the request is relevant to the handler</returns>
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 {
-    vector<unsigned char> codeRequestByte;
-    codeRequestByte.push_back(requestInfo.buffer[0]);
-    int codeRequest = JsonRequestPacketDeserializer::convertByteToNumber(codeRequestByte);
-	return (codeRequest == LOGIN_REQUEST || codeRequest == SIGNUP_REQUEST);
+	return (requestInfo.id == LOGIN_REQUEST || requestInfo.id == SIGNUP_REQUEST);
 }
 
 /// <summary>
@@ -25,11 +22,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
     RequestResult requestResult;
     requestResult.newHandler = nullptr; // currently nothing
 
-    vector<unsigned char> codeRequestByte;
-    codeRequestByte.push_back(requestInfo.buffer[0]);
-    int codeRequest = JsonRequestPacketDeserializer::convertByteToNumber(codeRequestByte);
-
-    if (codeRequest == LOGIN_REQUEST)
+    if (requestInfo.id == LOGIN_REQUEST)
     {
         LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
         // success in login (for now)
