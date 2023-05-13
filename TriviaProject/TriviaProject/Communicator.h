@@ -7,6 +7,7 @@
 #include <string>
 #include "IRequestHandler.h"
 #include "LoginRequestHandler.h"
+#include "RequestHandlerFactory.h"
 
 #define RECV_OR_SEND 1024
 #define REQUEST_ID_INDEX 0
@@ -23,7 +24,7 @@ using std::string;
 class Communicator
 {
 public:
-	Communicator(); // c'tor
+	Communicator(RequestHandlerFactory& handlerFactory); // c'tor
 	~Communicator(); // d'tor
 
 	//Method
@@ -41,5 +42,6 @@ private:
 	//Fields
 	SOCKET m_serverSocket;
 	map<SOCKET, IRequestHandler*> m_clients;
+	RequestHandlerFactory& m_handlerFactory;
 };
 

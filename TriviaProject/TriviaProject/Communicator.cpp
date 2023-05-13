@@ -7,7 +7,8 @@ static const unsigned int IFACE = 0;
 /// <summary>
 /// Constructor of Communicater
 /// </summary>
-Communicator::Communicator()
+/// <param name="handlerFactory">reference of RequestHandlerFactory, the handler factory of the server</param>
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	// opening the server socket
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
