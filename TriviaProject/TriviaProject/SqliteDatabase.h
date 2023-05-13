@@ -24,7 +24,7 @@ private:
 	sqlite3* m_database;
 
 	//Method
-	bool sqlQuery(sqlite3* db, const char* sqlStatement);
+	bool sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* callbackArgument = nullptr);
 	static int getUserInfo(void* data, int argc, char** argv, char** azColName);
 };
 
