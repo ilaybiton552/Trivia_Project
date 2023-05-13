@@ -52,7 +52,9 @@ def serialize_message(message, code, sock):
     :return: None
     """
     data_length = len(message)
-    message = code.to_bytes(1, 'little') + data_length.to_bytes(4, 'little') + message.encode('utf-8')
+    message = code.to_bytes(1, 'big') + data_length.to_bytes(4, 'big') + message.encode()
+    print(code.to_bytes(1, 'big'))
+    print(data_length.to_bytes(4, 'big'))
     sock.sendall(message)
 
 def deserialize_message(message):
@@ -62,7 +64,7 @@ def deserialize_message(message):
     :return: None
     """
     code = message[0]
-    data_length = int.from_bytes(message[1:5], "little", signed=False)
+    data_length = int.from_bytes(message[1:5], "big", signed=False)
     data = message[5:-1].decode('utf-8') + '}'
 
     print("Server's response: ")

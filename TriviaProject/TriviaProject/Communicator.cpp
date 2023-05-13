@@ -130,7 +130,7 @@ RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 	int recvResult = 0; // number of bytes received from client
 	int messageNumOfBytes = 0; // number of bytes on the data message
 
-	cout << "Client's message: ";
+	cout << "Clients message: ";
 	messageNumOfBytes = initializeReceive(requestInfo, clientSocket);
 	while (messageNumOfBytes != 0)
 	{
@@ -139,10 +139,11 @@ RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 		{
 			throw exception("Error getting client's message from socket: " + clientSocket);
 		}
-		cout << buffer;
 		messageNumOfBytes -= recvResult;
+		cout << messageNumOfBytes << " " << recvResult << endl;
 		insertBackIntoVector(message, buffer, recvResult);
 	}
+	printClientMessage(message);
 	cout << endl;
 	requestInfo.buffer = message;
 
@@ -171,7 +172,7 @@ void Communicator::insertBackIntoVector(vector<unsigned char>& message, const un
 /// <returns>int, the number of bytes the data has</returns>
 int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket)
 {
-	unsigned char buffer[RECV_OR_SEND];
+	unsigned char buffer[RECV_OR_SEND] = { 0 };
 
 	// receives message code and num of data size
 	int recvResult = recv(clientSocket, (char*)buffer, HEADER_MESSAGE_SIZE, 0);
@@ -221,4 +222,16 @@ void Communicator::sendMessageToClient(const vector<unsigned char>& message, con
 		throw exception("Error sending message to client,  socket: " + clientSocket);
 	}
 	delete[] buffer;
+}
+
+/// <summary>
+/// prints the client message
+/// </summary>
+/// <param name="message">vector of bytes, the message of the client</param>
+void Communicator::printClientMessage(const vector<unsigned char>& message)
+{
+	for (auto it = message.begin(); it != message.end(); ++it)
+	{
+		cout << *it;
+	}
 }

@@ -36,6 +36,7 @@ private:
 	void insertBackIntoVector(vector<unsigned char>& message, const unsigned char* buffer, const int numOfBytes);
 	int initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket);
 	void sendMessageToClient(const vector<unsigned char>& message, const SOCKET& clientSocket);
+	void printClientMessage(const vector<unsigned char>& message);
 
 	//Fields
 	SOCKET m_serverSocket;

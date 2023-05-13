@@ -49,7 +49,7 @@ unsigned int LoginRequestHandler::convertByteToNumber(const vector<unsigned char
 {
     int num = 0;
 
-    for (int i = 0; i < MAX_BYTES_UNSIGNED_INT; i++) // from bytes to int
+    for (int i = 0; i < buffer.size(); i++) // from bytes to int
     {
         num = (num << NUM_OF_BITS_IN_BYTE) + buffer[i];
     }
