@@ -5,6 +5,7 @@
 class RequestHandlerFactory
 {
 public:
+	RequestHandlerFactory(IDatabase* database);
 	LoginRequestHandler* createLoginRequestHandler() const;
 	LoginManager& getLoginManager();
 

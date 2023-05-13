@@ -13,6 +13,8 @@ void Server::run()
 {
 	m_database = new SqliteDatabase();
 	m_database->open();
+	m_handlerFactory = RequestHandlerFactory(m_database);
+
 	// creating a thread which gets new clients
 	thread t_connector(&Communicator::startHandleRequests, std::ref(m_communicator));
 	t_connector.detach();
