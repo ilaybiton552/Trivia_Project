@@ -130,7 +130,6 @@ RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 	int recvResult = 0; // number of bytes received from client
 	int messageNumOfBytes = 0; // number of bytes on the data message
 
-	cout << "Client's message: " << endl;
 	messageNumOfBytes = initializeReceive(requestInfo, clientSocket);
 	cout << "Num of bytes: " << messageNumOfBytes << endl;
 
@@ -185,12 +184,11 @@ int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clie
 	}
 	requestInfo.receivalTime = time(0);
 	requestInfo.id = LoginRequestHandler::convertByteToNumber(vector<unsigned char>(1, buffer[REQUEST_ID_INDEX]));
-	cout << "Id: " << requestInfo.id << endl;
+	cout << "Client's message: " << endl << "Id: " << requestInfo.id << endl;
 
 	vector<unsigned char> dataBytes;
 	insertBackIntoVector(dataBytes, buffer, HEADER_MESSAGE_SIZE);
 	dataBytes.erase(dataBytes.begin());
-
 	return LoginRequestHandler::convertByteToNumber(dataBytes);
 }
 
