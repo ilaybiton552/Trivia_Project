@@ -53,8 +53,6 @@ def serialize_message(message, code, sock):
     """
     data_length = len(message)
     message = code.to_bytes(1, 'big') + data_length.to_bytes(4, 'big') + message.encode()
-    print(code.to_bytes(1, 'big'))
-    print(data_length.to_bytes(4, 'big'))
     sock.sendall(message)
 
 def deserialize_message(message):
