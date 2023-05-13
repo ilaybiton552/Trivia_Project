@@ -1,5 +1,6 @@
 #include "Server.h"
 #include <string>
+#include "SqliteDatabase.h"
 
 using std::string;
 using std::cin;
@@ -10,6 +11,8 @@ using std::getline;
 /// </summary>
 void Server::run()
 {
+	m_database = new SqliteDatabase();
+	m_database->open();
 	// creating a thread which gets new clients
 	thread t_connector(&Communicator::startHandleRequests, std::ref(m_communicator));
 	t_connector.detach();
@@ -21,4 +24,5 @@ void Server::run()
 		cout << "Enter the command: ";
 		getline(cin, command);
 	}
+	m_database->close();
 }

@@ -1,19 +1,10 @@
 #include "LoginManager.h"
 
 /// <summary>
-/// constructor
-/// </summary>
-LoginManager::LoginManager()
-{
-	this->m_database->open();
-}
-
-/// <summary>
 /// destructor
 /// </summary>
 LoginManager::~LoginManager()
 {
-	this->m_database->close();
 	this->m_loggedUsers.clear();
 }
 
