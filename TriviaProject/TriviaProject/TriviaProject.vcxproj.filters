@@ -52,6 +52,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LoggedUser.h">
+    <ClInclude Include="JsonRequestPacketDeserializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -90,6 +91,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoggedUser.cpp">
+    <ClCompile Include="JsonRequestPacketDeserializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
