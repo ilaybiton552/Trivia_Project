@@ -125,7 +125,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 /// <returns>Request, the info of the message of the client</returns>
 RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 {
-	unsigned char buffer[RECV_OR_SEND];
+	unsigned char buffer[RECV_OR_SEND] = { 0 };
 	vector<unsigned char> message;
 	RequestInfo requestInfo;
 	int recvResult = 0; // number of bytes received from client
