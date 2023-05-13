@@ -86,7 +86,7 @@ int SqliteDatabase::doesPasswordMatch(const string username, const string passwo
 int SqliteDatabase::addNewUser(const string username, const string password, const string email)
 {
 	string query = "INSERT INTO Users VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
-	sqlQuery(this->m_database, query.c_str());
+	return sqlQuery(this->m_database, query.c_str());
 }
 
 /// <summary>
