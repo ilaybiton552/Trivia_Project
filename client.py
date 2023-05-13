@@ -27,7 +27,7 @@ def client_socket():
 def password_check(password):
     """
     the function checks if the password is valid or not
-    :param password: the password
+    :param password: the password to check
     :type: string
     :return: if the password is valid or not
     :rtype: bool
@@ -44,6 +44,20 @@ def password_check(password):
         return False
     else:
         return True
+
+def email_check(email):
+    """
+    the function checks if the email is valid or not
+    :param email: the email to check
+    :type: string
+    :return: if the email is valid or not
+    :rtype: bool
+    """
+    regex = re.compile(r'([A-Za-z0-9]+[._-])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')  # regex pattern for email
+    if(re.fullmatch(regex, email)):  # check if the email is valid
+        return True
+    else:
+        return False
 
 def main():
     try:
