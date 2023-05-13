@@ -14,6 +14,7 @@ class LoginManager
 {
 public:
 	//Methods
+	LoginManager(IDatabase* database);
 	~LoginManager(); // d'tor
 	int signup(const string username, const string password, const string email);
 	int login(const string username, const string password);

@@ -1,6 +1,15 @@
 #include "LoginManager.h"
 
 /// <summary>
+/// Constructor of LoginManager
+/// </summary>
+/// <param name="database">pointer of IDatabase, the database of the server</param>
+LoginManager::LoginManager(IDatabase* database)
+{
+	m_database = database;
+}
+
+/// <summary>
 /// destructor
 /// </summary>
 LoginManager::~LoginManager()
