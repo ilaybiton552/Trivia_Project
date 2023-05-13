@@ -9,6 +9,8 @@ class Server
 {
 public:
 	//Method
+	Server();
+	~Server();
 	void run();
 
 private:

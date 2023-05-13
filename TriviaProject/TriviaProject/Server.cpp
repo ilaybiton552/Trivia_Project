@@ -7,14 +7,31 @@ using std::cin;
 using std::getline;
 
 /// <summary>
+/// Constructor of Server
+/// </summary>
+Server::Server() : m_handlerFactory(m_database)
+{
+	m_database = new SqliteDatabase();
+	m_database->open();
+}
+
+/// <summary>
+/// Destructor of Server
+/// </summary>
+Server::~Server()
+{
+	if (m_database != nullptr)
+	{
+		m_database->close();
+		delete m_database;
+	}
+}
+
+/// <summary>
 /// Runs the server
 /// </summary>
 void Server::run()
 {
-	m_database = new SqliteDatabase();
-	m_database->open();
-	m_handlerFactory = RequestHandlerFactory(m_database);
-
 	// creating a thread which gets new clients
 	thread t_connector(&Communicator::startHandleRequests, std::ref(m_communicator));
 	t_connector.detach();
@@ -26,5 +43,4 @@ void Server::run()
 		cout << "Enter the command: ";
 		getline(cin, command);
 	}
-	m_database->close();
 }
