@@ -54,14 +54,29 @@ def email_check(email):
     :rtype: bool
     """
     regex = re.compile(r'([A-Za-z0-9]+[._-])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')  # regex pattern for email
-    if(re.fullmatch(regex, email)):  # check if the email is valid
+    if (re.fullmatch(regex, email)):  # check if the email is valid
+        return True
+    else:
+        return False
+
+def address_check(address):
+    """
+    the function checks if the address is valid or not
+    :param address: the address to check
+    :type: string
+    :return: if the address is valid or not
+    :rtype: bool
+    """
+    regex = re.compile(r'([A-Za-z])*[, ]+([0-9])*[, ]+([A-Za-z]+)')
+    if (re.fullmatch(regex, address)):
         return True
     else:
         return False
 
 def main():
     try:
-        client_socket()
+        while True:
+            print(address_check(input("Enter address: ")))
     except Exception as exc:
         print("The exception is: ", exc)
     input() # press any key to exit
