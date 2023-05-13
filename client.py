@@ -1,4 +1,5 @@
 import socket
+import re
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 8826
@@ -23,6 +24,26 @@ def client_socket():
         sock.sendall(client_msg.encode())
     sock.close()
 
+def password_check(password):
+    """
+    the function checks if the password is valid or not
+    :param password: the password
+    :type: string
+    :return: if the password is valid or not
+    :rtype: bool
+    """
+    if(len(password) != 8):  # if the password length is 8
+        return False
+    elif not (re.search("[a-z]", password)):  # if the password contains lowercase letter
+        return False
+    elif not (re.search("[A-Z]", password)):  # if the password contains uppercase letter
+        return False
+    elif not (re.search("[0-9]", password)):  # if the password contains digit
+        return False
+    elif not (re.search("[!@#$%^&*]", password)):  # if the password contains special char
+        return False
+    else:
+        return True
 
 def main():
     try:
