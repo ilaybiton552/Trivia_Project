@@ -78,7 +78,7 @@ int SqliteDatabase::doesPasswordMatch(const string username, const string passwo
 int SqliteDatabase::addNewUser(const string username, const string password, const string email)
 {
 	string query = "INSERT INTO Users VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
-	sqlQuery(query.c_str());
+	return sqlQuery(query.c_str());
 }
 
 /// <summary>
@@ -88,7 +88,7 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 /// <param name="callback">the callback function</param>
 /// <param name="callbackArgument">the callback argument</param>
 /// <returns>if the query done without errors</returns>
-bool SqliteDatabase::sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**), void* callbackArgument = nullptr)
+bool SqliteDatabase::sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**), void* callbackArgument)
 {
 	char** errMessage = nullptr;
 	int res = sqlite3_exec(this->m_database, sqlStatement, callback, callbackArgument, errMessage); // does the query

@@ -68,15 +68,15 @@ int LoginManager::login(const string username, const string password)
 /// <returns>the result code</returns>
 int LoginManager::logout(const string username)
 {
-	LoggedUser* userToLogout = findLoggedUser(username);
-
-	if (userToLogout == nullptr) // check if the user doen't logged
+	for (auto it = m_loggedUsers.begin(); it != m_loggedUsers.end(); ++it)
 	{
-		return USER_DOES_NOT_LOGGED_CODE;
+		if (it->getUsername() == username)
+		{
+			m_loggedUsers.erase(it);
+			return SUCCESS_CODE;
+		}
 	}
-
-	remove(m_loggedUsers.begin(), m_loggedUsers.end(), *userToLogout); // remove the user from the logged user list
-	return SUCCESS_CODE;
+	return USER_DOES_NOT_LOGGED_CODE;
 }
 
 /// <summary>
@@ -86,7 +86,7 @@ int LoginManager::logout(const string username)
 /// <returns>pointer to logged user</returns>
 LoggedUser* LoginManager::findLoggedUser(const string username) const
 {
-	for (auto loggedUser : m_loggedUsers)
+	for (LoggedUser loggedUser : m_loggedUsers)
 	{
 		if (loggedUser.getUsername() == username)
 		{
