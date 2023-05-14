@@ -3,3 +3,11 @@ SignupResponse - 202
 ErrorResponse - 200
 LoginRequest - 101
 SignupRequest - 102
+
+status of RequestResult of login:
+success - 1
+user doesn't exits - 2
+user exists - 3
+wrong password - 4
+user logged - 5
+user doesn't logged - 6
