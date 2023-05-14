@@ -31,7 +31,6 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
     {
         return login(requestInfo);
     }
-    // signup request
     return signup(requestInfo);
 }
 
@@ -67,7 +66,7 @@ RequestResult LoginRequestHandler::login(const RequestInfo& requestInfo)
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
     if (loginResponse.status == SUCCESS_CODE)
     {
-        //newHandler will be menuRequestHandler
+        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler();
     }
 
     return requestResult;

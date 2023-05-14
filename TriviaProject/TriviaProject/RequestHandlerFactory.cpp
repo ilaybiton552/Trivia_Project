@@ -26,3 +26,12 @@ LoginManager& RequestHandlerFactory::getLoginManager()
 {
 	return m_loginManager;
 }
+
+/// <summary>
+/// Creates menu request handler
+/// </summary>
+/// <returns>pointer of MenuRequestHandler, the created handler</returns>
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler()
+{
+	return new MenuRequestHandler();
+}
