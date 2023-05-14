@@ -7,6 +7,7 @@
 #define LOGIN_REQUEST 101
 #define SIGNUP_REQUEST 102
 #define SUCCESS_LOGIN_SIGNUP 1
+#define ERROR_LOGIN_SIGNUP 0
 
 class RequestHandlerFactory;
 

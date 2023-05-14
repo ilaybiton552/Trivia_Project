@@ -62,8 +62,15 @@ RequestResult LoginRequestHandler::login(const RequestInfo& requestInfo)
     RequestResult requestResult;
 
     LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
-    // success in login (for now)
-    LoginResponse loginResponse = { SUCCESS_LOGIN_SIGNUP };
+    LoginResponse loginResponse;
+    if (m_handlerFactory.getLoginManager().login(loginRequest.username, loginRequest.password))
+    {
+        loginResponse.status = SUCCESS_LOGIN_SIGNUP;
+    }
+    else
+    {
+        loginResponse.status = ERROR_LOGIN_SIGNUP;
+    }
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
 
     return requestResult;
