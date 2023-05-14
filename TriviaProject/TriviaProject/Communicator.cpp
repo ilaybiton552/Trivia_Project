@@ -7,7 +7,8 @@ static const unsigned int IFACE = 0;
 /// <summary>
 /// Constructor of Communicater
 /// </summary>
-Communicator::Communicator()
+/// <param name="handlerFactory">reference of RequestHandlerFactory, the handler factory of the server</param>
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	// opening the server socket
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -28,7 +29,11 @@ Communicator::~Communicator()
 		for (auto it = m_clients.begin(); it != m_clients.end(); ++it)
 		{
 			closesocket(it->first); // closing the clients socket
-			delete it->second; // deleting the allocated memory for the pointer
+			if (it->second != nullptr)
+			{
+				delete it->second; // deleting the allocated memory for the pointer
+				it->second = nullptr;
+			}
 		}
 	}
 	catch(...) {}
@@ -52,8 +57,7 @@ void Communicator::startHandleRequests()
 
 			cout << "Client accepted !" << endl;
 
-			LoginRequestHandler* pLoginRequest = new LoginRequestHandler;
-			m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, pLoginRequest)); // add the client to the client map
+			m_clients.insert(pair<SOCKET, IRequestHandler*>(client_socket, m_handlerFactory.createLoginRequestHandler())); // add the client to the client map
 
 			// create new thread for client	and detach from it
 			thread client_thread(&Communicator::handleNewClient, this, client_socket);
@@ -99,21 +103,32 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 	try
 	{
 		RequestInfo requestInfo = receiveMessage(client_socket);
-		IRequestHandler* clientHandler = m_clients[client_socket];
-		if (clientHandler->isRequestRelevant(requestInfo))
+		while (requestInfo.id != CLIENT_LOG_OUT)
 		{
-			RequestResult requestResult = clientHandler->handleRequest(requestInfo);
-			sendMessageToClient(requestResult.response, client_socket);
+			IRequestHandler* clientHandler = m_clients[client_socket];
+			if (clientHandler->isRequestRelevant(requestInfo))
+			{
+				RequestResult requestResult = clientHandler->handleRequest(requestInfo);
+				sendMessageToClient(requestResult.response, client_socket);
+				if (requestResult.newHandler != nullptr) // success
+				{
+					delete m_clients[client_socket];
+					m_clients[client_socket] = requestResult.newHandler;
+				}
+			}
+			else
+			{
+				ErrorResponse errorResponse = { "ERROR" };
+				sendMessageToClient(JsonResponsePacketSerializer::serializeResponse(errorResponse), client_socket);
+			}
+			requestInfo = receiveMessage(client_socket);
 		}
-		else
-		{
-			ErrorResponse errorResponse = { "ERROR" };
-			sendMessageToClient(JsonResponsePacketSerializer::serializeResponse(errorResponse), client_socket);
-		}
+		disconnectClient(client_socket);
 	}
 	catch (const exception& e)
 	{
 		cout << "Exception was catch in function handleNewClient. Socket = " << client_socket << ", what = " << e.what() << endl;
+		disconnectClient(client_socket);
 	}
 }
 
@@ -124,7 +139,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 /// <returns>Request, the info of the message of the client</returns>
 RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 {
-	unsigned char buffer[RECV_OR_SEND];
+	unsigned char buffer[RECV_OR_SEND] = { 0 };
 	vector<unsigned char> message;
 	RequestInfo requestInfo;
 	int recvResult = 0; // number of bytes received from client
@@ -234,4 +249,20 @@ void Communicator::printClientMessage(const vector<unsigned char>& message)
 	{
 		cout << *it;
 	}
+}
+
+/// <summary>
+/// Disconnects a cilent from the server
+/// </summary>
+/// <param name="clientSocket">SOCKET, the socket of the client</param>
+void Communicator::disconnectClient(const SOCKET& clientSocket)
+{
+	IRequestHandler* requestHandler = m_clients[clientSocket];
+	if (requestHandler != nullptr)
+	{
+		delete requestHandler;
+		requestHandler = nullptr;
+	}
+	m_clients.erase(clientSocket);
+	closesocket(clientSocket);
 }

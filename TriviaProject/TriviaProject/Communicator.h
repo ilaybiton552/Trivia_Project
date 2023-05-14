@@ -7,10 +7,12 @@
 #include <string>
 #include "IRequestHandler.h"
 #include "LoginRequestHandler.h"
+#include "RequestHandlerFactory.h"
 
 #define RECV_OR_SEND 1024
 #define REQUEST_ID_INDEX 0
 #define HEADER_MESSAGE_SIZE 5
+#define CLIENT_LOG_OUT 0
 
 using std::map;
 using std::pair;
@@ -23,7 +25,7 @@ using std::string;
 class Communicator
 {
 public:
-	Communicator(); // c'tor
+	Communicator(RequestHandlerFactory& handlerFactory); // c'tor
 	~Communicator(); // d'tor
 
 	//Method
@@ -37,9 +39,11 @@ private:
 	int initializeReceive(RequestInfo& requestInfo, const SOCKET& clientSocket);
 	void sendMessageToClient(const vector<unsigned char>& message, const SOCKET& clientSocket);
 	void printClientMessage(const vector<unsigned char>& message);
+	void disconnectClient(const SOCKET& clientSocket);
 
 	//Fields
 	SOCKET m_serverSocket;
 	map<SOCKET, IRequestHandler*> m_clients;
+	RequestHandlerFactory& m_handlerFactory;
 };
 

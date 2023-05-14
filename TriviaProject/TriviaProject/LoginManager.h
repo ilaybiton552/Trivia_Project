@@ -5,7 +5,7 @@
 #include "IDatabase.h"
 #include "LoggedUser.h"
 
-enum loginCodes {SUCCESS_CODE, USER_DOES_NOT_EXIST_CODE, USER_ALREADY_EXIST_CODE, WRONG_PASSWORD_CODE, USER_ALREADY_LOGGED_CODE, USER_DOES_NOT_LOGGED_CODE};
+enum loginCodes {SUCCESS_CODE = 1, USER_DOES_NOT_EXIST_CODE, USER_ALREADY_EXIST_CODE, WRONG_PASSWORD_CODE, USER_ALREADY_LOGGED_CODE, USER_DOES_NOT_LOGGED_CODE};
 
 using std::vector;
 using std::string;
@@ -14,7 +14,7 @@ class LoginManager
 {
 public:
 	//Methods
-	LoginManager(); // c'tor
+	LoginManager(IDatabase* database);
 	~LoginManager(); // d'tor
 	int signup(const string username, const string password, const string email);
 	int login(const string username, const string password);

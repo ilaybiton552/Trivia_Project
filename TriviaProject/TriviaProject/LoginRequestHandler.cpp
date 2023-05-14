@@ -3,6 +3,14 @@
 #include "JsonResponsePacketSerializer.h"
 
 /// <summary>
+/// Constructor of LoginRequestHandler
+/// </summary>
+/// <param name="handlerFactory">reference of RequestHandlerFactory, the handler factory</param>
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
+{
+}
+
+/// <summary>
 /// Checks if the request is relevant
 /// </summary>
 /// <param name="requestInfo">RequestInfo, the information of the request</param>
@@ -19,25 +27,11 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 /// <returns>RequestResult, the result of the server for the reqeust</returns>
 RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
-    RequestResult requestResult;
-    requestResult.newHandler = nullptr; // currently nothing
-
     if (requestInfo.id == LOGIN_REQUEST)
     {
-        LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
-        // success in login (for now)
-        LoginResponse loginResponse = { SUCCESS_LOGIN_SIGNUP };
-        requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
+        return login(requestInfo);
     }
-    else // signup request
-    {
-        SignupRequest signRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
-        // success in signup (for now)
-        SignupResponse signupResponse = { SUCCESS_LOGIN_SIGNUP };
-        requestResult.response = JsonResponsePacketSerializer::serializeResponse(signupResponse);
-    }
-
-	return requestResult;
+    return signup(requestInfo);
 }
 
 /// <summary>
@@ -55,4 +49,46 @@ unsigned int LoginRequestHandler::convertByteToNumber(const vector<unsigned char
     }
 
     return num;
+}
+
+/// <summary>
+/// Handles with login request
+/// </summary>
+/// <param name="requestInfo">reference of RequestInfo, the information of the request</param>
+/// <returns>ReqeustResult, the result of the server for the request</returns>
+RequestResult LoginRequestHandler::login(const RequestInfo& requestInfo)
+{
+    RequestResult requestResult;
+
+    requestResult.newHandler = nullptr;
+    LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
+    LoginResponse loginResponse = { m_handlerFactory.getLoginManager().login(loginRequest.username, loginRequest.password) };
+    requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
+    if (loginResponse.status == SUCCESS_CODE)
+    {
+        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler();
+    }
+
+    return requestResult;
+}
+
+/// <summary>
+/// Handles with sign request
+/// </summary>
+/// <param name="requestInfo">reference of RequestInfo, the information of the request</param>
+/// <returns>ReqeustResult, the result of the server for the request</returns>
+RequestResult LoginRequestHandler::signup(const RequestInfo& requestInfo)
+{
+    RequestResult requestResult;
+
+    requestResult.newHandler = nullptr;
+    SignupRequest signupRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
+    SignupResponse signupResponse = { m_handlerFactory.getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email)};
+    requestResult.response = JsonResponsePacketSerializer::serializeResponse(signupResponse);
+    if (signupResponse.status == SUCCESS_CODE)
+    {
+        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler();
+    }
+
+    return requestResult;
 }

@@ -1,11 +1,12 @@
 #include "LoginManager.h"
 
 /// <summary>
-/// constructor
+/// Constructor of LoginManager
 /// </summary>
-LoginManager::LoginManager()
+/// <param name="database">pointer of IDatabase, the database of the server</param>
+LoginManager::LoginManager(IDatabase* database)
 {
-	this->m_database->open();
+	m_database = database;
 }
 
 /// <summary>
@@ -13,7 +14,6 @@ LoginManager::LoginManager()
 /// </summary>
 LoginManager::~LoginManager()
 {
-	this->m_database->close();
 	this->m_loggedUsers.clear();
 }
 
