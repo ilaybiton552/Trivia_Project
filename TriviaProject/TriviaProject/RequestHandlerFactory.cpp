@@ -13,9 +13,9 @@ RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : m_loginManag
 /// Creates loginRequestHandler
 /// </summary>
 /// <returns>pointer of LoginRequestHandler, pointer for the login request handler</returns>
-LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler() const
+LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 {
-	return new LoginRequestHandler();
+	return new LoginRequestHandler(*this);
 }
 
 /// <summary>

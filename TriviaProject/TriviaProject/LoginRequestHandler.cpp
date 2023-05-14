@@ -2,6 +2,10 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
+{
+}
+
 /// <summary>
 /// Checks if the request is relevant
 /// </summary>

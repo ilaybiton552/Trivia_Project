@@ -2,11 +2,13 @@
 #include "LoginManager.h"
 #include "LoginRequestHandler.h"
 
+class LoginRequestHandler;
+
 class RequestHandlerFactory
 {
 public:
 	RequestHandlerFactory(IDatabase* database);
-	LoginRequestHandler* createLoginRequestHandler() const;
+	LoginRequestHandler* createLoginRequestHandler();
 	LoginManager& getLoginManager();
 
 private:
