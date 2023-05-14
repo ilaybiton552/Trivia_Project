@@ -29,7 +29,11 @@ Communicator::~Communicator()
 		for (auto it = m_clients.begin(); it != m_clients.end(); ++it)
 		{
 			closesocket(it->first); // closing the clients socket
-			delete it->second; // deleting the allocated memory for the pointer
+			if (it->second != nullptr)
+			{
+				delete it->second; // deleting the allocated memory for the pointer
+				it->second = nullptr;
+			}
 		}
 	}
 	catch(...) {}
@@ -106,7 +110,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 			{
 				RequestResult requestResult = clientHandler->handleRequest(requestInfo);
 				sendMessageToClient(requestResult.response, client_socket);
-				if (requestResult.newHandler != nullptr) // succes
+				if (requestResult.newHandler != nullptr) // success
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
@@ -117,7 +121,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 				ErrorResponse errorResponse = { "ERROR" };
 				sendMessageToClient(JsonResponsePacketSerializer::serializeResponse(errorResponse), client_socket);
 			}
-			RequestInfo requestInfo = receiveMessage(client_socket);
+			requestInfo = receiveMessage(client_socket);
 		}
 		disconnectClient(client_socket);
 	}
