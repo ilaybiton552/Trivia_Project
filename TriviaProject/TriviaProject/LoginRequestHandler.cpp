@@ -61,9 +61,14 @@ RequestResult LoginRequestHandler::login(const RequestInfo& requestInfo)
 {
     RequestResult requestResult;
 
+    requestResult.newHandler = nullptr;
     LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
     LoginResponse loginResponse = { m_handlerFactory.getLoginManager().login(loginRequest.username, loginRequest.password) };
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
+    if (loginResponse.status == SUCCESS_CODE)
+    {
+        //newHandler will be menuRequestHandler
+    }
 
     return requestResult;
 }
