@@ -99,26 +99,32 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 	try
 	{
 		RequestInfo requestInfo = receiveMessage(client_socket);
-		IRequestHandler* clientHandler = m_clients[client_socket];
-		if (clientHandler->isRequestRelevant(requestInfo))
+		while (requestInfo.id != CLIENT_LOG_OUT)
 		{
-			RequestResult requestResult = clientHandler->handleRequest(requestInfo);
-			sendMessageToClient(requestResult.response, client_socket);
-			if (requestResult.newHandler != nullptr) // succes
+			IRequestHandler* clientHandler = m_clients[client_socket];
+			if (clientHandler->isRequestRelevant(requestInfo))
 			{
-				delete m_clients[client_socket];
-				m_clients[client_socket] = requestResult.newHandler;
+				RequestResult requestResult = clientHandler->handleRequest(requestInfo);
+				sendMessageToClient(requestResult.response, client_socket);
+				if (requestResult.newHandler != nullptr) // succes
+				{
+					delete m_clients[client_socket];
+					m_clients[client_socket] = requestResult.newHandler;
+				}
 			}
+			else
+			{
+				ErrorResponse errorResponse = { "ERROR" };
+				sendMessageToClient(JsonResponsePacketSerializer::serializeResponse(errorResponse), client_socket);
+			}
+			RequestInfo requestInfo = receiveMessage(client_socket);
 		}
-		else
-		{
-			ErrorResponse errorResponse = { "ERROR" };
-			sendMessageToClient(JsonResponsePacketSerializer::serializeResponse(errorResponse), client_socket);
-		}
+		disconnectClient(client_socket);
 	}
 	catch (const exception& e)
 	{
 		cout << "Exception was catch in function handleNewClient. Socket = " << client_socket << ", what = " << e.what() << endl;
+		disconnectClient(client_socket);
 	}
 }
 
@@ -239,4 +245,20 @@ void Communicator::printClientMessage(const vector<unsigned char>& message)
 	{
 		cout << *it;
 	}
+}
+
+/// <summary>
+/// Disconnects a cilent from the server
+/// </summary>
+/// <param name="clientSocket">SOCKET, the socket of the client</param>
+void Communicator::disconnectClient(const SOCKET& clientSocket)
+{
+	IRequestHandler* requestHandler = m_clients[clientSocket];
+	if (requestHandler != nullptr)
+	{
+		delete requestHandler;
+		requestHandler = nullptr;
+	}
+	m_clients.erase(clientSocket);
+	closesocket(clientSocket);
 }

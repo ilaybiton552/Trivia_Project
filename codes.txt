@@ -11,3 +11,5 @@ user exists - 3
 wrong password - 4
 user logged - 5
 user doesn't logged - 6
+
+Client's log out: code - 0
