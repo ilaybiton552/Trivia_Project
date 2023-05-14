@@ -81,10 +81,14 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& requestInfo)
 {
     RequestResult requestResult;
 
-    SignupRequest signRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
-    // success in signup (for now)
-    SignupResponse signupResponse = { SUCCESS_LOGIN_SIGNUP };
+    requestResult.newHandler = nullptr;
+    SignupRequest signupRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
+    SignupResponse signupResponse = { m_handlerFactory.getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email)};
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(signupResponse);
+    if (signupResponse.status == SUCCESS_CODE)
+    {
+        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler();
+    }
 
     return requestResult;
 }
