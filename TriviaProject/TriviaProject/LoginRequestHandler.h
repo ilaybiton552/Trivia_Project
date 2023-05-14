@@ -20,6 +20,7 @@ public:
 	static unsigned int convertByteToNumber(const vector<unsigned char>& buffer);
 private:
 	RequestHandlerFactory& m_handlerFactory;
-
+	RequestResult login(const RequestInfo& requestInfo);
+	RequestResult signup(const RequestInfo& requestInfo);
 };
 
