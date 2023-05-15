@@ -26,6 +26,9 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vect
     signupRequest.email = data["email"];
     signupRequest.password = data["password"];
     signupRequest.username = data["username"];
+    signupRequest.address = data["address"];
+    signupRequest.phoneNumber = data["phone_number"];
+    signupRequest.birthDate = data["birthdate"];
     return signupRequest;
 }
 
