@@ -88,10 +88,24 @@ def phone_number_check(phone_number):
     else:
         return False
 
+def birth_date_check(birth_date):
+    """
+    the function checks if the birth date format is valid or not
+    :param birth_date: the birth date to check
+    :type: string
+    :return: if the birth date format is valid or not
+    :rtype: bool
+    """
+    regex = re.compile(r'([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})')
+    if(re.fullmatch(regex, birth_date)):
+        return True
+    else:
+        return False
+
 def main():
     try:
         while True:
-            print(phone_number_check(input("Enter phone number: ")))
+            print(birth_date_check(input("Enter birth date: ")))
     except Exception as exc:
         print("The exception is: ", exc)
     input() # press any key to exit
