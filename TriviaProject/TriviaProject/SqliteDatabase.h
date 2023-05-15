@@ -5,6 +5,8 @@
 #include "IDatabase.h"
 #include "sqlite3.h"
 
+#define DB_FILE_NAME "Trivia_DataBase.sqlite"
+
 using std::cout;
 using std::endl;
 using std::string;
