@@ -1,4 +1,5 @@
 #include "LoginManager.h"
+#include "UserInfoCheck.h"
 
 /// <summary>
 /// Constructor of LoginManager
@@ -29,6 +30,10 @@ LoginManager::~LoginManager()
 /// <returns>the result code</returns>
 int LoginManager::signup(const string username, const string password, const string email, const string address, const string phoneNumber, const string birthdate)
 {
+	if (!UserInfoCheck::checkUserInfo(password, email, address, phoneNumber, birthdate))
+	{
+		return REGEX_ERROR;
+	}
 	if (m_database->doesUserExist(username)) // check if the username doesn't exist in the database
 	{
 		return USER_ALREADY_EXIST_CODE;
