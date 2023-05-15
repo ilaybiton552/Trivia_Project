@@ -7,6 +7,7 @@ bool UserInfoCheck::checkUserInfo(const string password, const string email, con
 
 bool UserInfoCheck::passwordCheck(const string password)
 {
+<<<<<<< HEAD
 	regex password_regex;
 }
 
@@ -36,3 +37,7 @@ bool UserInfoCheck::birthdateCheck(const string birthdate)
 {
 
 }
+=======
+	regex reg_exs;
+}
+>>>>>>> 99694ca57ac9f7250cc01e199e0ad79a5ef59453
