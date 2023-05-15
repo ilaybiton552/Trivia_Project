@@ -1,4 +1,8 @@
 import socket
+<<<<<<< client.py
+=======
+import re
+>>>>>>> client.py
 import json
 
 SERVER_IP = "127.0.0.1"
@@ -77,6 +81,7 @@ def deserialize_message(message):
     print("Data length: " + str(data_length))
     print("Message content: " + data)
 
+<<<<<<< client.py
 
 def custom_message():
     """
@@ -86,6 +91,56 @@ def custom_message():
     code = int(input("Enter the code of the message: "))
     data = input("Enter the data of the message: ")
     return data, code
+=======
+def action(choice, sock):
+    """
+    the function does the wanted action
+    :param choice: user's choice of action
+    :param sock: Socket sock
+    :return: None
+    """
+    if choice is LOGIN:
+        serialize_message(login_message(), LOGIN_REQUEST_CODE, sock)
+    elif choice is SIGNUP:
+        serialize_message(signup_message(), SIGNUP_REQUEST_CODE, sock)
+    elif choice is EXIT:
+        print("Goodbye!")
+
+def password_check(password):
+    """
+    the function checks if the password is valid or not
+    :param password: the password to check
+    :type: string
+    :return: if the password is valid or not
+    :rtype: bool
+    """
+    if(len(password) != 8):  # if the password length is 8
+        return False
+    elif not (re.search("[a-z]", password)):  # if the password contains lowercase letter
+        return False
+    elif not (re.search("[A-Z]", password)):  # if the password contains uppercase letter
+        return False
+    elif not (re.search("[0-9]", password)):  # if the password contains digit
+        return False
+    elif not (re.search("[!@#$%^&*]", password)):  # if the password contains special char
+        return False
+    else:
+        return True
+
+def email_check(email):
+    """
+    the function checks if the email is valid or not
+    :param email: the email to check
+    :type: string
+    :return: if the email is valid or not
+    :rtype: bool
+    """
+    regex = re.compile(r'([A-Za-z0-9]+[._-])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')  # regex pattern for email
+    if(re.fullmatch(regex, email)):  # check if the email is valid
+        return True
+    else:
+        return False
+>>>>>>> client.py
 
 def menu():
     """
@@ -106,6 +161,7 @@ def menu():
 
     return choice
 
+<<<<<<< client.py
 
 def action(choice, sock):
     """
@@ -126,6 +182,8 @@ def action(choice, sock):
         serialize_message(data, code, sock)
 
 
+=======
+>>>>>>> client.py
 def main():
     try:
         sock = client_socket()
