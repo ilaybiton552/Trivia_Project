@@ -37,7 +37,7 @@ struct SignupRequest
 	string email;
 	string address;
 	string phoneNumber;
-	string birthYear;
+	string birthDate;
 };
 
 struct RequestInfo

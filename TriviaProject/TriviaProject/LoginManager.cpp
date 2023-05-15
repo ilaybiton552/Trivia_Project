@@ -23,8 +23,11 @@ LoginManager::~LoginManager()
 /// <param name="username">the username</param>
 /// <param name="password">the password</param>
 /// <param name="email">the email</param>
+/// <param name="address">string, the address</param>
+/// <param name="phoneNumber">string, phone number</param>
+/// <param name="birthdate">string, date of birth</param>
 /// <returns>the result code</returns>
-int LoginManager::signup(const string username, const string password, const string email)
+int LoginManager::signup(const string username, const string password, const string email, const string address, const string phoneNumber, const string birthdate)
 {
 	if (m_database->doesUserExist(username)) // check if the username doesn't exist in the database
 	{
