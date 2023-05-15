@@ -6,6 +6,7 @@ SERVER_PORT = 8826
 RECV = 1024
 LOGIN_REQUEST_CODE = 101
 SIGNUP_REQUEST_CODE = 102
+DISCONNECT_REQUEST_CODE = 0
 LOGIN = 1
 SIGNUP = 2
 EXIT = 0
@@ -119,6 +120,7 @@ def action(choice, sock):
         serialize_message(signup_message(), SIGNUP_REQUEST_CODE, sock)
     elif choice is EXIT:
         print("Goodbye!")
+        serialize_message("disconnect", DISCONNECT_REQUEST_CODE, sock)
     elif choice is CUSTOM_MESSAGE:
         serialize_message(custom_message(), sock)
 
@@ -126,8 +128,12 @@ def action(choice, sock):
 def main():
     try:
         sock = client_socket()
-        action(menu(), sock)
-        deserialize_message(sock.recv(RECV))
+        user_choice = menu()
+        while (user_choice != EXIT):
+            action(user_choice, sock)
+            deserialize_message(sock.recv(RECV))
+            user_choice = menu()
+        action(user_choice, sock)
         sock.close()
     except Exception as exc:
         print("The exception is: ", exc)
