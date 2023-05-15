@@ -6,23 +6,21 @@
 /// <returns>if the database has opened successfully</returns>
 bool SqliteDatabase::open()
 {
-	sqlite3* db;
 	string dbFileName = "Trivia_DataBase.sqlite";
 	int file_exist = _access(dbFileName.c_str(), 0);
-	int res = sqlite3_open(dbFileName.c_str(), &db); // open the database
+	int res = sqlite3_open(dbFileName.c_str(), &m_database); // open the database
 	if (res != SQLITE_OK) // if error has occured
 	{
-		db = nullptr;
+		m_database = nullptr;
 		cout << "Failed to open DataBase" << endl;
 		return false;
 	}
 
 	if (file_exist != 0) // if the database doesn't exist
 	{
-		sqlQuery("CREATE TABLE IF NOT EXISTS Users(USERNAME TEXT PRIMARY KEY, PASSWORD TEXT, EMAIL TEXT);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL);");
 	}
 
-	this->m_database = db;
 	return true;
 }
 
@@ -44,7 +42,7 @@ bool SqliteDatabase::close()
 /// <returns>if the user exists</returns>
 int SqliteDatabase::doesUserExist(const string username)
 {
-	string query = "SELECT * FROM Users WHERE (USERNAME IS \"" + username + "\");"; // the query with username to check
+	string query = "SELECT * FROM USERS WHERE (USERNAME IS \"" + username + "\");"; // the query with username to check
 	string userInfo = "";
 
 	sqlQuery(query.c_str(), getUserInfo, &userInfo);
@@ -60,7 +58,7 @@ int SqliteDatabase::doesUserExist(const string username)
 /// <returns>if the password matches the username</returns>
 int SqliteDatabase::doesPasswordMatch(const string username, const string password)
 {
-	string query = "SELECT * FROM Users WHERE (USERNAME IS \"" + username + "\" AND PASSWORD IS \"" + password + "\"); "; // the query with username and password to check
+	string query = "SELECT * FROM USERS WHERE (USERNAME IS \"" + username + "\" AND PASSWORD IS \"" + password + "\"); "; // the query with username and password to check
 	string userInfo = "";
 
 	sqlQuery(query.c_str(), getUserInfo, &userInfo); // the query that return user info
@@ -77,7 +75,7 @@ int SqliteDatabase::doesPasswordMatch(const string username, const string passwo
 /// <returns></returns>
 int SqliteDatabase::addNewUser(const string username, const string password, const string email)
 {
-	string query = "INSERT INTO Users VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
+	string query = "INSERT INTO USERS VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
 	return sqlQuery(query.c_str());
 }
 

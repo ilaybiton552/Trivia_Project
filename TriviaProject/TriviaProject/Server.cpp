@@ -9,9 +9,8 @@ using std::getline;
 /// <summary>
 /// Constructor of Server
 /// </summary>
-Server::Server() : m_handlerFactory(m_database), m_communicator(m_handlerFactory)
+Server::Server() : m_database(new SqliteDatabase()), m_handlerFactory(m_database), m_communicator(m_handlerFactory)
 {
-	m_database = new SqliteDatabase();
 	m_database->open();
 }
 
