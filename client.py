@@ -73,10 +73,25 @@ def address_check(address):
     else:
         return False
 
+def phone_number_check(phone_number):
+    """
+    the function checks if the phone number is valid or not
+    :param phone_number: the phone number to check
+    :type: string
+    :return: if the phone number is valid or not
+    :rtype: bool
+    """
+    phone_regex_1 = re.compile(r'0+([0-9]){8}')
+    phone_regex_2 = re.compile(r'05+([0-9]){8}')
+    if(re.fullmatch(phone_regex_1, phone_number) or re.fullmatch(phone_regex_2, phone_number)):
+        return True
+    else:
+        return False
+
 def main():
     try:
         while True:
-            print(address_check(input("Enter address: ")))
+            print(phone_number_check(input("Enter phone number: ")))
     except Exception as exc:
         print("The exception is: ", exc)
     input() # press any key to exit
