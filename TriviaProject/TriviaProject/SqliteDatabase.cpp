@@ -46,7 +46,7 @@ int SqliteDatabase::doesUserExist(const string username)
 	string userInfo = "";
 
 	sqlQuery(query.c_str(), getUserInfo, &userInfo);
-
+	cout << userInfo << endl;
 	return (userInfo != ""); // if the database returned userinfo - user exists, else - the user doesn't exist
 }
 
@@ -104,12 +104,13 @@ bool SqliteDatabase::sqlQuery(const char* sqlStatement, int(*callback)(void*, in
 /// </summary>
 int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColName)
 {
-	string info = *(static_cast<string*>(data));
+	string info;
 
 	for (int i = 0; i < argc; i++)
 	{
 		info += argv[i];
 	}
+	*(static_cast<string*>(data)) = info;
 
 	return 0;
 }

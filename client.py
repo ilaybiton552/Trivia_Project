@@ -122,7 +122,8 @@ def action(choice, sock):
         print("Goodbye!")
         serialize_message("disconnect", DISCONNECT_REQUEST_CODE, sock)
     elif choice is CUSTOM_MESSAGE:
-        serialize_message(custom_message(), sock)
+        data, code = custom_message()
+        serialize_message(data, code, sock)
 
 
 def main():
