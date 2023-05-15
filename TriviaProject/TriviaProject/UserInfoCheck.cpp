@@ -11,10 +11,7 @@
 /// <returns>if all the user information is in the wanted format</returns>
 bool UserInfoCheck::checkUserInfo(const string password, const string email, const string address, const string phone_number, const string birthdate)
 {
-<<<<<<< HEAD
 	return(passwordCheck(password) && emailCheck(email) && addressCheck(address) && phoneNumberCheck(phone_number), birthdateCheck(birthdate));
-=======
->>>>>>> d6da604a40d5ebc4b33b6bca11f25faaaecb069f
 }
 
 /// <summary>
@@ -24,7 +21,6 @@ bool UserInfoCheck::checkUserInfo(const string password, const string email, con
 /// <returns>if the password is in the right format</returns>
 bool UserInfoCheck::passwordCheck(const string password)
 {
-<<<<<<< HEAD
 	smatch m;
 	if (password.size() != 8) // check if the password lenght is 8
 	{
@@ -47,9 +43,6 @@ bool UserInfoCheck::passwordCheck(const string password)
 		return false;
 	}
 	return true;
-=======
-	regex password_regex;
->>>>>>> d6da604a40d5ebc4b33b6bca11f25faaaecb069f
 }
 
 /// <summary>
