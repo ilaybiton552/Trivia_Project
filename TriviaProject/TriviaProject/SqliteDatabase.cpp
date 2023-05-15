@@ -72,9 +72,9 @@ int SqliteDatabase::doesPasswordMatch(const string username, const string passwo
 /// <param name="password">the password</param>
 /// <param name="email"></param>
 /// <returns></returns>
-int SqliteDatabase::addNewUser(const string username, const string password, const string email)
+int SqliteDatabase::addNewUser(const string username, const string password, const string email, const string address, const string phone, const string birthDate)
 {
-	string query = "INSERT INTO USERS VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
+	string query = "INSERT INTO USERS VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\", \"" + address + "\", \"" + phone + "\", \"" + birthDate + "\");";
 	return sqlQuery(query.c_str());
 }
 

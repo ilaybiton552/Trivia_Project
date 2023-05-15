@@ -39,7 +39,7 @@ int LoginManager::signup(const string username, const string password, const str
 		return USER_ALREADY_EXIST_CODE;
 	}
 
-	m_database->addNewUser(username, password, email); // add new user to the database
+	m_database->addNewUser(username, password, email, address, phoneNumber, birthdate); // add new user to the database
 	m_loggedUsers.push_back(LoggedUser(username)); // add the user to the logged user list
 	return SUCCESS_CODE;
 }

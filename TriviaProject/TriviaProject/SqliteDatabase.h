@@ -19,7 +19,7 @@ public:
 	virtual bool close() override;
 	virtual int doesUserExist(const string username) override;
 	virtual int doesPasswordMatch(const string username, const string password) override;
-	virtual int addNewUser(const string username, const string password, const string email) override;
+	virtual int addNewUser(const string username, const string password, const string email, const string address, const string phone, const string birthDate) override;
 
 private:
 	//Field
