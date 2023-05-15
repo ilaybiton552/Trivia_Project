@@ -147,10 +147,7 @@ def email_check(email):
     :rtype: bool
     """
     regex = re.compile(r'([A-Za-z0-9]+[._-])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')  # regex pattern for email
-    if (re.fullmatch(regex, email)):  # check if the email is valid
-        return True
-    else:
-        return False
+    return bool((re.fullmatch(regex, email)))  # check if the email is valid
 
 
 def address_check(address):
@@ -162,10 +159,7 @@ def address_check(address):
     :rtype: bool
     """
     regex = re.compile(r'([A-Za-z])*[, ]+([0-9])*[, ]+([A-Za-z]+)')
-    if (re.fullmatch(regex, address)):
-        return True
-    else:
-        return False
+    return bool((re.fullmatch(regex, address)))
 
 
 def phone_number_check(phone_number):
@@ -178,10 +172,7 @@ def phone_number_check(phone_number):
     """
     phone_regex_1 = re.compile(r'0+([0-9]){8}')
     phone_regex_2 = re.compile(r'05+([0-9]){8}')
-    if(re.fullmatch(phone_regex_1, phone_number) or re.fullmatch(phone_regex_2, phone_number)):
-        return True
-    else:
-        return False
+    return bool((re.fullmatch(phone_regex_1, phone_number) or re.fullmatch(phone_regex_2, phone_number)))
 
 
 def birthdate_check(birthdate):
@@ -193,10 +184,7 @@ def birthdate_check(birthdate):
     :rtype: bool
     """
     regex = re.compile(r'([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})')
-    if(re.fullmatch(regex, birthdate)):
-        return True
-    else:
-        return False
+    return bool((re.fullmatch(regex, birthdate)))
 
 
 def menu():
