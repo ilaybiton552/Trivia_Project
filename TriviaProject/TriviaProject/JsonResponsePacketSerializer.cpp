@@ -34,6 +34,76 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResp
 }
 
 /// <summary>
+/// Serializes a logout response
+/// </summary>
+/// <param name="logoutResponse">LogoutResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse logoutResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
+/// Serializes a get room response
+/// </summary>
+/// <param name="getRoomResponse">GetRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomResponse getRoomResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
+/// Serializes a get player in room response
+/// </summary>
+/// <param name="getPlayersInRoomResponse">GetPlayersInRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse getPlayersInRoomResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
+/// Serializes a join room response
+/// </summary>
+/// <param name="joinRoomResponse">JoinRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse joinRoomResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
+/// Serializes a create room response
+/// </summary>
+/// <param name="createRoomResponse">CreateRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse createRoomResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
+/// Serializes a get high score response
+/// </summary>
+/// <param name="scoreResponse">getHighScoreResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse scoreResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
+/// Serializes a stats response
+/// </summary>
+/// <param name="statsResponse">getPersonalStatsResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse statsResponse)
+{
+    return vector<unsigned char>();
+}
+
+/// <summary>
 /// Converts a number to a byte
 /// </summary>
 /// <param name="num">unsigned int, the number to convert</param>

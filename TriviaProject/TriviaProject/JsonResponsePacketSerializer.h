@@ -20,6 +20,13 @@ public:
 	static vector<unsigned char> serializeResponse(ErrorResponse errorResponse);
 	static vector<unsigned char> serializeResponse(LoginResponse loginResponse);
 	static vector<unsigned char> serializeResponse(SignupResponse signupResponse);
+	static vector<unsigned char> serializeResponse(LogoutResponse logoutResponse);
+	static vector<unsigned char> serializeResponse(GetRoomResponse getRoomResponse);
+	static vector<unsigned char> serializeResponse(GetPlayersInRoomResponse getPlayersInRoomResponse);
+	static vector<unsigned char> serializeResponse(JoinRoomResponse joinRoomResponse);
+	static vector<unsigned char> serializeResponse(CreateRoomResponse createRoomResponse);
+	static vector<unsigned char> serializeResponse(getHighScoreResponse scoreResponse);
+	static vector<unsigned char> serializeResponse(getPersonalStatsResponse statsResponse);
 private:
 	static vector<unsigned char> convertNumberToByte(const unsigned int num);
 	static vector<unsigned char> convertJsonToByte(const json jsonObject);
