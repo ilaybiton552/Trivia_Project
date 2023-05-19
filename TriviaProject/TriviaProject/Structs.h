@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include "IRequestHandler.h"
+#include "RoomData.h"
 
 using std::string;
 using std::vector;
@@ -51,4 +52,60 @@ struct RequestResult
 {
 	vector<unsigned char> response;
 	IRequestHandler* newHandler;
+};
+
+struct LogoutResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomResponse
+{
+	unsigned int status;
+	vector<RoomData> rooms;
+};
+
+struct GetPlayersInRoomResponse
+{
+	vector<string> players;
+};
+
+struct getHighScoreResponse
+{
+	unsigned int status;
+	vector<string> statistics;
+};
+
+struct getPersonalStatsResponse
+{
+	unsigned int status;
+	vector<string> statistics;
+};
+
+struct JoinRoomResponse
+{
+	unsigned int status;
+};
+
+struct CreateRoomResponse
+{
+	unsigned int status;
+};
+
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct JoinRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct CreateRoomRequest
+{
+	string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
 };
