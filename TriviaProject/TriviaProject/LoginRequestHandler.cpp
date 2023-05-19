@@ -83,7 +83,7 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& requestInfo)
 
     requestResult.newHandler = nullptr;
     SignupRequest signupRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
-    SignupResponse signupResponse = { m_handlerFactory.getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email)};
+    SignupResponse signupResponse = { m_handlerFactory.getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email, signupRequest.address, signupRequest.phoneNumber, signupRequest.birthDate)};
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(signupResponse);
     if (signupResponse.status == SUCCESS_CODE)
     {
