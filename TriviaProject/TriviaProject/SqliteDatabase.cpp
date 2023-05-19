@@ -6,9 +6,8 @@
 /// <returns>if the database has opened successfully</returns>
 bool SqliteDatabase::open()
 {
-	string dbFileName = "Trivia_DataBase.sqlite";
-	int file_exist = _access(dbFileName.c_str(), 0);
-	int res = sqlite3_open(dbFileName.c_str(), &m_database); // open the database
+	int file_exist = _access(DB_FILE_NAME, 0);
+	int res = sqlite3_open(DB_FILE_NAME, &m_database); // open the database
 	if (res != SQLITE_OK) // if error has occured
 	{
 		m_database = nullptr;
@@ -18,7 +17,7 @@ bool SqliteDatabase::open()
 
 	if (file_exist != 0) // if the database doesn't exist
 	{
-		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
 	}
 
 	return true;
@@ -73,9 +72,9 @@ int SqliteDatabase::doesPasswordMatch(const string username, const string passwo
 /// <param name="password">the password</param>
 /// <param name="email"></param>
 /// <returns></returns>
-int SqliteDatabase::addNewUser(const string username, const string password, const string email)
+int SqliteDatabase::addNewUser(const string username, const string password, const string email, const string address, const string phone, const string birthDate)
 {
-	string query = "INSERT INTO USERS VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
+	string query = "INSERT INTO USERS VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\", \"" + address + "\", \"" + phone + "\", \"" + birthDate + "\");";
 	return sqlQuery(query.c_str());
 }
 

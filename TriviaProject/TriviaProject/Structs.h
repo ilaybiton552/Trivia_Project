@@ -35,6 +35,9 @@ struct SignupRequest
 	string username;
 	string password;
 	string email;
+	string address;
+	string phoneNumber;
+	string birthDate;
 };
 
 struct RequestInfo

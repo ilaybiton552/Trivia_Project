@@ -48,7 +48,6 @@
     <ClInclude Include="sqlite3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< TriviaProject/TriviaProject/TriviaProject.vcxproj.filters
     <ClInclude Include="LoginManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -62,9 +61,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RequestHandlerFactory.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="JsonRequestPacketDeserializer.h">
->>>>>>> TriviaProject/TriviaProject/TriviaProject.vcxproj.filters
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfoCheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -99,7 +101,6 @@
     <ClCompile Include="sqlite3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< TriviaProject/TriviaProject/TriviaProject.vcxproj.filters
     <ClCompile Include="LoginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -113,9 +114,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RequestHandlerFactory.cpp">
-=======
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="JsonRequestPacketDeserializer.cpp">
->>>>>>> TriviaProject/TriviaProject/TriviaProject.vcxproj.filters
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfoCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
