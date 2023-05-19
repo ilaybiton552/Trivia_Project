@@ -11,6 +11,8 @@ class Room
 {
 public:
 	//Methods
+	Room(RoomData roomData); //c'tor
+	~Room(); // d'tor
 	bool addUser(const LoggedUser loggedUser);
 	bool removeUser(const  LoggedUser loggedUser);
 	vector<string> getAllUsers() const;
