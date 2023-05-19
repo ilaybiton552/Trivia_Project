@@ -12,7 +12,13 @@ LOGIN = 1
 SIGNUP = 2
 EXIT = 0
 CUSTOM_MESSAGE = 3
-
+SUCCESS_CODE = 1
+USER_DOES_NOT_EXIST_CODE = 2
+USER_ALREADY_EXIST_CODE = 3
+WRONG_PASSWORD_CODE = 4
+USER_ALREADY_LOGGED_CODE = 5
+USER_DOES_NOT_LOGGED_CODE = 6
+REGEX_ERROR = 7
 
 def client_socket():
     """
@@ -104,6 +110,36 @@ def deserialize_message(message):
     print("Message code: " + str(code))
     print("Data length: " + str(data_length))
     print("Message content: " + data)
+    try:
+        data = json.loads(data)
+        data_code = data["status"]
+        data_code_print(int(data_code))
+    except Exception as exc:
+        print("Error was occurred: ", exc)
+
+
+
+def data_code_print(data_code):
+    """
+    the function prints message to the client according to server's answer
+    :param data_code: the data code
+    :type: int
+    :return: None
+    """
+    if (data_code is SUCCESS_CODE):
+        print("success")
+    elif (data_code is USER_DOES_NOT_EXIST_CODE):
+        print("user does not exist")
+    elif (data_code is USER_ALREADY_EXIST_CODE):
+        print("user already exists")
+    elif (data_code is WRONG_PASSWORD_CODE):
+        print("wrong password")
+    elif (data_code is USER_ALREADY_LOGGED_CODE):
+        print("user already logged")
+    elif (data_code is USER_DOES_NOT_LOGGED_CODE):
+        print("user does not logged")
+    elif (data_code is REGEX_ERROR):
+        print("some of fields were not in the right format")
 
 
 def custom_message():
