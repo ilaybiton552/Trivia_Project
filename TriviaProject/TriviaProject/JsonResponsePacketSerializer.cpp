@@ -8,7 +8,7 @@
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse errorResponse)
 {
     json response = { {"message", errorResponse.message} };
-    return makeSerializedPacket(response);
+    return makeSerializedPacket(response, ERROR_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -19,7 +19,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorRespo
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginResponse loginResponse)
 {
     json response = { {"status", loginResponse.status} };
-    return makeSerializedPacket(response);
+    return makeSerializedPacket(response, LOGIN_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -30,7 +30,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginRespo
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResponse signupResponse)
 {
     json response = { {"status", signupResponse.status} };
-    return makeSerializedPacket(response);
+    return makeSerializedPacket(response, SIGNUP_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -141,13 +141,13 @@ vector<unsigned char> JsonResponsePacketSerializer::convertJsonToByte(const json
 /// </summary>
 /// <param name="packetData">json, the data of the packet</param>
 /// <returns>vector of bytes, the serialized packet</returns>
-vector<unsigned char> JsonResponsePacketSerializer::makeSerializedPacket(const json packetData)
+vector<unsigned char> JsonResponsePacketSerializer::makeSerializedPacket(const json packetData, const int code)
 {
     vector<unsigned char> buffer; // buffer as the protocol structure
     vector<unsigned char> data; // the data of the message
     vector<unsigned char> dataSize; // the size of the data
 
-    buffer.push_back(convertNumberToByte(ERROR_RESPONSE_CODE)[FIRST_BYTE_INDEX]);
+    buffer.push_back(convertNumberToByte(code)[FIRST_BYTE_INDEX]);
     data = convertJsonToByte(packetData);
     dataSize = convertNumberToByte(data.size());
     buffer.insert(buffer.end(), dataSize.begin(), dataSize.end());
