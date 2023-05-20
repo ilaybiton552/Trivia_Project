@@ -69,7 +69,15 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomRes
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse getPlayersInRoomResponse)
 {
-    return vector<unsigned char>();
+    string players;
+    for (auto it = getPlayersInRoomResponse.players.begin(); it != getPlayersInRoomResponse.players.end(); ++it)
+    {
+        players += *it;
+        players += ",";
+    }
+    players.pop_back(); // deleting last comma
+    json response = { {"players", players} };
+    return makeSerializedPacket(response, GET_PLAYERS_IN_ROOM_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -79,7 +87,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayers
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse joinRoomResponse)
 {
-    return vector<unsigned char>();
+    json response = { {"status", joinRoomResponse.status} };
+    return makeSerializedPacket(response, JOIN_ROOM_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -89,7 +98,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomRe
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse createRoomResponse)
 {
-    return vector<unsigned char>();
+    json response = { {"status", createRoomResponse.status} };
+    return makeSerializedPacket(response, CREATE_ROOM_RESPONSE_CODE);
 }
 
 /// <summary>
