@@ -63,3 +63,59 @@ struct RoomData
 	unsigned int timePerQuestion;
 	unsigned int isActive;
 };
+
+struct LogoutResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomResponse
+{
+	vector<RoomData> rooms;
+};
+
+struct GetPlayersInRoomResponse
+{
+	vector<string> players;
+};
+
+struct getHighScoreResponse
+{
+	vector<std::pair<string, unsigned int>> statistics;
+};
+
+struct getPersonalStatsResponse
+{
+	unsigned int numOfGames;
+	unsigned int rightAnswers;
+	unsigned int wrongAnswers;
+	double averageTime;
+};
+
+struct JoinRoomResponse
+{
+	unsigned int status;
+};
+
+struct CreateRoomResponse
+{
+	unsigned int status;
+};
+
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct JoinRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct CreateRoomRequest
+{
+	string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
