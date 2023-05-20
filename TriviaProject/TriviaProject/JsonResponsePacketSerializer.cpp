@@ -58,7 +58,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomRes
         rooms += ",";
     }
     rooms.pop_back(); // deleting last comma
-    json response = { {"status", getRoomResponse.status}, {"rooms", rooms} };
+    json response = { {"rooms", rooms} };
     return makeSerializedPacket(response, GET_ROOM_RESPONSE_CODE);
 }
 

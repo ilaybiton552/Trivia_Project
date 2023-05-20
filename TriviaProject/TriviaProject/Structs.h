@@ -61,7 +61,6 @@ struct LogoutResponse
 
 struct GetRoomResponse
 {
-	unsigned int status;
 	vector<RoomData> rooms;
 };
 
