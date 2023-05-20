@@ -15,7 +15,9 @@ public:
 	~Room(); // d'tor
 	bool addUser(const LoggedUser loggedUser);
 	bool removeUser(const  LoggedUser loggedUser);
+	//Getters
 	vector<string> getAllUsers() const;
+	RoomData getRoomData() const;
 
 private:
 	//Fields

@@ -5,17 +5,18 @@
 #include "Structs.h"
 
 using std::map;
+using std::pair;
 
 
 class RoomManager
 {
 public:
 	//Methods
-	int createRoom(const LoggedUser loggedUser, RoomData roomData);
-	int deleteRoom(int ID);
+	bool createRoom(const LoggedUser loggedUser, RoomData roomData);
+	bool deleteRoom(int ID);
 	//Getters
-	unsigned int getRoomState(const int ID) const;
-	vector<RoomData> getRooms() const;
+	unsigned int getRoomState(const int ID);
+	vector<RoomData> getRooms();
 	Room& getRoom(const int ID);
 
 private:
