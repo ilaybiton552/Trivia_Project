@@ -33,6 +33,36 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vect
 }
 
 /// <summary>
+/// Deserizlizes get players in room request
+/// </summary>
+/// <param name="buffer">vector of bytes, the get players in room request from the client</param>
+/// <returns>struct GetPlayersInRoomRequest, struct with the data of get players in room request</returns>
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(const vector<unsigned char>& buffer)
+{
+    return GetPlayersInRoomRequest();
+}
+
+/// <summary>
+/// Deserizlizes join room request
+/// </summary>
+/// <param name="buffer">vector of bytes, the join room request from the client</param>
+/// <returns>struct JoinRoomRequest, struct with the data of join room request</returns>
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const vector<unsigned char>& buffer)
+{
+    return JoinRoomRequest();
+}
+
+/// <summary>
+/// Deserizlizes create room request
+/// </summary>
+/// <param name="buffer">vector of bytes, the get players in create room client</param>
+/// <returns>struct CreateRoomRequest, struct with the data of create room request</returns>
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const vector<unsigned char>& buffer)
+{
+    return CreateRoomRequest();
+}
+
+/// <summary>
 /// Converts the data of the buffer to json
 /// </summary>
 /// <param name="buffer">vector of bytes, the request from the client</param>

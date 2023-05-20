@@ -16,7 +16,9 @@ class JsonRequestPacketDeserializer
 public:
 	static LoginRequest deserializeLoginRequest(const vector<unsigned char>& buffer);
 	static SignupRequest deserializeSignupRequest(const vector<unsigned char>& buffer);
-
+	static GetPlayersInRoomRequest deserializeGetPlayersInRoomRequest(const vector<unsigned char>& buffer);
+	static JoinRoomRequest deserializeJoinRoomRequest(const vector<unsigned char>& buffer);
+	static CreateRoomRequest deserializeCreateRoomRequest(const vector<unsigned char>& buffer);
 private:
 	static json getJsonFromBuffer(const vector<unsigned char>& buffer);
 };
