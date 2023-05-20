@@ -1,10 +1,18 @@
 #pragma comment(lib, "urlmon.lib")
 
+#include "json.hpp"
 #include <urlmon.h>
 #include <sstream>
 #include <iostream>
+#include <exception>
+#include <vector>
 
-using namespace std;
+using std::string;
+using std::cout;
+using std::endl;
+using nlohmann::json;
+using std::exception;
+using std::vector;
 
 int main()
 {
@@ -18,7 +26,7 @@ int main()
     }
     char buffer[100];
     unsigned long bytesRead;
-    stringstream ss;
+    std::stringstream ss;
     stream->Read(buffer, 100, &bytesRead);
     while (bytesRead > 0U)
     {
@@ -27,8 +35,55 @@ int main()
     }
     stream->Release();
     string resultString = ss.str();
+    json data;
+    std::stringstream(resultString) >> data;
+    
+    try
+    {
+        cout << data.dump() << endl << endl << endl;
 
-    cout << resultString << endl;
+        for (int i = 0; i < 10; i++)
+        {
+            for (json::iterator it = data["results"][i].begin(); it != data["results"][i].end(); ++it)
+            {
+                if (it.key() == "category")
+                {
+                    cout << it.key() << " : " << it.value() << "\n";
+                }
+
+                if (it.key() == "type")
+                {
+                    cout << it.key() << " : " << it.value() << "\n";
+                }
+
+                if (it.key() == "difficulty")
+                {
+                    cout << it.key() << " : " << it.value() << "\n";
+                }
+
+                if (it.key() == "question")
+                {
+                    cout << it.key() << " : " << it.value() << "\n";
+                }
+
+                if (it.key() == "correct_answer")
+                {
+                    cout << it.key() << " : " << it.value() << "\n";
+                }
+
+                if (it.key() == "incorrect_answers")
+                {
+                    cout << it.key() << " : " << it.value() << "\n";
+                }
+            }
+
+            cout << endl;
+        }
+    }
+    catch (exception& e)
+    {
+        cout << "Error has occurred: " << e.what() << endl;
+    }
 
     return 0;
 }
