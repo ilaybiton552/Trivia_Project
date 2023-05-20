@@ -78,8 +78,10 @@ struct getHighScoreResponse
 
 struct getPersonalStatsResponse
 {
-	unsigned int status;
-	vector<string> statistics;
+	unsigned int numOfGames;
+	unsigned int rightAnswers;
+	unsigned int wrongAnswers;
+	double averageTime;
 };
 
 struct JoinRoomResponse

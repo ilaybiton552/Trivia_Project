@@ -119,7 +119,9 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighSco
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse statsResponse)
 {
-    return vector<unsigned char>();
+    json response = { {"numOfGames", statsResponse.numOfGames}, {"numOfRightAnswers", statsResponse.rightAnswers}, 
+                    {"numOfWrongAnswers", statsResponse.wrongAnswers}, {"averageAnswerTime", statsResponse.averageTime}};
+    return makeSerializedPacket(response, GET_PERSONAL_STATS_RESPONSE_CODE);
 }
 
 /// <summary>
