@@ -8,7 +8,7 @@
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse errorResponse)
 {
     json response = { {"message", errorResponse.message} };
-    return makeSerializedPacket(response);
+    return makeSerializedPacket(response, ERROR_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -19,7 +19,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorRespo
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginResponse loginResponse)
 {
     json response = { {"status", loginResponse.status} };
-    return makeSerializedPacket(response);
+    return makeSerializedPacket(response, LOGIN_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -30,7 +30,104 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginRespo
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResponse signupResponse)
 {
     json response = { {"status", signupResponse.status} };
-    return makeSerializedPacket(response);
+    return makeSerializedPacket(response, SIGNUP_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a logout response
+/// </summary>
+/// <param name="logoutResponse">LogoutResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse logoutResponse)
+{
+    json response = { {"status", logoutResponse.status} };
+    return makeSerializedPacket(response, LOGOUT_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a get room response
+/// </summary>
+/// <param name="getRoomResponse">GetRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomResponse getRoomResponse)
+{
+    string rooms;
+    for (auto it = getRoomResponse.rooms.begin(); it != getRoomResponse.rooms.end(); ++it)
+    {
+        rooms += it->name;
+        rooms += ",";
+    }
+    rooms.pop_back(); // deleting last comma
+    json response = { {"rooms", rooms} };
+    return makeSerializedPacket(response, GET_ROOM_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a get player in room response
+/// </summary>
+/// <param name="getPlayersInRoomResponse">GetPlayersInRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse getPlayersInRoomResponse)
+{
+    string players;
+    for (auto it = getPlayersInRoomResponse.players.begin(); it != getPlayersInRoomResponse.players.end(); ++it)
+    {
+        players += *it;
+        players += ",";
+    }
+    players.pop_back(); // deleting last comma
+    json response = { {"players", players} };
+    return makeSerializedPacket(response, GET_PLAYERS_IN_ROOM_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a join room response
+/// </summary>
+/// <param name="joinRoomResponse">JoinRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse joinRoomResponse)
+{
+    json response = { {"status", joinRoomResponse.status} };
+    return makeSerializedPacket(response, JOIN_ROOM_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a create room response
+/// </summary>
+/// <param name="createRoomResponse">CreateRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse createRoomResponse)
+{
+    json response = { {"status", createRoomResponse.status} };
+    return makeSerializedPacket(response, CREATE_ROOM_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a get high score response
+/// </summary>
+/// <param name="scoreResponse">getHighScoreResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse scoreResponse)
+{
+    json usersStatistics;
+    for (auto it = scoreResponse.statistics.begin(); it != scoreResponse.statistics.end(); it++)
+    {
+        usersStatistics[it->first] = it->second;
+    }
+    json response = { {"highScores", usersStatistics} };
+    return makeSerializedPacket(response, GET_HIGH_SCORE_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a stats response
+/// </summary>
+/// <param name="statsResponse">getPersonalStatsResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse statsResponse)
+{
+    json response = { {"numOfGames", statsResponse.numOfGames}, {"numOfRightAnswers", statsResponse.rightAnswers}, 
+                    {"numOfWrongAnswers", statsResponse.wrongAnswers}, {"averageAnswerTime", statsResponse.averageTime}};
+    return makeSerializedPacket(response, GET_PERSONAL_STATS_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -71,13 +168,13 @@ vector<unsigned char> JsonResponsePacketSerializer::convertJsonToByte(const json
 /// </summary>
 /// <param name="packetData">json, the data of the packet</param>
 /// <returns>vector of bytes, the serialized packet</returns>
-vector<unsigned char> JsonResponsePacketSerializer::makeSerializedPacket(const json packetData)
+vector<unsigned char> JsonResponsePacketSerializer::makeSerializedPacket(const json packetData, const int code)
 {
     vector<unsigned char> buffer; // buffer as the protocol structure
     vector<unsigned char> data; // the data of the message
     vector<unsigned char> dataSize; // the size of the data
 
-    buffer.push_back(convertNumberToByte(ERROR_RESPONSE_CODE)[FIRST_BYTE_INDEX]);
+    buffer.push_back(convertNumberToByte(code)[FIRST_BYTE_INDEX]);
     data = convertJsonToByte(packetData);
     dataSize = convertNumberToByte(data.size());
     buffer.insert(buffer.end(), dataSize.begin(), dataSize.end());
