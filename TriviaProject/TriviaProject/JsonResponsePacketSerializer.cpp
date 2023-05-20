@@ -40,7 +40,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResp
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse logoutResponse)
 {
-    return vector<unsigned char>();
+    json response = { {"status", logoutResponse.status} };
+    return makeSerializedPacket(response, LOGOUT_RESPONSE_CODE);
 }
 
 /// <summary>
@@ -50,7 +51,15 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LogoutResp
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomResponse getRoomResponse)
 {
-    return vector<unsigned char>();
+    string rooms;
+    for (auto it = getRoomResponse.rooms.begin(); it != getRoomResponse.rooms.end(); ++it)
+    {
+        rooms += it->name;
+        rooms += ",";
+    }
+    rooms.pop_back(); // deleting last comma
+    json response = { {"status", getRoomResponse.status}, {"rooms", rooms} };
+    return makeSerializedPacket(response, GET_ROOM_RESPONSE_CODE);
 }
 
 /// <summary>
