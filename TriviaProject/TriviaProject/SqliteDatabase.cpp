@@ -80,6 +80,65 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 }
 
 /// <summary>
+/// Gets the average time of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>float, the username's average answer time</returns>
+float SqliteDatabase::getPlayerAverageTime(const string& username)
+{
+	return 0.0f;
+}
+
+/// <summary>
+/// Gets the number of correct answers of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the number of correct answers of the player</returns>
+int SqliteDatabase::getNumOfCorrectAnswers(const string& username)
+{
+	return 0;
+}
+
+/// <summary>
+/// Gets the number of total answers of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the number of total answers of the player</returns>
+int SqliteDatabase::getNumOfTotalAnswers(const string& username)
+{
+	return 0;
+}
+
+/// <summary>
+/// Gets the number of total games of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the number of games answers of the player</returns>
+int SqliteDatabase::getNumOfTotalGames(const string& username)
+{
+	return 0;
+}
+
+/// <summary>
+/// Gets a playre's score
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the score of the player</returns>
+int SqliteDatabase::getPlayerScore(const string& username)
+{
+	return 0;
+}
+
+/// <summary>
+/// Gets the high scores
+/// </summary>
+/// <returns>vector of string, vector of users with high scores</returns>
+vector<string> SqliteDatabase::getHighScores()
+{
+	return vector<string>();
+}
+
+/// <summary>
 /// the function does the sql query
 /// </summary>
 /// <param name="sqlStatement">the sql statement</param>
