@@ -1,15 +1,27 @@
 #pragma once
-#include <string>
+#pragma comment(lib, "urlmon.lib")
+
+#include "json.hpp"
+#include <urlmon.h>
+#include <sstream>
 #include <iostream>
+#include <exception>
+#include <vector>
 #include <io.h>
+#include <string>
+#include "Question.h"
 #include "IDatabase.h"
 #include "sqlite3.h"
 
 #define DB_FILE_NAME "Trivia_DataBase.sqlite"
+#define NUM_OF_QUESTIONS 10
 
+using std::string;
 using std::cout;
 using std::endl;
-using std::string;
+using nlohmann::json;
+using std::exception;
+using std::vector;
 
 class SqliteDatabase : public IDatabase
 {
@@ -20,6 +32,7 @@ public:
 	virtual int doesUserExist(const string username) override;
 	virtual int doesPasswordMatch(const string username, const string password) override;
 	virtual int addNewUser(const string username, const string password, const string email, const string address, const string phone, const string birthDate) override;
+	virtual list<Question> getQuestions(const int numOfQuestions) override;
 
 private:
 	//Field
@@ -28,5 +41,6 @@ private:
 	//Method
 	bool sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* callbackArgument = nullptr);
 	static int getUserInfo(void* data, int argc, char** argv, char** azColName);
+	int createQuestionDataBase();
 };
 

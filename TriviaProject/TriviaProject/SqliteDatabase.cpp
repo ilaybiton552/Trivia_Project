@@ -18,7 +18,10 @@ bool SqliteDatabase::open()
 	if (file_exist != 0) // if the database doesn't exist
 	{
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
 	}
+
+	createQuestionDataBase();
 
 	return true;
 }
@@ -78,6 +81,11 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 	return sqlQuery(query.c_str());
 }
 
+list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
+{
+
+}
+
 /// <summary>
 /// the function does the sql query
 /// </summary>
@@ -114,3 +122,72 @@ int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColN
 	return 0;
 }
 
+/// <summary>
+/// the function fills the question database with questions from web site
+/// </summary>
+/// <returns>0 - every thing is fine, 1 - something went wrong</returns>
+int SqliteDatabase::createQuestionDataBase()
+{
+	IStream* stream;
+	//Also works with https URL's - unsure about the extent of SSL support though.
+	HRESULT result = URLOpenBlockingStream(0, L"https://opentdb.com/api.php?amount=10&type=multiple", &stream, 0, 0);
+	if (result != 0)
+	{
+		return 1;
+	}
+	char buffer[100];
+	unsigned long bytesRead;
+	std::stringstream ss;
+	stream->Read(buffer, 100, &bytesRead);
+	while (bytesRead > 0U)
+	{
+		ss.write(buffer, (long long)bytesRead);
+		stream->Read(buffer, 100, &bytesRead);
+	}
+	stream->Release();
+	string resultString = ss.str();
+
+	json data;
+	std::stringstream(resultString) >> data;
+
+	try
+	{
+		string question;
+		string correctAnswer;
+		string inccorrectAnswer1;
+		string inccorrectAnswer2;
+		string inccorrectAnswer3;
+
+		for (int i = 0; i < NUM_OF_QUESTIONS; i++)
+		{
+			for (json::iterator it = data["results"][i].begin(); it != data["results"][i].end(); ++it)
+			{
+				if (it.key() == "question")
+				{
+					question = it.value();
+				}
+
+				if (it.key() == "correct_answer")
+				{
+					correctAnswer = it.value();
+				}
+
+				if (it.key() == "incorrect_answers")
+				{
+					inccorrectAnswer1 = it.value()[0];
+					inccorrectAnswer2 = it.value()[1];
+					inccorrectAnswer3 = it.value()[2];
+				}
+			}
+			
+			string query = "INSERT INTO QUESTIONS VALUES (\"" + question + "\", \"" + correctAnswer + "\", \"" + inccorrectAnswer1 + "\", \"" + inccorrectAnswer2 + "\", \"" + inccorrectAnswer3 + "\");";
+			sqlQuery(query.c_str());
+		}
+	}
+	catch (exception& e)
+	{
+		cout << "Error has occurred: " << e.what() << endl;
+	}
+
+	return 0;
+}
