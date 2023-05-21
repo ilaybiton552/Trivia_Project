@@ -39,7 +39,10 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vect
 /// <returns>struct GetPlayersInRoomRequest, struct with the data of get players in room request</returns>
 GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(const vector<unsigned char>& buffer)
 {
-    return GetPlayersInRoomRequest();
+    GetPlayersInRoomRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.roomId = data["roomId"];
+    return request;
 }
 
 /// <summary>
@@ -49,7 +52,10 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRo
 /// <returns>struct JoinRoomRequest, struct with the data of join room request</returns>
 JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const vector<unsigned char>& buffer)
 {
-    return JoinRoomRequest();
+    JoinRoomRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.roomId = data["roomId"];
+    return request;
 }
 
 /// <summary>
@@ -59,7 +65,13 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const 
 /// <returns>struct CreateRoomRequest, struct with the data of create room request</returns>
 CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const vector<unsigned char>& buffer)
 {
-    return CreateRoomRequest();
+    CreateRoomRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.roomName = data["roomName"];
+    request.maxUsers = data["maxUsers"];
+    request.questionCount = data["questionCount"];
+    request.answerTimeout = data["answerTimeout"];
+    return request;
 }
 
 /// <summary>
