@@ -117,7 +117,11 @@ int SqliteDatabase::getNumOfCorrectAnswers(const string& username)
 /// <returns>int, the number of total answers of the player</returns>
 int SqliteDatabase::getNumOfTotalAnswers(const string& username)
 {
-	return 0;
+	int numOfAnswers;
+	string query = "SELECT COUNT(CASE WHEN USERNAME IS \"" + username + "\" THEN IS_CORRECT_ANSWER END) FROM STATISTICS;";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfAnswers);
+
+	return numOfAnswers;
 }
 
 /// <summary>
