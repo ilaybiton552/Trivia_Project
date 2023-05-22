@@ -42,5 +42,6 @@ private:
 	bool sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* callbackArgument = nullptr);
 	static int getUserInfo(void* data, int argc, char** argv, char** azColName);
 	int createQuestionDataBase();
+	static int getQuestions(void* data, int argc, char** argv, char** azColName);
 };
 

@@ -81,9 +81,22 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 	return sqlQuery(query.c_str());
 }
 
+/// <summary>
+/// the function returns list of questions
+/// </summary>
+/// <param name="numOfQuestions">number of wanted questions</param>
+/// <returns>list of questions</returns>
 list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
 {
+	list<Question> questions;
+	sqlQuery("SELECT * FROM QUESTIONS;", getQuestions, &questions);
 
+	for (int i = 0; i < (questions.size() - numOfQuestions); i++) // shorten the list of question 
+	{
+		questions.pop_front();
+	}
+
+	return questions;
 }
 
 /// <summary>
@@ -139,16 +152,16 @@ int SqliteDatabase::createQuestionDataBase()
 	unsigned long bytesRead;
 	std::stringstream ss;
 	stream->Read(buffer, 100, &bytesRead);
-	while (bytesRead > 0U)
+	while (bytesRead > 0U) // get the data from the site and put in the variable ss
 	{
-		ss.write(buffer, (long long)bytesRead);
+		ss.write(buffer, (long long)bytesRead); 
 		stream->Read(buffer, 100, &bytesRead);
 	}
 	stream->Release();
 	string resultString = ss.str();
 
 	json data;
-	std::stringstream(resultString) >> data;
+	std::stringstream(resultString) >> data; // create the json with the questions
 
 	try
 	{
@@ -158,7 +171,7 @@ int SqliteDatabase::createQuestionDataBase()
 		string inccorrectAnswer2;
 		string inccorrectAnswer3;
 
-		for (int i = 0; i < NUM_OF_QUESTIONS; i++)
+		for (int i = 0; i < NUM_OF_QUESTIONS; i++) // put the question in the database
 		{
 			for (json::iterator it = data["results"][i].begin(); it != data["results"][i].end(); ++it)
 			{
@@ -179,7 +192,7 @@ int SqliteDatabase::createQuestionDataBase()
 					inccorrectAnswer3 = it.value()[2];
 				}
 			}
-			
+			// insert the data into the table
 			string query = "INSERT INTO QUESTIONS VALUES (\"" + question + "\", \"" + correctAnswer + "\", \"" + inccorrectAnswer1 + "\", \"" + inccorrectAnswer2 + "\", \"" + inccorrectAnswer3 + "\");";
 			sqlQuery(query.c_str());
 		}
@@ -188,6 +201,53 @@ int SqliteDatabase::createQuestionDataBase()
 	{
 		cout << "Error has occurred: " << e.what() << endl;
 	}
+
+	return 0;
+}
+
+/// <summary>
+/// the function convets the sql data to list with questions
+/// </summary>
+int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azColName)
+{
+	list<Question> questions = *(static_cast<list<Question>*>(data));
+
+	string question;
+	string correctAnswer;
+	string inccorrectAnswer1;
+	string inccorrectAnswer2;
+	string inccorrectAnswer3;
+
+	for (int i = 0; i < argc; i++)
+	{
+		if (azColName[i] == "QUESTION")
+		{
+			question = argv[i];
+		}
+		else if (azColName[i] == "CORRECT_ANSWER")
+		{
+			correctAnswer = (int(argv[i]));
+		}
+		else if (azColName[i] == "INCCORRECT_ANSWER1")
+		{
+			inccorrectAnswer1 = argv[i];
+		}
+		else if (azColName[i] == "INCCORRECT_ANSWER2")
+		{
+			inccorrectAnswer2 = argv[i];
+		}
+		else if (azColName[i] == "INCCORRECT_ANSWER3")
+		{
+			inccorrectAnswer3 = argv[i];
+		}
+
+		if (i % 4 == 0 && i != 0)
+		{
+			questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
+		}
+	}
+
+	questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
 
 	return 0;
 }
