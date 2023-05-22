@@ -86,7 +86,14 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 /// <returns>float, the username's average answer time</returns>
 float SqliteDatabase::getPlayerAverageTime(const string& username)
 {
-	return 0.0f;
+	float sum;
+	int numOfAns;
+	string query = "SELECT COUNT(CASE WHEN USERNAME IS \""+ username + "\" THEN ANSWER_TIME END) FROM STATISTICS;";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfAns);
+	query = "SELECT SUM(ANSWER_TIME) FROM STATISTICS WHERE (USERNAME IS \"" + username + "\");";
+	sqlQuery(query.c_str(), returnOneFloat, &sum);
+
+	return (sum/numOfAns);
 }
 
 /// <summary>
@@ -174,3 +181,34 @@ int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColN
 	return 0;
 }
 
+/// <summary>
+/// the function converts sql data to int
+/// </summary>
+int SqliteDatabase::returnOneNumber(void* data, int argc, char** argv, char** azColName)
+{
+	if (isdigit(argv[0][0]))
+	{
+		*static_cast<int*>(data) = int(argv[0]);
+	}
+	else
+	{
+		*static_cast<int*>(data) = int(argv[1]);
+	}
+	return 0;
+}
+
+/// <summary>
+/// the function converts sql data to float
+/// </summary>
+int SqliteDatabase::returnOneFloat(void* data, int argc, char** argv, char** azColName)
+{
+	if (isdigit(argv[0][0]))
+	{
+		*static_cast<float*>(data) = std::stof(argv[0]);
+	}
+	else
+	{
+		*static_cast<float*>(data) = std::stof(argv[1]);
+	}
+	return 0;
+}

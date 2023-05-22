@@ -34,5 +34,7 @@ private:
 	//Method
 	bool sqlQuery(const char* sqlStatement, int(*callback)(void*, int, char**, char**) = nullptr, void* callbackArgument = nullptr);
 	static int getUserInfo(void* data, int argc, char** argv, char** azColName);
+	static int returnOneNumber(void* data, int argc, char** argv, char** azColName);
+	static int returnOneFloat(void* data, int argc, char** argv, char** azColName);
 };
 
