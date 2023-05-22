@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using std::string; 
 using std::vector;
@@ -15,7 +16,7 @@ public:
 	int getCorrectAnswerId() const;
 private:
 	string m_question;
-	string m_possibleAnswers;
-	int correctAnswerId;
+	vector<string> m_possibleAnswers;
+	int m_correctAnswerId;
 };
 
