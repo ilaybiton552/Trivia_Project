@@ -103,7 +103,11 @@ float SqliteDatabase::getPlayerAverageTime(const string& username)
 /// <returns>int, the number of correct answers of the player</returns>
 int SqliteDatabase::getNumOfCorrectAnswers(const string& username)
 {
-	return 0;
+	int numOfCorrectAnswers;
+	string query = "SELECT COUNT(CASE WHEN USERNAME IS \"" + username + "\" AND IS_CORRECT_ANSWER IS 1 THEN IS_CORRECT_ANSWER END) FROM STATISTICS;";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfCorrectAnswers);
+
+	return numOfCorrectAnswers;
 }
 
 /// <summary>
