@@ -30,8 +30,9 @@ LoginManager& RequestHandlerFactory::getLoginManager()
 /// <summary>
 /// Creates menu request handler
 /// </summary>
+/// <param name="loggedUser"></param>
 /// <returns>pointer of MenuRequestHandler, the created handler</returns>
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler()
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(const LoggedUser loggedUser)
 {
 	return new MenuRequestHandler();
 }
