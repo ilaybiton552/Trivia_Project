@@ -141,7 +141,7 @@ int SqliteDatabase::getNumOfTotalGames(const string& username)
 /// <returns>int, the score of the player</returns>
 int SqliteDatabase::getPlayerScore(const string& username)
 {
-	return 0;
+	return getNumOfCorrectAnswers(username);
 }
 
 /// <summary>
