@@ -18,7 +18,7 @@ bool SqliteDatabase::open()
 	if (file_exist != 0) // if the database doesn't exist
 	{
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
-		sqlQuery("CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME TEXT NOT NULL, IS_CORRECT_ANSWER INTEGER NOT NULL, ANSWER_TIME REAL NOT NULL, GAMES INTEGER NOT NULL, FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME)); ");
+		sqlQuery("CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME TEXT NOT NULL, IS_CORRECT_ANSWER INTEGER NOT NULL, ANSWER_TIME REAL NOT NULL, GAME_ID INTEGER NOT NULL, FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME)); ");
 	}
 
 	return true;
@@ -132,7 +132,7 @@ int SqliteDatabase::getNumOfTotalAnswers(const string& username)
 int SqliteDatabase::getNumOfTotalGames(const string& username)
 {
 	int numOfTotalGames;
-	string query = "SELECT COUNT(DISTINCT GAMES) FROM STATISTICS WHERE USERNAME IS \"" + username + "\";";
+	string query = "SELECT COUNT(DISTINCT GAME_ID) FROM STATISTICS WHERE USERNAME IS \"" + username + "\";";
 	sqlQuery(query.c_str(), returnOneNumber, &numOfTotalGames);
 
 	return numOfTotalGames;
