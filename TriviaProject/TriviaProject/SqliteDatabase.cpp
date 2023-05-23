@@ -231,11 +231,11 @@ int SqliteDatabase::returnOneNumber(void* data, int argc, char** argv, char** az
 {
 	if (isdigit(argv[0][0]))
 	{
-		*static_cast<int*>(data) = int(argv[0]);
+		*static_cast<int*>(data) = std::atoi(argv[0]);
 	}
 	else
 	{
-		*static_cast<int*>(data) = int(argv[1]);
+		*static_cast<int*>(data) = std::atoi(argv[1]);
 	}
 	return 0;
 }
