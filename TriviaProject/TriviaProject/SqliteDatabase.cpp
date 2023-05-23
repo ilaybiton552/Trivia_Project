@@ -18,6 +18,7 @@ bool SqliteDatabase::open()
 	if (file_exist != 0) // if the database doesn't exist
 	{
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME TEXT NOT NULL, IS_CORRECT_ANSWER INTEGER NOT NULL, ANSWER_TIME REAL NOT NULL, GAME_ID INTEGER NOT NULL, FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME)); ");
 		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT NOT NULL, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
 	}
 
@@ -82,6 +83,94 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 }
 
 /// <summary>
+/// Gets the average time of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>float, the username's average answer time</returns>
+float SqliteDatabase::getPlayerAverageTime(const string& username)
+{
+	float sum;
+	int numOfAns;
+	string query = "SELECT COUNT(CASE WHEN USERNAME IS \""+ username + "\" THEN ANSWER_TIME END) FROM STATISTICS;";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfAns);
+	query = "SELECT SUM(ANSWER_TIME) FROM STATISTICS WHERE (USERNAME IS \"" + username + "\");";
+	sqlQuery(query.c_str(), returnOneFloat, &sum);
+
+	return (sum/numOfAns);
+}
+
+/// <summary>
+/// Gets the number of correct answers of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the number of correct answers of the player</returns>
+int SqliteDatabase::getNumOfCorrectAnswers(const string& username)
+{
+	int numOfCorrectAnswers;
+	string query = "SELECT COUNT(CASE WHEN USERNAME IS \"" + username + "\" AND IS_CORRECT_ANSWER IS 1 THEN IS_CORRECT_ANSWER END) FROM STATISTICS;";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfCorrectAnswers);
+
+	return numOfCorrectAnswers;
+}
+
+/// <summary>
+/// Gets the number of total answers of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the number of total answers of the player</returns>
+int SqliteDatabase::getNumOfTotalAnswers(const string& username)
+{
+	int numOfAnswers;
+	string query = "SELECT COUNT(CASE WHEN USERNAME IS \"" + username + "\" THEN IS_CORRECT_ANSWER END) FROM STATISTICS;";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfAnswers);
+
+	return numOfAnswers;
+}
+
+/// <summary>
+/// Gets the number of total games of a player
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the number of games answers of the player</returns>
+int SqliteDatabase::getNumOfTotalGames(const string& username)
+{
+	int numOfTotalGames;
+	string query = "SELECT COUNT(DISTINCT GAME_ID) FROM STATISTICS WHERE USERNAME IS \"" + username + "\";";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfTotalGames);
+
+	return numOfTotalGames;
+}
+
+/// <summary>
+/// Gets a playre's score
+/// </summary>
+/// <param name="username">string, the username of the player</param>
+/// <returns>int, the score of the player</returns>
+int SqliteDatabase::getPlayerScore(const string& username)
+{
+	return getNumOfCorrectAnswers(username);
+}
+
+/// <summary>
+/// Gets the high scores
+/// </summary>
+/// <returns>vector of string, vector of users with high scores</returns>
+vector<pair<string, int>> SqliteDatabase::getHighScores()
+{
+	vector<string> usernames;
+	vector<pair<string, int>> scores; // <username, score>
+	sqlQuery("SELECT * FROM USERS;", getUsernames, &usernames); // get all the usernames
+
+	for (int i = 0; i < usernames.size(); i++) // create the scores vector with the wanted data
+	{
+		scores.push_back(pair<string, int>(usernames[i], getPlayerScore(usernames[i])));
+	}
+	// sort the vector according to the scores 
+	std::sort(scores.begin(), scores.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second; });
+
+	return scores;
+}
+
 /// the function returns list of questions
 /// </summary>
 /// <param name="numOfQuestions">number of wanted questions</param>
@@ -136,6 +225,25 @@ int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColN
 }
 
 /// <summary>
+/// the function converts sql data to int
+/// </summary>
+int SqliteDatabase::returnOneNumber(void* data, int argc, char** argv, char** azColName)
+{
+	*static_cast<int*>(data) = std::atoi(argv[0]);
+
+	return 0;
+}
+
+/// <summary>
+/// the function converts sql data to float
+/// </summary>
+int SqliteDatabase::returnOneFloat(void* data, int argc, char** argv, char** azColName)
+{
+	*static_cast<float*>(data) = std::stof(argv[0]);
+	
+	return 0;
+}
+
 /// the function fills the question database with questions from web site
 /// </summary>
 /// <returns>0 - every thing is fine, 1 - something went wrong</returns>
@@ -206,6 +314,26 @@ int SqliteDatabase::createQuestionDataBase()
 }
 
 /// <summary>
+/// the function converts the sql data to vector of usernames
+/// </summary>
+
+int SqliteDatabase::getUsernames(void* data, int argc, char** argv, char** azColName)
+{
+	vector<string> usernames;
+
+	for (int i = 0; i < argc; i++)
+	{
+		if (azColName[i] == "USERNAME")
+		{
+			usernames.push_back(argv[i]);
+		}
+	}
+
+	*(static_cast<vector<string>*> (data)) = usernames;
+
+	return 0;
+}
+
 /// the function convets the sql data to list with questions
 /// </summary>
 int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azColName)
@@ -253,3 +381,4 @@ int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azCol
 
 	return 0;
 }
+
