@@ -1,4 +1,6 @@
 #include "MenuRequestHandler.h"
+#include "JsonResponsePacketSerializer.h"
+#include "JsonRequestPacketDeserializer.h"
 
 /// <summary>
 /// Constructor of MenuRequestHandler
@@ -49,9 +51,20 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
     return RequestResult();
 }
 
+/// <summary>
+/// Sign out a user
+/// </summary>
+/// <param name="request"RequestInfo, the information of the request></param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::signout(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+
+    result.newHandler = m_handlerFactory.createLoginRequestHandler();
+    LogoutResponse response = { m_handlerFactory.getLoginManager().logout(m_user.getUsername()) };
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
 
 RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
