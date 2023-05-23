@@ -4,6 +4,9 @@
 #include "StatisticsManager.h"
 #include "RequestHandlerFactory.h"
 
+enum CODES {SIGNOUT_CODE = 103, GET_ROOM_CODE, GET_PLAYERS_CODE, GET_STATS_CODE, 
+			GET_HIGH_SCORE_CODE, JOIN_ROOM_CODE, CREATE_ROOM_CODE};
+
 class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler

@@ -11,6 +11,13 @@ getPersonalStatsResponse - 209
 
 LoginRequest - 101
 SignupRequest - 102
+SignoutRequest - 103
+GetRoomsRequest - 104
+GetPlayersInRoomRequest - 105
+GetPersonalStatsRequest - 106
+GetHighScoreRequest - 107
+JoinRoomRequest - 108
+CreateRoomRequest - 109
 
 status of RequestResult of login:
 success - 1
