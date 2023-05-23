@@ -5,6 +5,7 @@
 
 using std::string;
 using std::vector;
+using std::pair;
 
 class IDatabase
 {
@@ -19,7 +20,7 @@ public:
 	virtual int getNumOfTotalAnswers(const string& username) = 0;
 	virtual int getNumOfTotalGames(const string& username) = 0;
 	virtual int getPlayerScore(const string& username) = 0;
-	virtual vector<string> getHighScores() = 0;
+	virtual vector<pair<string, int>> getHighScores() = 0;
 
 };
 

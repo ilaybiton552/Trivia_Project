@@ -152,31 +152,20 @@ int SqliteDatabase::getPlayerScore(const string& username)
 /// Gets the high scores
 /// </summary>
 /// <returns>vector of string, vector of users with high scores</returns>
-vector<string> SqliteDatabase::getHighScores()
+vector<pair<string, int>> SqliteDatabase::getHighScores()
 {
 	vector<string> usernames;
-	vector<string> highScores;
+	vector<pair<string, int>> scores; // <username, score>
 	sqlQuery("SELECT * FROM USERS;", getUsernames, &usernames); // get all the usernames
 
-	int max = getPlayerScore(usernames[0]); // the variable hold the highest score
-
-	for (int i = 0; i < usernames.size(); i++) // find the highest score
+	for (int i = 0; i < usernames.size(); i++) // create the scores vector with the wanted data
 	{
-		if (getPlayerScore(usernames[i]) > max)
-		{
-			max = getPlayerScore(usernames[i]);
-		}
+		scores.push_back(pair<string, int>(usernames[i], getPlayerScore(usernames[i])));
 	}
+	// sort the vector according to the scores 
+	std::sort(scores.begin(), scores.end(), [](const pair<string, int>& a, const pair<string, int>& b) {return a.second > b.second; });
 
-	for (int i = 0; i < usernames.size(); i++) // create a vector with the usernames that have the highest score
-	{
-		if (getPlayerScore(usernames[i]) == max)
-		{
-			highScores.push_back(usernames[i]);
-		}
-	}
-
-	return highScores;
+	return scores;
 }
 
 /// <summary>

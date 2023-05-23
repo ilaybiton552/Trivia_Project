@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include <io.h>
+#include <vector>
+#include <algorithm>
 #include "IDatabase.h"
 #include "sqlite3.h"
 
@@ -10,6 +12,8 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
+using std::pair;
 
 class SqliteDatabase : public IDatabase
 {
@@ -25,7 +29,7 @@ public:
 	virtual int getNumOfTotalAnswers(const string& username) override;
 	virtual int getNumOfTotalGames(const string& username) override;
 	virtual int getPlayerScore(const string& username) override;
-	virtual vector<string> getHighScores() override;
+	virtual vector<pair<string, int>> getHighScores() override;
 
 private:
 	//Field
