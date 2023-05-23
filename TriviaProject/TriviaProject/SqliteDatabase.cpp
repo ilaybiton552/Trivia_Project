@@ -253,6 +253,8 @@ int SqliteDatabase::returnOneFloat(void* data, int argc, char** argv, char** azC
 	{
 		*static_cast<float*>(data) = std::stof(argv[1]);
 	}
+	
+	return 0;
 }
 
 /// the function fills the question database with questions from web site
