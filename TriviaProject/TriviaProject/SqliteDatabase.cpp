@@ -18,7 +18,10 @@ bool SqliteDatabase::open()
 	if (file_exist != 0) // if the database doesn't exist
 	{
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT NOT NULL, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
 	}
+
+	createQuestionDataBase();
 
 	return true;
 }
@@ -79,6 +82,24 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 }
 
 /// <summary>
+/// the function returns list of questions
+/// </summary>
+/// <param name="numOfQuestions">number of wanted questions</param>
+/// <returns>list of questions</returns>
+list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
+{
+	list<Question> questions;
+	sqlQuery("SELECT * FROM QUESTIONS;", getQuestions, &questions);
+
+	for (int i = 0; i < (questions.size() - numOfQuestions); i++) // shorten the list of question 
+	{
+		questions.pop_front();
+	}
+
+	return questions;
+}
+
+/// <summary>
 /// the function does the sql query
 /// </summary>
 /// <param name="sqlStatement">the sql statement</param>
@@ -114,3 +135,121 @@ int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColN
 	return 0;
 }
 
+/// <summary>
+/// the function fills the question database with questions from web site
+/// </summary>
+/// <returns>0 - every thing is fine, 1 - something went wrong</returns>
+int SqliteDatabase::createQuestionDataBase()
+{
+	IStream* stream;
+	//Also works with https URL's - unsure about the extent of SSL support though.
+	HRESULT result = URLOpenBlockingStream(0, L"https://opentdb.com/api.php?amount=10&type=multiple", &stream, 0, 0);
+	if (result != 0)
+	{
+		return 1;
+	}
+	char buffer[100];
+	unsigned long bytesRead;
+	std::stringstream ss;
+	stream->Read(buffer, 100, &bytesRead);
+	while (bytesRead > 0U) // get the data from the site and put in the variable ss
+	{
+		ss.write(buffer, (long long)bytesRead); 
+		stream->Read(buffer, 100, &bytesRead);
+	}
+	stream->Release();
+	string resultString = ss.str();
+
+	json data;
+	std::stringstream(resultString) >> data; // create the json with the questions
+
+	try
+	{
+		string question;
+		string correctAnswer;
+		string inccorrectAnswer1;
+		string inccorrectAnswer2;
+		string inccorrectAnswer3;
+
+		for (int i = 0; i < NUM_OF_QUESTIONS; i++) // put the question in the database
+		{
+			for (json::iterator it = data["results"][i].begin(); it != data["results"][i].end(); ++it)
+			{
+				if (it.key() == "question")
+				{
+					question = it.value();
+				}
+
+				if (it.key() == "correct_answer")
+				{
+					correctAnswer = it.value();
+				}
+
+				if (it.key() == "incorrect_answers")
+				{
+					inccorrectAnswer1 = it.value()[0];
+					inccorrectAnswer2 = it.value()[1];
+					inccorrectAnswer3 = it.value()[2];
+				}
+			}
+			// insert the data into the table
+			string query = "INSERT INTO QUESTIONS VALUES (\"" + question + "\", \"" + correctAnswer + "\", \"" + inccorrectAnswer1 + "\", \"" + inccorrectAnswer2 + "\", \"" + inccorrectAnswer3 + "\");";
+			sqlQuery(query.c_str());
+		}
+	}
+	catch (exception& e)
+	{
+		cout << "Error has occurred: " << e.what() << endl;
+	}
+
+	return 0;
+}
+
+/// <summary>
+/// the function convets the sql data to list with questions
+/// </summary>
+int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azColName)
+{
+	list<Question> questions;
+
+	string question;
+	string correctAnswer;
+	string inccorrectAnswer1;
+	string inccorrectAnswer2;
+	string inccorrectAnswer3;
+
+	for (int i = 0; i < argc; i++)
+	{
+		if (azColName[i] == "QUESTION")
+		{
+			question = argv[i];
+		}
+		else if (azColName[i] == "CORRECT_ANSWER")
+		{
+			correctAnswer = (int(argv[i]));
+		}
+		else if (azColName[i] == "INCCORRECT_ANSWER1")
+		{
+			inccorrectAnswer1 = argv[i];
+		}
+		else if (azColName[i] == "INCCORRECT_ANSWER2")
+		{
+			inccorrectAnswer2 = argv[i];
+		}
+		else if (azColName[i] == "INCCORRECT_ANSWER3")
+		{
+			inccorrectAnswer3 = argv[i];
+		}
+
+		if (i % 4 == 0 && i != 0)
+		{
+			questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
+		}
+	}
+
+	questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
+
+	*(static_cast<list<Question>*>(data)) = questions;
+
+	return 0;
+}
