@@ -131,7 +131,11 @@ int SqliteDatabase::getNumOfTotalAnswers(const string& username)
 /// <returns>int, the number of games answers of the player</returns>
 int SqliteDatabase::getNumOfTotalGames(const string& username)
 {
-	return 0;
+	int numOfTotalGames;
+	string query = "SELECT COUNT(DISTINCT GAMES) FROM STATISTICS WHERE USERNAME IS \"" + username + "\";";
+	sqlQuery(query.c_str(), returnOneNumber, &numOfTotalGames);
+
+	return numOfTotalGames;
 }
 
 /// <summary>
