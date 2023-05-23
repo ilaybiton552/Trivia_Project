@@ -88,7 +88,7 @@ struct getPersonalStatsResponse
 	unsigned int numOfGames;
 	unsigned int rightAnswers;
 	unsigned int wrongAnswers;
-	double averageTime;
+	float averageTime;
 };
 
 struct JoinRoomResponse
