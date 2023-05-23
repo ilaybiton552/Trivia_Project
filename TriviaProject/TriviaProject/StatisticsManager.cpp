@@ -6,6 +6,7 @@
 /// <param name="database">pointer of IDatabase, the database of the server</param>
 StatisticsManager::StatisticsManager(IDatabase* database)
 {
+    m_database = database;
 }
 
 /// <summary>
@@ -14,7 +15,7 @@ StatisticsManager::StatisticsManager(IDatabase* database)
 /// <returns>vector of pairs of string and int, string - the username, int - the score</returns>
 vector<pair<string, int>> StatisticsManager::getHighScore()
 {
-    return vector<pair<string, int>>();
+    return this->m_database->getHighScores();
 }
 
 /// <summary>
@@ -24,5 +25,12 @@ vector<pair<string, int>> StatisticsManager::getHighScore()
 /// <returns>vector of float, the statistics</returns>
 vector<float> StatisticsManager::getUserStatistics(const string& username)
 {
-    return vector<float>();
+    vector<float> userStatistics; //[num of games, num of correct answers, num of wrong answers, average time to answer a question]
+
+    userStatistics.push_back(m_database->getNumOfTotalGames(username));
+    userStatistics.push_back(m_database->getNumOfCorrectAnswers(username));
+    userStatistics.push_back(m_database->getNumOfTotalAnswers(username) - m_database->getNumOfCorrectAnswers(username));
+    userStatistics.push_back(m_database->getPlayerAverageTime(username));
+
+    return userStatistics;
 }
