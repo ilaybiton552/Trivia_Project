@@ -36,5 +36,6 @@ private:
 	static int getUserInfo(void* data, int argc, char** argv, char** azColName);
 	static int returnOneNumber(void* data, int argc, char** argv, char** azColName);
 	static int returnOneFloat(void* data, int argc, char** argv, char** azColName);
+	static int getUsernames(void* data, int argc, char** argv, char** azColName);
 };
 

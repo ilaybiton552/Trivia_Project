@@ -154,7 +154,29 @@ int SqliteDatabase::getPlayerScore(const string& username)
 /// <returns>vector of string, vector of users with high scores</returns>
 vector<string> SqliteDatabase::getHighScores()
 {
-	return vector<string>();
+	vector<string> usernames;
+	vector<string> highScores;
+	sqlQuery("SELECT * FROM USERS;", getUsernames, &usernames); // get all the usernames
+
+	int max = getPlayerScore(usernames[0]); // the variable hold the highest score
+
+	for (int i = 0; i < usernames.size(); i++) // find the highest score
+	{
+		if (getPlayerScore(usernames[i]) > max)
+		{
+			max = getPlayerScore(usernames[i]);
+		}
+	}
+
+	for (int i = 0; i < usernames.size(); i++) // create a vector with the usernames that have the highest score
+	{
+		if (getPlayerScore(usernames[i]) == max)
+		{
+			highScores.push_back(usernames[i]);
+		}
+	}
+
+	return highScores;
 }
 
 /// <summary>
@@ -222,5 +244,26 @@ int SqliteDatabase::returnOneFloat(void* data, int argc, char** argv, char** azC
 	{
 		*static_cast<float*>(data) = std::stof(argv[1]);
 	}
+	return 0;
+}
+
+/// <summary>
+/// the function converts the sql data to vector of usernames
+/// </summary>
+
+int SqliteDatabase::getUsernames(void* data, int argc, char** argv, char** azColName)
+{
+	vector<string> usernames;
+
+	for (int i = 0; i < argc; i++)
+	{
+		if (azColName[i] == "USERNAME")
+		{
+			usernames.push_back(argv[i]);
+		}
+	}
+
+	*(static_cast<vector<string>*> (data)) = usernames;
+
 	return 0;
 }
