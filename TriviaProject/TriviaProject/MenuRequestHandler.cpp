@@ -12,9 +12,14 @@ MenuRequestHandler::MenuRequestHandler(const LoggedUser user, RoomManager& roomM
 {
 }
 
+/// <summary>
+/// Checks if the request is relevant
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>bool, true if the request is relevant and false otherwise</returns>
 bool MenuRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 {
-    return false;
+    return (requestInfo.id <= CREATE_ROOM_CODE && requestInfo.id >= SIGNOUT_CODE);
 }
 
 RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
