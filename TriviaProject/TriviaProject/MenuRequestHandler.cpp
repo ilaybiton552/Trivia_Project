@@ -29,37 +29,24 @@ bool MenuRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 /// <returns>RequestResult, the result for the user's request</returns>
 RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
-    if (requestInfo.id == SIGNOUT_CODE)
+    switch ((CODES)requestInfo.id)
     {
+    case SIGNOUT_CODE:
         return signout(requestInfo);
-    }
-
-    if (requestInfo.id == GET_ROOM_CODE)
-    {
+    case GET_ROOM_CODE:
         return getRooms(requestInfo);
-    }
-
-    if (requestInfo.id == GET_PLAYERS_CODE)
-    {
+    case GET_PLAYERS_CODE:
         return getPlayersInRoom(requestInfo);
-    }
-
-    if (requestInfo.id == GET_STATS_CODE)
-    {
+    case GET_STATS_CODE:
         return getPersonalStats(requestInfo);
-    }
-
-    if (requestInfo.id == GET_HIGH_SCORE_CODE)
-    {
+    case GET_HIGH_SCORE_CODE:
         return getHighScore(requestInfo);
-    }
-
-    if (requestInfo.id == JOIN_ROOM_CODE)
-    {
+    case JOIN_ROOM_CODE:
         return joinRoom(requestInfo);
+    case CREATE_ROOM_CODE:
+        return createRoom(requestInfo);
     }
-
-    return createRoom(requestInfo);
+    return RequestResult();
 }
 
 RequestResult MenuRequestHandler::signout(const RequestInfo request)
