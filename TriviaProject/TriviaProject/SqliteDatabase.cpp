@@ -229,14 +229,8 @@ int SqliteDatabase::getUserInfo(void* data, int argc, char** argv, char** azColN
 /// </summary>
 int SqliteDatabase::returnOneNumber(void* data, int argc, char** argv, char** azColName)
 {
-	if (isdigit(argv[0][0]))
-	{
-		*static_cast<int*>(data) = std::atoi(argv[0]);
-	}
-	else
-	{
-		*static_cast<int*>(data) = std::atoi(argv[1]);
-	}
+	*static_cast<int*>(data) = std::atoi(argv[0]);
+
 	return 0;
 }
 
@@ -245,14 +239,7 @@ int SqliteDatabase::returnOneNumber(void* data, int argc, char** argv, char** az
 /// </summary>
 int SqliteDatabase::returnOneFloat(void* data, int argc, char** argv, char** azColName)
 {
-	if (isdigit(argv[0][0]))
-	{
-		*static_cast<float*>(data) = std::stof(argv[0]);
-	}
-	else
-	{
-		*static_cast<float*>(data) = std::stof(argv[1]);
-	}
+	*static_cast<float*>(data) = std::stof(argv[0]);
 	
 	return 0;
 }
