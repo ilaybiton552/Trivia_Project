@@ -18,7 +18,7 @@ bool SqliteDatabase::open()
 	if (file_exist != 0) // if the database doesn't exist
 	{
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
-		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT NOT NULL, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
 	}
 
 	createQuestionDataBase();
@@ -210,7 +210,7 @@ int SqliteDatabase::createQuestionDataBase()
 /// </summary>
 int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azColName)
 {
-	list<Question> questions = *(static_cast<list<Question>*>(data));
+	list<Question> questions;
 
 	string question;
 	string correctAnswer;
@@ -248,6 +248,8 @@ int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azCol
 	}
 
 	questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
+
+	*(static_cast<list<Question>*>(data)) = questions;
 
 	return 0;
 }
