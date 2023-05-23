@@ -9,7 +9,7 @@ class RequestHandlerFactory;
 class MenuRequestHandler : public IRequestHandler
 {
 public:
-	MenuRequestHandler(const LoggedUser user, RoomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory* handlerFactory);
+	MenuRequestHandler(const LoggedUser user, RoomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory& handlerFactory);
 
 	virtual bool isRequestRelevant(const RequestInfo& requestInfo) override;
 	virtual RequestResult handleRequest(const RequestInfo& requestInfo) override;
