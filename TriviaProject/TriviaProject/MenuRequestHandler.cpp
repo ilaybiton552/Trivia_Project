@@ -71,7 +71,7 @@ RequestResult MenuRequestHandler::signout(const RequestInfo request)
 /// Gets list of the rooms
 /// </summary>
 /// <param name="request">RequestInfo, the information of the request</param>
-/// <returns></returns>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
 {
     RequestResult result;
@@ -83,9 +83,21 @@ RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
     return result;
 }
 
+/// <summary>
+/// Gets list of players in a room
+/// </summary>
+/// <param name="request">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+
+    result.newHandler = nullptr; // don't want to change the handler
+    GetPlayersInRoomRequest requestData = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(request.buffer);
+    GetPlayersInRoomResponse response = { m_roomManager.getRoom(requestData.roomId).getAllUsers() };
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
 
 RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
