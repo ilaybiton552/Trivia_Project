@@ -150,7 +150,28 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
     return result;
 }
 
+/// <summary>
+/// Creates a room
+/// </summary>
+/// <param name="request">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+    unsigned int newRoomId = 0;
+
+    vector<RoomData> rooms = m_roomManager.getRooms();
+    if (rooms.size() != 0)
+    {
+        unsigned int newRoomId = rooms[rooms.size() - 1].id; // gets the last room's id
+    }
+
+    result.newHandler = nullptr; // don't want to change the handler
+    CreateRoomRequest requestData = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
+    RoomData roomData = { ++newRoomId, requestData.roomName, requestData.maxUsers,
+                          requestData.questionCount, requestData.answerTimeout, ACTIVE_ROOM };
+    CreateRoomResponse response = { m_roomManager.createRoom(m_user, roomData) };
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
