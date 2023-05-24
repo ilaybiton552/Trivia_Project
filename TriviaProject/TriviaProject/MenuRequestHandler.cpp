@@ -67,9 +67,20 @@ RequestResult MenuRequestHandler::signout(const RequestInfo request)
     return result;
 }
 
+/// <summary>
+/// Gets list of the rooms
+/// </summary>
+/// <param name="request">RequestInfo, the information of the request</param>
+/// <returns></returns>
 RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+
+    result.newHandler = nullptr; // don't want to change the handler
+    GetRoomResponse response = { m_roomManager.getRooms() };
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
 
 RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
