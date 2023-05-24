@@ -133,9 +133,21 @@ RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
     return result;
 }
 
+/// <summary>
+/// Joins a room
+/// </summary>
+/// <param name="request">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+
+    result.newHandler = nullptr; // don't want to change the handler
+    JoinRoomRequest requestData = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(request.buffer);
+    JoinRoomResponse response = { m_roomManager.getRoom(requestData.roomId).addUser(m_user.getUsername())};
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
 
 RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
