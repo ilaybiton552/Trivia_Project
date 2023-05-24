@@ -12,7 +12,7 @@ class StatisticsManager
 public:
 	StatisticsManager(IDatabase* database);
 
-	vector<pair<string, int>> getHighScore();
+	vector<pair<string, unsigned int>> getHighScore();
 	vector<float> getUserStatistics(const string& username);
 
 private:

@@ -12,9 +12,9 @@ StatisticsManager::StatisticsManager(IDatabase* database)
 /// Gets the 5 best scores
 /// </summary>
 /// <returns>vector of pairs of string and int, string - the username, int - the score</returns>
-vector<pair<string, int>> StatisticsManager::getHighScore()
+vector<pair<string, unsigned int>> StatisticsManager::getHighScore()
 {
-    return vector<pair<string, int>>();
+    return vector<pair<string, unsigned int>>();
 }
 
 /// <summary>

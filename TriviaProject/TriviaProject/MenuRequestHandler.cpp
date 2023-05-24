@@ -117,9 +117,20 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
     return result;
 }
 
+/// <summary>
+/// Gets the high scores
+/// </summary>
+/// <param name="request">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+
+    result.newHandler = nullptr; // don't want to change the handler
+    getHighScoreResponse response = { m_statisticsManager.getHighScore() };
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
 
 RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
