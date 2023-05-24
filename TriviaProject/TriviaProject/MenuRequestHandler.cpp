@@ -100,9 +100,21 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
     return result;
 }
 
+/// <summary>
+/// Gets a player's stats
+/// </summary>
+/// <param name="request">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
 {
-    return RequestResult();
+    RequestResult result;
+
+    result.newHandler = nullptr; // don't want to change the handler
+    vector<float> stats = m_statisticsManager.getUserStatistics(m_user.getUsername());
+    getPersonalStatsResponse response = { stats[NUM_OF_GAMES], stats[RIGHT_ANSWERS], stats[WRONG_ANSWERS], stats[AVERAGE_TIME] };
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
 }
 
 RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
