@@ -7,7 +7,7 @@
 #include "LoggedUser.h"
 
 class LoginRequestHandler;
-class MenuRequestHanler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
