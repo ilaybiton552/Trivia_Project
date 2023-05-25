@@ -15,11 +15,7 @@ StatisticsManager::StatisticsManager(IDatabase* database)
 /// <returns>vector of pairs of string and int, string - the username, int - the score</returns>
 vector<pair<string, unsigned int>> StatisticsManager::getHighScore()
 {
-<<<<<<< TriviaProject/TriviaProject/StatisticsManager.cpp
-    return this->m_database->getHighScores();
-=======
-    return vector<pair<string, unsigned int>>();
->>>>>>> TriviaProject/TriviaProject/StatisticsManager.cpp
+    return m_database->getHighScores();
 }
 
 /// <summary>
