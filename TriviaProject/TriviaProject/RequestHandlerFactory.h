@@ -2,19 +2,28 @@
 #include "LoginManager.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "RoomManager.h"
+#include "StatisticsManager.h"
+#include "LoggedUser.h"
 
 class LoginRequestHandler;
+class MenuRequestHanler;
 
 class RequestHandlerFactory
 {
 public:
 	RequestHandlerFactory(IDatabase* database);
 	LoginRequestHandler* createLoginRequestHandler();
+	MenuRequestHandler* createMenuRequestHandler(const LoggedUser loggedUser);
+
 	LoginManager& getLoginManager();
-	MenuRequestHandler* createMenuRequestHandler();
+	StatisticsManager& getStatisticsManager();
+	RoomManager& getRoomManager();
 
 private:
-	LoginManager m_loginManager;
 	IDatabase* m_database;
+	LoginManager m_loginManager;
+	RoomManager m_roomManager;
+	StatisticsManager m_statisticsManager;
 };
 
