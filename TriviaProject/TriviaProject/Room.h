@@ -11,6 +11,7 @@ class Room
 {
 public:
 	//Methods
+	Room();
 	Room(RoomData roomData); //c'tor
 	~Room(); // d'tor
 	bool addUser(const LoggedUser loggedUser);

@@ -1,6 +1,13 @@
 #include "Room.h"
 
 /// <summary>
+/// Default Constructor
+/// </summary>
+Room::Room()
+{
+}
+
+/// <summary>
 /// Constructor
 /// </summary>
 /// <param name="roomData">the room data</param>
