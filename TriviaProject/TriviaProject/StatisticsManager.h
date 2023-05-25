@@ -10,12 +10,13 @@ using std::string;
 class StatisticsManager
 {
 public:
-	StatisticsManager(IDatabase* database);
+	//Methods
+	StatisticsManager(IDatabase* database); // c'tor
 
 	vector<pair<string, unsigned int>> getHighScore();
 	vector<float> getUserStatistics(const string& username);
 
 private:
+	//Field
 	IDatabase* m_database;
 };
-
