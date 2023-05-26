@@ -87,14 +87,18 @@ int SqliteDatabase::addNewUser(const string username, const string password, con
 /// <returns>float, the username's average answer time</returns>
 float SqliteDatabase::getPlayerAverageTime(const string& username)
 {
-	float sum;
-	int numOfAns;
+	float sum = 0;
+	int numOfAns = 0;
 	string query = "SELECT COUNT(CASE WHEN USERNAME IS \""+ username + "\" THEN ANSWER_TIME END) FROM STATISTICS;";
 	sqlQuery(query.c_str(), returnOneNumber, &numOfAns);
 	query = "SELECT SUM(ANSWER_TIME) FROM STATISTICS WHERE (USERNAME IS \"" + username + "\");";
 	sqlQuery(query.c_str(), returnOneFloat, &sum);
 
-	return (sum/numOfAns);
+	if (numOfAns != 0) // user played games
+	{
+		return (sum / numOfAns);
+	}
+	return 0;
 }
 
 /// <summary>
