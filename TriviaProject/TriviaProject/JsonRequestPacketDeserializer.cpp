@@ -41,7 +41,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRo
 {
     GetPlayersInRoomRequest request;
     json data = getJsonFromBuffer(buffer);
-    request.roomId = data["roomId"];
+    request.roomId = atoi(string(data["roomId"]).c_str());
     return request;
 }
 
@@ -54,7 +54,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const 
 {
     JoinRoomRequest request;
     json data = getJsonFromBuffer(buffer);
-    request.roomId = data["roomId"];
+    request.roomId = atoi(string(data["roomId"]).c_str());
     return request;
 }
 
@@ -67,10 +67,10 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(co
 {
     CreateRoomRequest request;
     json data = getJsonFromBuffer(buffer);
-    request.roomName = data["roomName"];
-    request.maxUsers = data["maxUsers"];
-    request.questionCount = data["questionCount"];
-    request.answerTimeout = data["answerTimeout"];
+    request.roomName = atoi(string(data["roomName"]).c_str());
+    request.maxUsers = atoi(string(data["maxUsers"]).c_str());
+    request.questionCount = atoi(string(data["questionCount"]).c_str());
+    request.answerTimeout = atoi(string(data["answerTimeout"]).c_str());
     return request;
 }
 
