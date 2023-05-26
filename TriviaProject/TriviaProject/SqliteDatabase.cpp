@@ -48,7 +48,6 @@ int SqliteDatabase::doesUserExist(const string username)
 	string userInfo = "";
 
 	sqlQuery(query.c_str(), getUserInfo, &userInfo);
-	cout << userInfo << endl;
 	return (userInfo != ""); // if the database returned userinfo - user exists, else - the user doesn't exist
 }
 
