@@ -163,12 +163,13 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
     vector<RoomData> rooms = m_roomManager.getRooms();
     if (rooms.size() != 0)
     {
-        unsigned int newRoomId = rooms[rooms.size() - 1].id; // gets the last room's id
+        newRoomId = rooms[rooms.size() - 1].id; // gets the last room's id
     }
-
+    
     result.newHandler = nullptr; // don't want to change the handler
     CreateRoomRequest requestData = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
-    RoomData roomData = { ++newRoomId, requestData.roomName, requestData.maxUsers,
+    newRoomId++;
+    RoomData roomData = { newRoomId, requestData.roomName, requestData.maxUsers,
                           requestData.questionCount, requestData.answerTimeout, ACTIVE_ROOM };
     CreateRoomResponse response = { m_roomManager.createRoom(m_user, roomData) };
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
