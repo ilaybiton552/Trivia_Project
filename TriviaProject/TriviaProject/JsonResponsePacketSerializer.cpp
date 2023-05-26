@@ -118,10 +118,18 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoom
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse scoreResponse)
 {
-    json usersStatistics;
-    for (auto it = scoreResponse.statistics.begin(); it != scoreResponse.statistics.end(); it++)
+    string usersStatistics;
+    for (auto it = scoreResponse.statistics.begin(); it != scoreResponse.statistics.end(); ++it)
     {
-        usersStatistics[it->first] = it->second;
+        usersStatistics += '<';
+        usersStatistics += it->first;
+        usersStatistics += ',';
+        usersStatistics += std::to_string(it->second);
+        usersStatistics += ">,";
+    }
+    if (!usersStatistics.empty())
+    {
+        usersStatistics.pop_back(); // deleting last comma
     }
     json response = { {"highScores", usersStatistics} };
     return makeSerializedPacket(response, GET_HIGH_SCORE_RESPONSE_CODE);
