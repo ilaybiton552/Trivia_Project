@@ -121,11 +121,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighSco
     string usersStatistics;
     for (auto it = scoreResponse.statistics.begin(); it != scoreResponse.statistics.end(); ++it)
     {
-        usersStatistics += '<';
-        usersStatistics += it->first;
+        usersStatistics += *it;
         usersStatistics += ',';
-        usersStatistics += std::to_string(it->second);
-        usersStatistics += ">,";
     }
     if (!usersStatistics.empty())
     {

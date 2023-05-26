@@ -13,7 +13,7 @@ public:
 	//Methods
 	StatisticsManager(IDatabase* database); // c'tor
 
-	vector<pair<string, unsigned int>> getHighScore();
+	vector<string> getHighScore();
 	vector<float> getUserStatistics(const string& username);
 
 private:

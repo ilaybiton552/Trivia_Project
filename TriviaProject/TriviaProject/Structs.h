@@ -80,7 +80,7 @@ struct GetPlayersInRoomResponse
 
 struct getHighScoreResponse
 {
-	vector<std::pair<string, unsigned int>> statistics;
+	vector<string> statistics;
 };
 
 struct getPersonalStatsResponse

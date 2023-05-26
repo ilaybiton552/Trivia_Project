@@ -21,7 +21,6 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::vector;
-using std::pair;
 using nlohmann::json;
 using std::exception;
 
@@ -39,7 +38,7 @@ public:
 	virtual int getNumOfTotalAnswers(const string& username) override;
 	virtual int getNumOfTotalGames(const string& username) override;
 	virtual int getPlayerScore(const string& username) override;
-	virtual vector<pair<string, unsigned int>> getHighScores() override;
+	virtual vector<string> getHighScores() override;
 	virtual list<Question> getQuestions(const int numOfQuestions) override;
 
 private:

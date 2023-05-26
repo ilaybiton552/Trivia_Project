@@ -7,7 +7,6 @@
 
 using std::string;
 using std::vector;
-using std::pair;
 using std::list;
 
 class IDatabase
@@ -23,7 +22,7 @@ public:
 	virtual int getNumOfTotalAnswers(const string& username) = 0;
 	virtual int getNumOfTotalGames(const string& username) = 0;
 	virtual int getPlayerScore(const string& username) = 0;
-	virtual vector<pair<string, unsigned int>> getHighScores() = 0;
+	virtual vector<string> getHighScores() = 0;
 	virtual list<Question> getQuestions(const int numOfQuestions) = 0;
 };
 
