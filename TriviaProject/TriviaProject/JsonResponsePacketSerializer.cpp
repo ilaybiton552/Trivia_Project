@@ -54,8 +54,11 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomRes
     string rooms;
     for (auto it = getRoomResponse.rooms.begin(); it != getRoomResponse.rooms.end(); ++it)
     {
+        rooms += '<';
         rooms += it->name;
         rooms += ",";
+        rooms += std::to_string(it->id);
+        rooms += ">,";
     }
     if (!rooms.empty())
     {
