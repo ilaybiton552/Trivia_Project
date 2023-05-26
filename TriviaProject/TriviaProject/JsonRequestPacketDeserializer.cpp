@@ -67,7 +67,7 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(co
 {
     CreateRoomRequest request;
     json data = getJsonFromBuffer(buffer);
-    request.roomName = atoi(string(data["roomName"]).c_str());
+    request.roomName = data["roomName"];
     request.maxUsers = atoi(string(data["maxUsers"]).c_str());
     request.questionCount = atoi(string(data["questionCount"]).c_str());
     request.answerTimeout = atoi(string(data["answerTimeout"]).c_str());
