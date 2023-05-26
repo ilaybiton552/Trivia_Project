@@ -327,17 +327,15 @@ int SqliteDatabase::createQuestionDataBase()
 
 int SqliteDatabase::getUsernames(void* data, int argc, char** argv, char** azColName)
 {
-	vector<string> usernames;
+	vector<string>* usernames = static_cast<vector<string>*> (data);
 
 	for (int i = 0; i < argc; i++)
 	{
-		if (azColName[i] == "USERNAME")
+		if (string(azColName[i]) == string("USERNAME"))
 		{
-			usernames.push_back(argv[i]);
+			usernames->push_back(argv[i]);
 		}
 	}
-
-	*(static_cast<vector<string>*> (data)) = usernames;
 
 	return 0;
 }
