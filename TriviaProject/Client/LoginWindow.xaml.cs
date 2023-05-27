@@ -42,7 +42,7 @@ namespace Client
         {
             string json = JsonConvert.SerializeObject(loginRequest);
             PacketInfo packetInfo = new PacketInfo() { code=loginRequestCode, data=json };
-            communicator.sendPacket(packetInfo);
+            communicator.SendPacket(packetInfo);
 
             //buffer = new byte[4096];
             //int bytesRead = clientStream.Read(buffer, 0, 4096);

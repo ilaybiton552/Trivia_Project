@@ -42,9 +42,9 @@ namespace Client
         /// Sends a packet to the server
         /// </summary>
         /// <param name="packetInfo">PacketInfo, the info of the packet</param>
-        public void sendPacket(PacketInfo packetInfo)
+        public void SendPacket(PacketInfo packetInfo)
         {
-            byte[] buffer = createPacket(packetInfo);
+            byte[] buffer = CreatePacket(packetInfo);
             
             // sends the packet
             clientStream.Write(buffer, 0, buffer.Length);
@@ -56,7 +56,7 @@ namespace Client
         /// </summary>
         /// <param name="packetInfo">PacketInfo, the info of the packet to create</param>
         /// <returns>array of byte, the packet</returns>
-        private byte[] createPacket(PacketInfo packetInfo)
+        private byte[] CreatePacket(PacketInfo packetInfo)
         {
             // gets the json as array of bytes
             byte[] jsonBuffer = new ASCIIEncoding().GetBytes(packetInfo.data);
@@ -65,7 +65,7 @@ namespace Client
             byte[] length = BitConverter.GetBytes(jsonBuffer.Length);
             Array.Reverse(length);
 
-            // create the packet to send
+            // creates the packet to send
             byte[] buffer = new byte[packetHeaderSize + jsonBuffer.Length];
             buffer[codeIndex] = packetInfo.code;
             for (int i = 0; i < packetHeaderSize; i++)
