@@ -22,6 +22,8 @@ namespace Client
         public SignupWindow()
         {
             InitializeComponent();
+            User user = new User();
+            this.DataContext = user;
         }
     }
 }

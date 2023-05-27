@@ -29,37 +29,37 @@
         
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Username:"/>
-            <TextBox Text="{Binding UserName, 
+            <TextBox Text="{Binding username, 
                 UpdateSourceTrigger=PropertyChanged}"
                     FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Password:"/>
-            <TextBox Text="{Binding Password, 
+            <TextBox Text="{Binding password, 
                 UpdateSourceTrigger=PropertyChanged}"
                          FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <TextBlock Text="Email:"/>
-            <TextBox Text="{Binding Email, 
+            <TextBox Text="{Binding email, 
                 UpdateSourceTrigger=PropertyChanged}"
                          FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal">
             <TextBlock Text="Address:"/>
-            <TextBox Text="{Binding Address, 
+            <TextBox Text="{Binding address, 
                 UpdateSourceTrigger=PropertyChanged}"
                          FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Row="5" Orientation="Horizontal">
             <TextBlock Text="Phone number:"/>
-            <TextBox Text="{Binding Phone, 
+            <TextBox Text="{Binding phone, 
                 UpdateSourceTrigger=PropertyChanged}"
                          FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Row="6" Orientation="Horizontal">
             <TextBlock Text="Birthdate:"/>
-            <TextBox Text="{Binding Birthdate, 
+            <TextBox Text="{Binding birthdate, 
                 UpdateSourceTrigger=PropertyChanged}"
                          FontSize="20"/>
         </StackPanel>
