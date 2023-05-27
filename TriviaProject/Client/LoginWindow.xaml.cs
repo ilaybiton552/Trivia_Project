@@ -41,7 +41,8 @@ namespace Client
         private void LoginClick(object sender, RoutedEventArgs e)
         {
             string json = JsonConvert.SerializeObject(loginRequest);
-            communicator.sendPacket(loginRequestCode, json);
+            PacketInfo packetInfo = new PacketInfo() { code=loginRequestCode, data=json };
+            communicator.sendPacket(packetInfo);
 
             //buffer = new byte[4096];
             //int bytesRead = clientStream.Read(buffer, 0, 4096);

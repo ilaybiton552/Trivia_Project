@@ -11,4 +11,10 @@ namespace Client
         public string username { get; set; }
         public string password { get; set; }
     }
+
+    class PacketInfo
+    {
+        public byte code;
+        public string data { get; set; }
+    }
 }

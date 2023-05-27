@@ -41,12 +41,25 @@ namespace Client
         /// <summary>
         /// Sends a packet to the server
         /// </summary>
-        /// <param name="code">byte, the code of the packet</param>
-        /// <param name="json">string, the json, data of the packet</param>
-        public void sendPacket(byte code, string json)
+        /// <param name="packetInfo">PacketInfo, the info of the packet</param>
+        public void sendPacket(PacketInfo packetInfo)
+        {
+            byte[] buffer = createPacket(packetInfo);
+            
+            // sends the packet
+            clientStream.Write(buffer, 0, buffer.Length);
+            clientStream.Flush();
+        }
+
+        /// <summary>
+        /// Makes the packet to send to the server
+        /// </summary>
+        /// <param name="packetInfo">PacketInfo, the info of the packet to create</param>
+        /// <returns>array of byte, the packet</returns>
+        private byte[] createPacket(PacketInfo packetInfo)
         {
             // gets the json as array of bytes
-            byte[] jsonBuffer = new ASCIIEncoding().GetBytes(json);
+            byte[] jsonBuffer = new ASCIIEncoding().GetBytes(packetInfo.data);
 
             // gets the length of the data as bytes
             byte[] length = BitConverter.GetBytes(jsonBuffer.Length);
@@ -54,7 +67,7 @@ namespace Client
 
             // create the packet to send
             byte[] buffer = new byte[packetHeaderSize + jsonBuffer.Length];
-            buffer[codeIndex] = code;
+            buffer[codeIndex] = packetInfo.code;
             for (int i = 0; i < packetHeaderSize; i++)
             {
                 buffer[i + dataLengthIndex] = length[i];
@@ -63,10 +76,8 @@ namespace Client
             {
                 buffer[i + packetHeaderSize] = jsonBuffer[i];
             }
-            
-            // sends the packet
-            clientStream.Write(buffer, 0, buffer.Length);
-            clientStream.Flush();
+
+            return buffer;
         }
 
     }
