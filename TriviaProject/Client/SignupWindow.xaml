@@ -6,13 +6,40 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="SignupWindow" Height="450" Width="350">
+    
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
         </Style>
+
         <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <AdornedElementPlaceholder x:Name="placeholder" />
+                        <TextBlock FontSize="10" FontStyle="Italic" Foreground="Red"
+                                   Text="{Binding ElementName=placeholder, 
+                                   Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                     Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                     Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+      
         </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,47 +52,67 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Sign in" FontSize="35" TextAlignment="Center"/>
+        <TextBlock Text="Sign up" FontSize="35" TextAlignment="Center" Margin="0"/>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Username:"/>
             <TextBox Text="{Binding username, 
                 UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="20"/>
+                    FontSize="15" x:Name="tbUsername"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Password:"/>
-            <TextBox Text="{Binding password, 
-                UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="20"/>
+            <TextBox x:Name="tbPassword">
+                <Binding Path="password" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                    <Binding.ValidationRules>
+                        <local:ValidationPassword/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <TextBlock Text="Email:"/>
-            <TextBox Text="{Binding email, 
-                UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="20"/>
+            <TextBox x:Name="tbEmail">
+                <Binding Path="email" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                    <Binding.ValidationRules>
+                        <local:ValidationEmail/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal">
             <TextBlock Text="Address:"/>
-            <TextBox Text="{Binding address, 
-                UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="20"/>
+            <TextBox x:Name="tbAddress">
+                <Binding Path="address" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                    <Binding.ValidationRules>
+                        <local:ValidationAddress/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="5" Orientation="Horizontal">
-            <TextBlock Text="Phone number:"/>
-            <TextBox Text="{Binding phone, 
-                UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="20"/>
+            <TextBlock Text="Phone Number:"/>
+            <TextBox x:Name="tbPhone">
+                <Binding Path="phone" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                    <Binding.ValidationRules>
+                        <local:ValidationPhoneNumber/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="6" Orientation="Horizontal">
-            <TextBlock Text="Birthdate:"/>
-            <TextBox Text="{Binding birthdate, 
-                UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="20"/>
+            <TextBlock Text="Bithdate:"/>
+            <TextBox x:Name="tbBirthdate">
+                <Binding Path="birthdate" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                    <Binding.ValidationRules>
+                        <local:ValidationBirthdate/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnSignin" Content="Sing in" FontSize="20" Margin="5"/>
-            <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5"/>
+            <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="btnSignup_Click"/>
+            <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="btnClear_Click"/>
         </StackPanel>
     </Grid>
 
