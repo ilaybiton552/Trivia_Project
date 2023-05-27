@@ -17,4 +17,9 @@ namespace Client
         public byte code;
         public string data { get; set; }
     }
+
+    class StatusPacket
+    {
+        public int status;
+    }
 }

@@ -26,6 +26,10 @@ namespace Client
         private LoginRequest loginRequest;
         private Communicator communicator;
         private const int loginRequestCode = 101;
+        private const int loginResponseCode = 201;
+
+        enum Codes { Success = 1, UserDoesNotExist, WrongPassword = 4, UserIsLogged};
+
         public LoginWindow()
         {
             InitializeComponent();
@@ -41,13 +45,40 @@ namespace Client
         private void LoginClick(object sender, RoutedEventArgs e)
         {
             string json = JsonConvert.SerializeObject(loginRequest);
-            PacketInfo packetInfo = new PacketInfo() { code=loginRequestCode, data=json };
-            communicator.SendPacket(packetInfo);
+            PacketInfo packetToSend = new PacketInfo() { code=loginRequestCode, data=json };
+            communicator.SendPacket(packetToSend);
 
-            //buffer = new byte[4096];
-            //int bytesRead = clientStream.Read(buffer, 0, 4096);
-            //string message = Encoding.Default.GetString(buffer);
-            //MessageBox.Show(message);
+            PacketInfo receivedPacket = communicator.GetMessageFromServer();
+            if (receivedPacket.code == loginResponseCode)
+            {
+                StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(receivedPacket.data);
+                switch ((Codes)statusPacket.status)
+                {
+                    case Codes.Success:
+                        // when adding menu window, send to there and remove the next 2 lines
+                        MessageBox.Show("Sending to menu...", "success", MessageBoxButton.OK);
+                        communicator.Close();
+                        Close();
+                        break;
+                    case Codes.UserDoesNotExist:
+                        MessageBox.Show("The user doesn't exist", "Error", 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case Codes.WrongPassword:
+                        MessageBox.Show("Wrong password", "Error", 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case Codes.UserIsLogged:
+                        MessageBox.Show("The user is already logged", "Error", 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("An error occured", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

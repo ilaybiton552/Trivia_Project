@@ -17,6 +17,7 @@ namespace Client
         private const int codeIndex = 0;
         private const int dataLengthIndex = 1;
         private const int packetHeaderSize = 5;
+        private const int recv = 1024;
 
         /// <summary>
         /// Starts communication with the server
@@ -68,7 +69,7 @@ namespace Client
             // creates the packet to send
             byte[] buffer = new byte[packetHeaderSize + jsonBuffer.Length];
             buffer[codeIndex] = packetInfo.code;
-            for (int i = 0; i < packetHeaderSize; i++)
+            for (int i = 0; i < packetHeaderSize - dataLengthIndex; i++)
             {
                 buffer[i + dataLengthIndex] = length[i];
             }
@@ -78,6 +79,30 @@ namespace Client
             }
 
             return buffer;
+        }
+
+        public PacketInfo GetMessageFromServer()
+        {
+            PacketInfo packetInfo = new PacketInfo();
+
+            // gets the header of the packet to know how many bytes of data to read
+            byte[] buffer = new byte[packetHeaderSize];
+            clientStream.Read(buffer, 0, buffer.Length);
+            packetInfo.code = buffer[codeIndex];
+            Array.Reverse(buffer);
+            int dataLength = BitConverter.ToInt32(buffer, 0);
+
+            // gets all of the data of the packet
+            packetInfo.data = "";
+            while (dataLength > 0)
+            {
+                buffer = new byte[recv];
+                int bytesRead = clientStream.Read(buffer, 0, recv);
+                packetInfo.data += Encoding.Default.GetString(buffer);
+                dataLength -= bytesRead;
+            }
+
+            return packetInfo;
         }
 
     }
