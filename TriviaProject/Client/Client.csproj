@@ -59,6 +59,7 @@
       <DependentUpon>SignupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
+    <Compile Include="Validation.cs" />
     <Page Include="LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
