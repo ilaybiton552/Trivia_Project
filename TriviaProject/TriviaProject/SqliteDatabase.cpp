@@ -1,4 +1,4 @@
-#include "SqliteDatabase.h"
+ #include "SqliteDatabase.h"
 
 /// <summary>
 /// the function opens database
