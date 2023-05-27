@@ -260,6 +260,12 @@ void Communicator::disconnectClient(const SOCKET& clientSocket)
 	IRequestHandler* requestHandler = m_clients[clientSocket];
 	if (requestHandler != nullptr)
 	{
+		// loging out the user from logged users if this is MenuRequestHandler
+		RequestInfo info = { SIGNOUT_CODE };
+		if (requestHandler->isRequestRelevant(info))
+		{
+			requestHandler->handleRequest(info);
+		}
 		delete requestHandler;
 		requestHandler = nullptr;
 	}
