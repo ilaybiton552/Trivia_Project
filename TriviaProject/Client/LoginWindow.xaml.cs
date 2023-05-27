@@ -21,10 +21,30 @@ namespace Client
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private LoginRequest loginRequest;
         public LoginWindow()
         {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            loginRequest = new LoginRequest();
+            this.DataContext = loginRequest;
+        }
+
+        /// <summary>
+        /// Sends a login request to the server
+        /// </summary>
+        private void LoginClick(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        /// <summary>
+        /// Clears the data of the text boxes of username and password
+        /// </summary>
+        private void ClearClick(object sender, RoutedEventArgs e)
+        {
+            usernameTextBox.Text = "";
+            passwordTextBox.Text = "";
         }
     }
 }
