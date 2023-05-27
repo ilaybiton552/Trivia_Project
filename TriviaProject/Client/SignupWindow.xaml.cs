@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,16 +20,26 @@ namespace Client
     /// </summary>
     public partial class SignupWindow : Window
     {
-        private User user = new User();
+        private User user;
+        private Communicator communicator;
+        private const int SignupRequestCode = 102;
+        private const int SignupResponseCode = 202;
 
-        public SignupWindow()
+        enum Codes { Success = 1, UserExists = 3, RegexError = 7};
+
+        public SignupWindow(ref Communicator communicator)
         {
             InitializeComponent();
-            User user = new User();
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            this.communicator = communicator;
+            user = new User();
             this.DataContext = user;
         }
 
-        private void btnClear_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Clears the data of all the text boxes
+        /// </summary>
+        private void ClearClick(object sender, RoutedEventArgs e)
         {
             tbUsername.BorderBrush = Brushes.Gray;
             tbPassword.BorderBrush = Brushes.Gray;
@@ -40,7 +51,10 @@ namespace Client
             this.DataContext = user;
         }
 
-        private void btnSignup_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Sends a signup request to the server
+        /// </summary>
+        private void SignupClick(object sender, RoutedEventArgs e)
         {
             if (!user.isEmpty() && !Validation.GetHasError(tbPassword) && !Validation.GetHasError(tbEmail) && !Validation.GetHasError(tbAddress) && !Validation.GetHasError(tbPhone) && !Validation.GetHasError(tbBirthdate))
             {
@@ -50,8 +64,38 @@ namespace Client
                 tbAddress.BorderBrush = Brushes.Green;
                 tbPhone.BorderBrush = Brushes.Green;
                 tbBirthdate.BorderBrush = Brushes.Green;
-                MessageBox.Show("Welcome", "Ok", MessageBoxButton.OK);
-                Close();
+
+                string json = JsonConvert.SerializeObject(user);
+                PacketInfo packetToSend = new PacketInfo() { code = SignupRequestCode, data = json };
+                communicator.SendPacket(packetToSend);
+
+                PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
+                if (receivedPacket.code == SignupResponseCode)
+                {
+                    StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(receivedPacket.data);
+                    switch ((Codes)statusPacket.status)
+                    {
+                        case Codes.Success:
+                            // when adding menu window, send to there and remove the next 2 lines
+                            MessageBox.Show("Sending to menu...", "success", MessageBoxButton.OK);
+                            communicator.Close();
+                            Close();
+                            break;
+                        case Codes.UserExists:
+                            MessageBox.Show("The user already exists", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                        case Codes.RegexError:
+                            MessageBox.Show("Wrong user data format", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("An error occured", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
 
             else

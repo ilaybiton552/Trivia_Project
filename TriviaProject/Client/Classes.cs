@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class LoginRequest
+    public class LoginRequest
     {
         public string username { get; set; }
         public string password { get; set; }
     }
 
-    class PacketInfo
+    public class PacketInfo
     {
         public byte code { get; set; }
         public string data { get; set; }
     }
 
-    class StatusPacket
+    public class StatusPacket
     {
         public int status {get; set; }
     }
