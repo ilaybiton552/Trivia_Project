@@ -14,12 +14,12 @@ namespace Client
 
     class PacketInfo
     {
-        public byte code;
+        public byte code { get; set; }
         public string data { get; set; }
     }
 
     class StatusPacket
     {
-        public int status;
+        public int status {get; set; }
     }
 }
