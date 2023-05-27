@@ -70,21 +70,25 @@ struct LogoutResponse
 
 struct GetRoomResponse
 {
+	unsigned int status;
 	vector<RoomData> rooms;
 };
 
 struct GetPlayersInRoomResponse
 {
+	unsigned int status;
 	vector<string> players;
 };
 
 struct getHighScoreResponse
 {
+	unsigned int status;
 	vector<string> statistics;
 };
 
 struct getPersonalStatsResponse
 {
+	unsigned int status;
 	unsigned int numOfGames;
 	unsigned int rightAnswers;
 	unsigned int wrongAnswers;

@@ -77,7 +77,7 @@ RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
     RequestResult result;
 
     result.newHandler = nullptr; // don't want to change the handler
-    GetRoomResponse response = { m_roomManager.getRooms() };
+    GetRoomResponse response = { STATUS_SUCCESS, m_roomManager.getRooms() };
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;
@@ -94,7 +94,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
 
     result.newHandler = nullptr; // don't want to change the handler
     GetPlayersInRoomRequest requestData = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(request.buffer);
-    GetPlayersInRoomResponse response = { m_roomManager.getRoom(requestData.roomId).getAllUsers() };
+    GetPlayersInRoomResponse response = { STATUS_SUCCESS, m_roomManager.getRoom(requestData.roomId).getAllUsers() };
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;
@@ -111,7 +111,7 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
 
     result.newHandler = nullptr; // don't want to change the handler
     vector<float> stats = m_statisticsManager.getUserStatistics(m_user.getUsername());
-    getPersonalStatsResponse response = { stats[NUM_OF_GAMES], stats[RIGHT_ANSWERS], stats[WRONG_ANSWERS], stats[AVERAGE_TIME] };
+    getPersonalStatsResponse response = { STATUS_SUCCESS, stats[NUM_OF_GAMES], stats[RIGHT_ANSWERS], stats[WRONG_ANSWERS], stats[AVERAGE_TIME] };
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;
@@ -127,7 +127,7 @@ RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
     RequestResult result;
 
     result.newHandler = nullptr; // don't want to change the handler
-    getHighScoreResponse response = { m_statisticsManager.getHighScore() };
+    getHighScoreResponse response = { STATUS_SUCCESS, m_statisticsManager.getHighScore() };
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;
