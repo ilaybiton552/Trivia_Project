@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.RightsManagement;
@@ -24,11 +24,36 @@ namespace Client
         public int status {get; set; }
     }
 
+    public class PersonalStatistics
+    {
+        public int numOfGames { get; set; }
+        public int numOfRightAnswer { get; set; }
+        public int numOfWrongAnswers { get; set; }
+        public float averageAnswerTime { get; set; }
+    }
+
+    public class HighScores
+    {
+        public string highScores { get; set;}
+    }
+
+    public class HighScoresDetails
+    {
+        private const int numOfScores = 3;
+        public string[] usernames { get; set; }
+        public int[] scores { get; set; }
+        public HighScoresDetails()
+        {
+            usernames = new string[numOfScores];
+            scores = new int[numOfScores];
+        }
+    }
+
     public class CreateRoomRequest
     {
         public string roomName { get; set; }
         public int maxUsers { get; set; }
         public int questionCount { get; set; }
-        public int answerTimeOut { get; set; }
+        public int answerTimeout { get; set; }
     }
 }

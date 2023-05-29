@@ -39,7 +39,9 @@ namespace Client
         /// </summary>
         private void CreateRoomClick(object sender, RoutedEventArgs e)
         {
+            CreateRoomWindow createRoomWindow = new CreateRoomWindow(ref communicator, connectedUser);
             Close();
+            createRoomWindow.ShowDialog();
         }
 
         /// <summary>
@@ -55,7 +57,9 @@ namespace Client
         /// </summary>
         private void StatisticsClick(object sender, RoutedEventArgs e)
         {
+            StatisticsWindow statisticsWindow = new StatisticsWindow(ref communicator, connectedUser);
             Close();
+            statisticsWindow.ShowDialog();
         }
 
         /// <summary>
