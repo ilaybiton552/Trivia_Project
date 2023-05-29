@@ -20,11 +20,13 @@ namespace Client
     public partial class MenuWindow : Window
     {
         private Communicator communicator;
-        public MenuWindow(ref Communicator communicator)
+        private string connectedUser;
+        public MenuWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            this.communicator = communicator;
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            this.communicator = communicator;
+            this.connectedUser = username;
         }
     }
 }

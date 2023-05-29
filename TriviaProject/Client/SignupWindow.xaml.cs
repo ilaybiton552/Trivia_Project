@@ -76,7 +76,7 @@ namespace Client
                     switch ((Codes)statusPacket.status)
                     {
                         case Codes.Success:
-                            MenuWindow menuWindow = new MenuWindow(ref communicator);
+                            MenuWindow menuWindow = new MenuWindow(ref communicator, user.username);
                             Close();
                             menuWindow.ShowDialog();
                             break;
