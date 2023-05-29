@@ -49,7 +49,9 @@ namespace Client
         /// </summary>
         private void JoinRoomClick(object sender, RoutedEventArgs e)
         {
+            JoinRoomWindow joinRoomWindow = new JoinRoomWindow(ref communicator, connectedUser);
             Close();
+            joinRoomWindow.ShowDialog();
         }
 
         /// <summary>
