@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,9 @@ namespace Client
     {
         private Communicator communicator;
         private string connectedUser;
+        private const int logoutCode = 103;
+        private const int logoutCodeResponse = 203;
+        private const int statusSuccess = 1;
         public MenuWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
@@ -61,6 +65,34 @@ namespace Client
         {
             communicator.Close();
             Close();
+        }
+
+        /// <summary>
+        /// Logout from the user and gets login window
+        /// </summary>
+        private void LogoutClick(object sender, RoutedEventArgs e)
+        {
+            PacketInfo packetInfo = new PacketInfo() { code=logoutCode, data=""};
+            communicator.SendPacket(packetInfo);
+
+            PacketInfo serverMessage = communicator.GetMessageFromServer();
+            if (serverMessage.code != logoutCodeResponse)
+            {
+                MessageBox.Show("An error has occured", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(serverMessage.data);
+            if (statusPacket.status != statusSuccess) 
+            {
+                MessageBox.Show("User doesn't logged", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            LoginWindow loginWindow = new LoginWindow(ref communicator);
+            Close();
+            loginWindow.Show();
         }
 
     }
