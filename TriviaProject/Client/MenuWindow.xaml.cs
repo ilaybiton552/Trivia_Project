@@ -57,7 +57,9 @@ namespace Client
         /// </summary>
         private void StatisticsClick(object sender, RoutedEventArgs e)
         {
+            StatisticsWindow statisticsWindow = new StatisticsWindow(ref communicator, connectedUser);
             Close();
+            statisticsWindow.ShowDialog();
         }
 
         /// <summary>
