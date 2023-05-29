@@ -122,7 +122,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighSco
     for (auto it = scoreResponse.statistics.begin(); it != scoreResponse.statistics.end(); ++it)
     {
         usersStatistics += *it;
-        usersStatistics += ',';
+        usersStatistics += ';';
     }
     if (!usersStatistics.empty())
     {

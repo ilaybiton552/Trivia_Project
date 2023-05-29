@@ -55,16 +55,15 @@ namespace Client
             }
             HighScores highScores = JsonConvert.DeserializeObject<HighScores>(serverPacket.data);
 
-            highScores.highScores.Replace("<", "");
-            highScores.highScores.Replace(">,", ";");
-
             for (int i = 0; i < numOfScores; i++)
             {
                 string temp = highScores.highScores;
                 scores.usernames[i] = temp.Remove(temp.IndexOf(','));
+                // removes the first username in the string
                 highScores.highScores.Substring(highScores.highScores.IndexOf(',') + 1);
                 temp = highScores.highScores;
                 scores.scores[i] = int.Parse(temp.Remove(temp.IndexOf(';')));
+                // removes the first score in the string
                 highScores.highScores.Substring(highScores.highScores.IndexOf(';') + 1);
             }
 
