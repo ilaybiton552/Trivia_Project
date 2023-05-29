@@ -39,7 +39,7 @@ namespace Client
         /// </summary>
         private void CreateRoomClick(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Client
         /// </summary>
         private void JoinRoomClick(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Client
         /// </summary>
         private void StatisticsClick(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         /// <summary>
