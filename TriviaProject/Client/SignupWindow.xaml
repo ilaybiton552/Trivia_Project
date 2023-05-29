@@ -117,7 +117,7 @@
                 <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick"/>
                 <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick"/>
             </StackPanel>
-            <TextBlock Text="Already have an account?" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="25" Margin="0, 0, 0, 10" MouseDown="LoginClick"/>
+            <TextBlock Text="Already have an account?" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="LoginClick"/>
         </StackPanel>
     </Grid>
 

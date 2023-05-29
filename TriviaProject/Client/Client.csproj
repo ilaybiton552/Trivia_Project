@@ -59,11 +59,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes.cs" />
+    <Compile Include="CreateRoomWindow.xaml.cs">
+      <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SignupWindow.xaml.cs">
       <DependentUpon>SignupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
     <Compile Include="Validation.cs" />
+    <Page Include="CreateRoomWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

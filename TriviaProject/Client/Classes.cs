@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,5 +22,13 @@ namespace Client
     public class StatusPacket
     {
         public int status {get; set; }
+    }
+
+    public class CreateRoomRequest
+    {
+        public string roomName { get; set; }
+        public int maxUsers { get; set; }
+        public int questionCount { get; set; }
+        public int answerTimeOut { get; set; }
     }
 }
