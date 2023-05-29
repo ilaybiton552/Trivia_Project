@@ -22,7 +22,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -32,10 +32,10 @@
         </StackPanel>
 
         <Canvas Grid.Row="1">
-            <TextBlock Text="Number of games: " Canvas.Top="25" Canvas.Left="25"/>
-            <TextBlock Text="Number of right answers: " Canvas.Top="90" Canvas.Left="25"/>
-            <TextBlock Text="Number of wrong answers: " Canvas.Top="155" Canvas.Left="25"/>
-            <TextBlock Text="Average answer time: " Canvas.Top="220" Canvas.Left="25"/>
+            <TextBlock Text="Number of games: " Canvas.Top="20" Canvas.Left="25"/>
+            <TextBlock Text="Number of right answers: " Canvas.Top="85" Canvas.Left="25"/>
+            <TextBlock Text="Number of wrong answers: " Canvas.Top="150" Canvas.Left="25"/>
+            <TextBlock Text="Average answer time: " Canvas.Top="215" Canvas.Left="25"/>
             <TextBlock Text="{Binding numOfGames}" Canvas.Top="25" Canvas.Left="425"/>
             <TextBlock Text="{Binding numOfRightAnswers}" Canvas.Top="90" Canvas.Left="425"/>
             <TextBlock Text="{Binding numOfWrongAnswers}" Canvas.Top="155" Canvas.Left="425"/>

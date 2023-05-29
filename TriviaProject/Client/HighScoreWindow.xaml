@@ -21,7 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -31,17 +31,17 @@
         </StackPanel>
 
         <Canvas Grid.Row="1">
-            <TextBlock Text="1 - " Canvas.Top="30" Canvas.Left="25"/>
-            <TextBlock Text="2 - " Canvas.Top="125" Canvas.Left="25"/>
-            <TextBlock Text="3 - " Canvas.Top="220" Canvas.Left="25"/>
-            
-            <TextBlock Text="{Binding usernames[0]}" Canvas.Top="30" Canvas.Left="75"/>
-            <TextBlock Text="{Binding usernames[1]}" Canvas.Top="125" Canvas.Left="75"/>
-            <TextBlock Text="{Binding usernames[2]}" Canvas.Top="220" Canvas.Left="75"/>
-            
-            <TextBlock Text="{Binding scores[0]}" Canvas.Top="30" Canvas.Left="425"/>
-            <TextBlock Text="{Binding scores[1]}" Canvas.Top="125" Canvas.Left="425"/>
-            <TextBlock Text="{Binding scores[2]}" Canvas.Top="220" Canvas.Left="425"/>
+            <TextBlock Text="1 - " Canvas.Top="25" Canvas.Left="25"/>
+            <TextBlock Text="2 - " Canvas.Top="120" Canvas.Left="25"/>
+            <TextBlock Text="3 - " Canvas.Top="215" Canvas.Left="25"/>
+
+            <TextBlock Text="{Binding usernames[0]}" Canvas.Top="25" Canvas.Left="75"/>
+            <TextBlock Text="{Binding usernames[1]}" Canvas.Top="120" Canvas.Left="75"/>
+            <TextBlock Text="{Binding usernames[2]}" Canvas.Top="215" Canvas.Left="75"/>
+
+            <TextBlock Text="{Binding scores[0]}" Canvas.Top="25" Canvas.Left="425"/>
+            <TextBlock Text="{Binding scores[1]}" Canvas.Top="120" Canvas.Left="425"/>
+            <TextBlock Text="{Binding scores[2]}" Canvas.Top="215" Canvas.Left="425"/>
         </Canvas>
 
         <Button Grid.Row="2" Content="Back" Margin="5" HorizontalAlignment="Left" FontSize="25" Click="BackClick"/>
