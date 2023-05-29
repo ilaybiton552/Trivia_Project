@@ -35,7 +35,7 @@
             <TextBlock Text="2 - " Canvas.Top="125" Canvas.Left="25"/>
             <TextBlock Text="3 - " Canvas.Top="220" Canvas.Left="25"/>
             
-            <TextBlock Text="{Binding usernamew[0]}" Canvas.Top="30" Canvas.Left="75"/>
+            <TextBlock Text="{Binding usernames[0]}" Canvas.Top="30" Canvas.Left="75"/>
             <TextBlock Text="{Binding usernames[1]}" Canvas.Top="125" Canvas.Left="75"/>
             <TextBlock Text="{Binding usernames[2]}" Canvas.Top="220" Canvas.Left="75"/>
             

@@ -160,7 +160,7 @@ int SqliteDatabase::getPlayerScore(const string& username)
 vector<string> SqliteDatabase::getHighScores()
 {
 	vector<string> usernames;
-	vector<string> scores; // will be <username,score>
+	vector<string> scores; // will be username,score;username,score
 	string currScore;
 	// get all usernames sorted by highest score (limit of 5)
 	sqlQuery("SELECT USERNAME FROM STATISTICS WHERE IS_CORRECT_ANSWER = 1 GROUP BY USERNAME ORDER BY COUNT(IS_CORRECT_ANSWER) DESC LIMIT 5;", getUsernames, &usernames);

@@ -30,12 +30,12 @@ namespace Client
         public HighScoreWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            GetHighScores();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             scores = new HighScoresDetails();
             usernameTextBlock.Text = username;
+            GetHighScores();
             this.DataContext = scores;
         }
 
@@ -44,7 +44,7 @@ namespace Client
         /// </summary>
         private void GetHighScores()
         {
-            PacketInfo clientPacket = new PacketInfo() { code = getHighScoreRequestCode, data = "" };
+            PacketInfo clientPacket = new PacketInfo() { code = getHighScoreRequestCode, data = "b" };
             communicator.SendPacket(clientPacket);
 
             PacketInfo serverPacket = communicator.GetMessageFromServer();
@@ -61,11 +61,11 @@ namespace Client
                 string temp = highScores.highScores;
                 scores.usernames[i] = temp.Remove(temp.IndexOf(','));
                 // removes the first username in the string
-                highScores.highScores.Substring(highScores.highScores.IndexOf(',') + 1);
+                highScores.highScores = highScores.highScores.Substring(highScores.highScores.IndexOf(',') + 1);
                 temp = highScores.highScores;
                 scores.scores[i] = int.Parse(temp.Remove(temp.IndexOf(';')));
                 // removes the first score in the string
-                highScores.highScores.Substring(highScores.highScores.IndexOf(';') + 1);
+                highScores.highScores = highScores.highScores.Substring(highScores.highScores.IndexOf(';') + 1);
             }
 
         }
