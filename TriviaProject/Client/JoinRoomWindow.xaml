@@ -27,8 +27,12 @@
 			<TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontFamily="Harrington"/>
 			<TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
 		</StackPanel>
-
-		<StackPanel Grid.Row="3">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+		<StackPanel x:Name="stackPanel">
+			
+		</StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="3">
 			<TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
 		</StackPanel>
 		

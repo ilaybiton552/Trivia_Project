@@ -37,6 +37,17 @@ namespace Client
             this.username = username;
             roomDataList = new RoomDataList();
             getRooms();
+            var button1 = new Button() { Content = "Room Name", MaxWidth=300.0}; // Creating button
+            var button2 = new Button() { Content = "Room Nam", MaxWidth = 300.0}; // Creating button
+            var button3 = new Button() { Content = "Room Na", MaxWidth = 300.0}; // Creating button
+            var button4 = new Button() { Content = "Room N", MaxWidth = 300.0}; // Creating button
+            var button5 = new Button() { Content = "Room ", MaxWidth = 300.0}; // Creating button
+            //button.Click += Button_Click; //Hooking up to event
+            stackPanel.Children.Add(button1);
+            stackPanel.Children.Add(button2);
+            stackPanel.Children.Add(button3);
+            stackPanel.Children.Add(button4);
+            stackPanel.Children.Add(button5);
         }
 
         private void getRooms()

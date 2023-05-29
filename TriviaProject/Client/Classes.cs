@@ -66,15 +66,7 @@ namespace Client
         public LinkedListNode<int> timePerQuestion { get; set; }
         public LinkedListNode<int> isActive { get; set; } 
 
-        public RoomDataList()
-        {
-            id = new LinkedListNode<int>();
-            name = new LinkedListNode<string>();
-            maxPlayers = new LinkedListNode<int>();
-            numOfQuestions = new LinkedListNode<int>();
-            timePerQuestion = new LinkedListNode<int>();
-            isActive = new LinkedListNode<int>();
-        }
+       
     }
 
 }
