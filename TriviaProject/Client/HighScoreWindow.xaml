@@ -1,0 +1,50 @@
+﻿<Window x:Class="Client.HighScoreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="HighScoreWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="35"/>
+            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="Margin" Value="30"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontFamily" Value="Dubai"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontFamily="Harrington"/>
+            <TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
+        </StackPanel>
+
+        <Canvas Grid.Row="1">
+            <TextBlock Text="1 - " Canvas.Top="30" Canvas.Left="25"/>
+            <TextBlock Text="2 - " Canvas.Top="125" Canvas.Left="25"/>
+            <TextBlock Text="3 - " Canvas.Top="220" Canvas.Left="25"/>
+            
+            <TextBlock Text="{Binding usernamew[0]}" Canvas.Top="30" Canvas.Left="75"/>
+            <TextBlock Text="{Binding usernames[1]}" Canvas.Top="125" Canvas.Left="75"/>
+            <TextBlock Text="{Binding usernames[2]}" Canvas.Top="220" Canvas.Left="75"/>
+            
+            <TextBlock Text="{Binding scores[0]}" Canvas.Top="30" Canvas.Left="425"/>
+            <TextBlock Text="{Binding scores[1]}" Canvas.Top="125" Canvas.Left="425"/>
+            <TextBlock Text="{Binding scores[2]}" Canvas.Top="220" Canvas.Left="425"/>
+        </Canvas>
+
+        <Button Grid.Row="2" Content="Back" Margin="5" HorizontalAlignment="Left" FontSize="25" Click="BackClick"/>
+
+    </Grid>
+</Window>

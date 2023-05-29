@@ -167,11 +167,9 @@ vector<string> SqliteDatabase::getHighScores()
 
 	for (int i = 0; i < usernames.size(); i++) // create the scores vector with the wanted data
 	{
-		currScore += '<';
 		currScore += usernames[i];
 		currScore += ',';
 		currScore += std::to_string(getPlayerScore(usernames[i]));
-		currScore += '>';
 		scores.push_back(currScore);
 		currScore.clear();
 	}
