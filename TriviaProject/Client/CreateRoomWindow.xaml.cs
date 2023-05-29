@@ -22,6 +22,7 @@ namespace Client
     {
         private CreateRoomRequest request;
         private Communicator communicator;
+        private string username;
         private const int CreateRoomRequestCode = 109;
         private const int CreateRoomResponseCode = 207;
         private const int ErrorResponseCode = 200;
@@ -31,6 +32,7 @@ namespace Client
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
+            this.username = username;
             request = new CreateRoomRequest();
             this.DataContext = request;
         }
@@ -89,7 +91,7 @@ namespace Client
 
                 if (receivedPacket.code == CreateRoomResponseCode)
                 {
-                    MessageBox.Show("Sending to menu...", "success", MessageBoxButton.OK);
+                    MessageBox.Show("The room created successfully...", "success", MessageBoxButton.OK);
                     Close();
                 }
                 else if (receivedPacket.code == ErrorResponseCode)
@@ -121,7 +123,9 @@ namespace Client
         /// </summary>
         private void MenuClick(object sender, MouseButtonEventArgs e)
         {
-
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
         }
     }
 }
