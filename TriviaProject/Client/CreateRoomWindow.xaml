@@ -53,10 +53,10 @@
                     FontSize="15" x:Name="tbQuestionCount"/>
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <TextBlock Text="Answer Time Out:"/>
-            <TextBox Text="{Binding answerTimeOut, 
+            <TextBlock Text="Answer Timeout:"/>
+            <TextBox Text="{Binding answerTimeout, 
                 UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="15" x:Name="tbAnswerTimeOut"/>
+                    FontSize="15" x:Name="tbAnswerTimeout"/>
         </StackPanel>
         <StackPanel Grid.Row="5">
             <StackPanel  Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">

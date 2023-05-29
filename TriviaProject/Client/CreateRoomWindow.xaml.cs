@@ -71,18 +71,19 @@ namespace Client
                 tbQuestionCount.BorderBrush = Brushes.Red;
                 check = false;
             }
-            if (int.TryParse(tbAnswerTimeOut.Text, out _) && tbAnswerTimeOut.Text.Length != 0)
+            if (int.TryParse(tbAnswerTimeout.Text, out _) && tbAnswerTimeout.Text.Length != 0)
             {
-                tbAnswerTimeOut.BorderBrush = Brushes.Green;
+                tbAnswerTimeout.BorderBrush = Brushes.Green;
             }
             else
             {
-                tbAnswerTimeOut.BorderBrush = Brushes.Red;
+                tbAnswerTimeout.BorderBrush = Brushes.Red;
                 check = false;
             }
 
             if (check)
             {
+                MessageBox.Show("Ok");
                 string json = JsonConvert.SerializeObject(request);
                 PacketInfo packetToSend = new PacketInfo() { code = CreateRoomRequestCode, data = json };
                 communicator.SendPacket(packetToSend);
@@ -94,7 +95,7 @@ namespace Client
                     MessageBox.Show("The room created successfully...", "success", MessageBoxButton.OK);
                     Close();
                 }
-                else if (receivedPacket.code == ErrorResponseCode)
+                else //if (receivedPacket.code == ErrorResponseCode)
                 {
                     MessageBox.Show(receivedPacket.data, "Error", MessageBoxButton.OK);
                     request = new CreateRoomRequest();
@@ -115,7 +116,7 @@ namespace Client
             tbRoomName.BorderBrush = Brushes.Gray;
             tbMaxUsers.BorderBrush = Brushes.Gray;
             tbQuestionCount.BorderBrush = Brushes.Gray;
-            tbAnswerTimeOut.BorderBrush = Brushes.Gray;
+            tbAnswerTimeout.BorderBrush = Brushes.Gray;
         }
 
         /// <summary>
