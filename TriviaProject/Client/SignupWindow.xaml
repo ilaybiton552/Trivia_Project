@@ -52,7 +52,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Sign up" FontSize="35" TextAlignment="Center" Margin="0"/>
         
@@ -112,9 +112,12 @@
                 </Binding>
             </TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick"/>
-            <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick"/>
+        <StackPanel Grid.Row="7">
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick"/>
+                <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick"/>
+            </StackPanel>
+            <TextBlock Text="Already have an account?" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="25" Margin="0, 0, 0, 10" MouseDown="LoginClick"/>
         </StackPanel>
     </Grid>
 

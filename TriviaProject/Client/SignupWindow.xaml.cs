@@ -161,5 +161,17 @@ namespace Client
                 MessageBox.Show("Error", "Error", MessageBoxButton.OK);
             }
         }
+
+
+        /// <summary>
+        /// Opens login window and closes sign up window
+        /// </summary>
+        private void LoginClick(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow(ref communicator);
+            Close();
+            loginWindow.ShowDialog();
+        }
+
     }
 }
