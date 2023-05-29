@@ -34,6 +34,7 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            scores = new HighScoresDetails();
             usernameTextBlock.Text = username;
             this.DataContext = scores;
         }
