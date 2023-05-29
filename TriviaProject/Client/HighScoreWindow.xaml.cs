@@ -30,6 +30,7 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             usernameTextBlock.Text = username;
+            this.DataContext = scores;
         }
 
         /// <summary>
