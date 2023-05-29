@@ -62,9 +62,19 @@ namespace Client
         public LinkedListNode<int> id { get; set; }
         public LinkedListNode<string> name { get; set; }
         public LinkedListNode<int> maxPlayers { get; set; }
-        public LinkedListNode<int> numOfQuestiong { get; set; }
+        public LinkedListNode<int> numOfQuestions { get; set; }
         public LinkedListNode<int> timePerQuestion { get; set; }
         public LinkedListNode<int> isActive { get; set; } 
+
+        public RoomDataList()
+        {
+            id = new LinkedListNode<int>();
+            name = new LinkedListNode<string>();
+            maxPlayers = new LinkedListNode<int>();
+            numOfQuestions = new LinkedListNode<int>();
+            timePerQuestion = new LinkedListNode<int>();
+            isActive = new LinkedListNode<int>();
+        }
     }
 
 }

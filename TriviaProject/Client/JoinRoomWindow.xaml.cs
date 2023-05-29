@@ -22,6 +22,7 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
+        private RoomDataList roomDataList;
         private const int ErrorResponseCode = 200;
         private const int GetRoomsResponseCode = 204;
         private const int GetRoomsRequestCode = 104;
@@ -34,6 +35,7 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            roomDataList = new RoomDataList();
             getRooms();
         }
 

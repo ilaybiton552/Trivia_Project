@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="JoinRoomWindow" Height="450" Width="350">
+        Title="JoinRoomWindow" Height="450" Width="800">
+	<Window.Resources>
+		<Style TargetType="Button">
+			<Setter Property="FontSize" Value="35"/>
+			<Setter Property="FontFamily" Value="Dubai"/>
+			<Setter Property="Margin" Value="30"/>
+		</Style>
+		<Style TargetType="TextBlock">
+			<Setter Property="FontSize" Value="30"/>
+			<Setter Property="FontFamily" Value="Dubai"/>
+		</Style>
+	</Window.Resources>
     <Grid>
-		<TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="4*"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0">
+			<TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontFamily="Harrington"/>
+			<TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
+		</StackPanel>
+
+		<StackPanel Grid.Row="3">
+			<TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
+		</StackPanel>
+		
     </Grid>
 </Window>
