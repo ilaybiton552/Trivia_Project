@@ -54,6 +54,6 @@ namespace Client
         public string roomName { get; set; }
         public int maxUsers { get; set; }
         public int questionCount { get; set; }
-        public int answerTimeOut { get; set; }
+        public int answerTimeout { get; set; }
     }
 }

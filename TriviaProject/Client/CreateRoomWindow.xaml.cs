@@ -22,6 +22,7 @@ namespace Client
     {
         private CreateRoomRequest request;
         private Communicator communicator;
+        private string username;
         private const int CreateRoomRequestCode = 109;
         private const int CreateRoomResponseCode = 207;
         private const int ErrorResponseCode = 200;
@@ -31,6 +32,7 @@ namespace Client
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
+            this.username = username;
             request = new CreateRoomRequest();
             this.DataContext = request;
         }
@@ -69,18 +71,19 @@ namespace Client
                 tbQuestionCount.BorderBrush = Brushes.Red;
                 check = false;
             }
-            if (int.TryParse(tbAnswerTimeOut.Text, out _) && tbAnswerTimeOut.Text.Length != 0)
+            if (int.TryParse(tbAnswerTimeout.Text, out _) && tbAnswerTimeout.Text.Length != 0)
             {
-                tbAnswerTimeOut.BorderBrush = Brushes.Green;
+                tbAnswerTimeout.BorderBrush = Brushes.Green;
             }
             else
             {
-                tbAnswerTimeOut.BorderBrush = Brushes.Red;
+                tbAnswerTimeout.BorderBrush = Brushes.Red;
                 check = false;
             }
 
             if (check)
             {
+                MessageBox.Show("Ok");
                 string json = JsonConvert.SerializeObject(request);
                 PacketInfo packetToSend = new PacketInfo() { code = CreateRoomRequestCode, data = json };
                 communicator.SendPacket(packetToSend);
@@ -89,10 +92,10 @@ namespace Client
 
                 if (receivedPacket.code == CreateRoomResponseCode)
                 {
-                    MessageBox.Show("Sending to menu...", "success", MessageBoxButton.OK);
+                    MessageBox.Show("The room created successfully...", "success", MessageBoxButton.OK);
                     Close();
                 }
-                else if (receivedPacket.code == ErrorResponseCode)
+                else //if (receivedPacket.code == ErrorResponseCode)
                 {
                     MessageBox.Show(receivedPacket.data, "Error", MessageBoxButton.OK);
                     request = new CreateRoomRequest();
@@ -113,7 +116,7 @@ namespace Client
             tbRoomName.BorderBrush = Brushes.Gray;
             tbMaxUsers.BorderBrush = Brushes.Gray;
             tbQuestionCount.BorderBrush = Brushes.Gray;
-            tbAnswerTimeOut.BorderBrush = Brushes.Gray;
+            tbAnswerTimeout.BorderBrush = Brushes.Gray;
         }
 
         /// <summary>
@@ -121,7 +124,9 @@ namespace Client
         /// </summary>
         private void MenuClick(object sender, MouseButtonEventArgs e)
         {
-
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
         }
     }
 }

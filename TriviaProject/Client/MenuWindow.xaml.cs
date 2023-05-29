@@ -39,7 +39,9 @@ namespace Client
         /// </summary>
         private void CreateRoomClick(object sender, RoutedEventArgs e)
         {
+            CreateRoomWindow createRoomWindow = new CreateRoomWindow(ref communicator, connectedUser);
             Close();
+            createRoomWindow.ShowDialog();
         }
 
         /// <summary>
