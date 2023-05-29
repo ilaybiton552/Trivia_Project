@@ -22,4 +22,13 @@ namespace Client
     {
         public int status {get; set; }
     }
+
+    public class PersonalStatistics
+    {
+        public int numOfGames { get; set; }
+        public int numOfRightAnswer { get; set; }
+        public int numOfWrongAnswers { get; set; }
+        public float averageAnswerTime { get; set; }
+    }
+
 }

@@ -21,6 +21,7 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
+
         public PersonalStatsWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
