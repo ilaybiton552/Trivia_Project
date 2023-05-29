@@ -59,21 +59,21 @@ namespace Client
 
     public class RoomDataList
     {
-        public LinkedListNode<int> id { get; set; }
-        public LinkedListNode<string> name { get; set; }
-        public LinkedListNode<int> maxPlayers { get; set; }
-        public LinkedListNode<int> numOfQuestions { get; set; }
-        public LinkedListNode<int> timePerQuestion { get; set; }
-        public LinkedListNode<int> isActive { get; set; } 
+        public LinkedList<int> id { get; set; }
+        public LinkedList<string> name { get; set; }
+        public LinkedList<int> maxPlayers { get; set; }
+        public LinkedList<int> numOfQuestions { get; set; }
+        public LinkedList<int> timePerQuestion { get; set; }
+        public LinkedList<int> isActive { get; set; } 
 
         public RoomDataList()
         {
-            id = new LinkedListNode<int>(0);
-            name = new LinkedListNode<string>("");
-            maxPlayers = new LinkedListNode<int>(0);
-            numOfQuestions = new LinkedListNode<int>(0);
-            timePerQuestion = new LinkedListNode<int>(0);
-            isActive = new LinkedListNode<int>(0);
+            id = new LinkedList<int>();
+            LinkedList<string> name = new LinkedList<string>();
+            maxPlayers = new LinkedList<int>();
+            numOfQuestions = new LinkedList<int>();
+            timePerQuestion = new LinkedList<int>();
+            isActive = new LinkedList<int>();
         }
     }
 
