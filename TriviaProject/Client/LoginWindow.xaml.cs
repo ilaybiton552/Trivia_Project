@@ -98,5 +98,16 @@ namespace Client
             usernameTextBox.Text = "";
             passwordTextBox.Text = "";
         }
+
+        /// <summary>
+        /// Opens sign up window and closes login window
+        /// </summary>
+        private void SignUpClick(object sender, RoutedEventArgs e)
+        {
+            SignupWindow signupWindow = new SignupWindow(ref communicator);
+            Close();
+            signupWindow.ShowDialog();
+        }
+
     }
 }

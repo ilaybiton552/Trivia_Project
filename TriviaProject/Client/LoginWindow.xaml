@@ -18,16 +18,6 @@
             <TextBlock Text="Login:" FontSize="35" TextAlignment="Center" FontFamily="Ink Free"/>
         </StackPanel>
 
-        <!--<StackPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Username:" FontSize="30" FontFamily="Dubai"/>
-                <TextBox FontSize="30" FontFamily="Dubai" Width="200"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Password:" FontSize="30" FontFamily="Dubai"/>
-                <TextBox FontSize="30" FontFamily="Dubai" Width="200"/>
-            </StackPanel>
-        </StackPanel>-->
         <Canvas Grid.Row="1">
             <TextBlock Canvas.Top="25" Text="Username:" FontSize="30" FontFamily="Dubai"/>
             <TextBox x:Name="usernameTextBox" Text="{Binding username, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="25" Canvas.Left="150" FontSize="30" FontFamily="Dubai" Width="200"/>
@@ -35,9 +25,12 @@
             <TextBox x:Name="passwordTextBox" Text="{Binding password, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="125" Canvas.Left="150" FontSize="30" FontFamily="Dubai" Width="200"/>
         </Canvas>
 
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
-            <Button Content="Login" Height="50" Width="75" FontSize="30" FontFamily="Dubai" Margin="10" Click="LoginClick"/>
-            <Button Content="Clear" Height="50" Width="75" FontSize="30" FontFamily="Dubai" Margin="10" Click="ClearClick"/>
+        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Login" Height="50" Width="75" FontSize="30" FontFamily="Dubai" Margin="10" Click="LoginClick"/>
+                <Button Content="Clear" Height="50" Width="75" FontSize="30" FontFamily="Dubai" Margin="10" Click="ClearClick"/>
+            </StackPanel>
+            <TextBlock Text="--Sign up--" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="25" Margin="0, 0, 0, 10" MouseDown="SignUpClick"/>
         </StackPanel>
 
     </Grid>
