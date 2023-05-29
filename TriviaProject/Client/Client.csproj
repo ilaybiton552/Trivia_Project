@@ -62,11 +62,14 @@
     <Compile Include="CreateRoomWindow.xaml.cs">
       <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HighScoreWindow.xaml.cs">
-      <DependentUpon>HighScoreWindow.xaml</DependentUpon>
+    <Compile Include="JoinRoomWindow.xaml.cs">
+      <DependentUpon>JoinRoomWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HighScoreWindow.xaml.cs">
+      <DependentUpon>HighScoreWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PersonalStatsWindow.xaml.cs">
       <DependentUpon>PersonalStatsWindow.xaml</DependentUpon>
@@ -83,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+	  <Page Include="JoinRoomWindow.xaml">
+		  <SubType>Designer</SubType>
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
     <Page Include="HighScoreWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
