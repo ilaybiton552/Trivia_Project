@@ -32,11 +32,29 @@ namespace Client
         }
 
         /// <summary>
+        /// Goes to window personal stats
+        /// </summary>
+        private void PersonlStatisticsClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        /// <summary>
+        /// Goes to window high scores
+        /// </summary>
+        private void HighScoresClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        /// <summary>
         /// Goes a window back (menu window)
         /// </summary>
         private void BackClick(object sender, RoutedEventArgs e)
         {
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
+            menuWindow.ShowDialog();
         }
 
     }
