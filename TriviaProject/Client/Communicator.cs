@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -18,6 +19,8 @@ namespace Client
         private const int dataLengthIndex = 1;
         private const int packetHeaderSize = 5;
         private const int recv = 1024;
+        private const int clientLogoutCode = 0;
+        private const int statusSuccess = 1;
 
         /// <summary>
         /// Starts communication with the server
@@ -35,6 +38,7 @@ namespace Client
         /// </summary>
         public void Close()
         {
+            SendClientLogoutMessage();
             clientStream.Close();
             client.Close();
         }
@@ -81,6 +85,10 @@ namespace Client
             return buffer;
         }
 
+        /// <summary>
+        /// Gets the message from the server
+        /// </summary>
+        /// <returns>PacketInfo, the inforamtion of the packet from the server</returns>
         public PacketInfo GetMessageFromServer()
         {
             PacketInfo packetInfo = new PacketInfo();
@@ -103,6 +111,17 @@ namespace Client
             }
 
             return packetInfo;
+        }
+
+        /// <summary>
+        /// Sends a message to the server that the client logged out from the server
+        /// </summary>
+        private void SendClientLogoutMessage()
+        {
+            StatusPacket statusPacket = new StatusPacket() { status = statusSuccess};
+            string json = JsonConvert.SerializeObject(statusPacket);
+            PacketInfo packetInfo = new PacketInfo() { code=clientLogoutCode, data=json };
+            SendPacket(packetInfo);
         }
 
     }
