@@ -26,7 +26,42 @@ namespace Client
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
-            this.connectedUser = username;
+            connectedUser = username;
+            usernameTextBlock.Text += connectedUser;
         }
+
+        /// <summary>
+        /// Gets to create room window
+        /// </summary>
+        private void CreateRoomClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Gets to join room window
+        /// </summary>
+        private void JoinRoomClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Gets to statistics window
+        /// </summary>
+        private void StatisticsClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Exits the client
+        /// </summary>
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            communicator.Close();
+            Close();
+        }
+
     }
 }
