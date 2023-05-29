@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,5 +47,13 @@ namespace Client
             usernames = new string[numOfScores];
             scores = new int[numOfScores];
         }
+    }
+
+    public class CreateRoomRequest
+    {
+        public string roomName { get; set; }
+        public int maxUsers { get; set; }
+        public int questionCount { get; set; }
+        public int answerTimeOut { get; set; }
     }
 }
