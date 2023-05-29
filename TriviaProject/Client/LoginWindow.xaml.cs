@@ -39,6 +39,15 @@ namespace Client
             this.DataContext = loginRequest;
         }
 
+        public LoginWindow(ref Communicator communicator)
+        {
+            InitializeComponent();
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            this.communicator = communicator;
+            loginRequest = new LoginRequest();
+            this.DataContext = loginRequest;
+        }
+
         /// <summary>
         /// Sends a login request to the server
         /// </summary>
