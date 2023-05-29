@@ -36,7 +36,9 @@ namespace Client
         /// </summary>
         private void PersonlStatisticsClick(object sender, RoutedEventArgs e)
         {
+            PersonalStatsWindow personalStatsWindow = new PersonalStatsWindow(ref communicator, username);
             Close();
+            personalStatsWindow.ShowDialog();
         }
 
         /// <summary>
