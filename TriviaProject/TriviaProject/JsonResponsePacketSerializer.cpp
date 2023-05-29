@@ -127,10 +127,6 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighSco
         usersStatistics += *it;
         usersStatistics += ';';
     }
-    if (!usersStatistics.empty())
-    {
-        usersStatistics.pop_back(); // deleting last comma
-    }
     json response = { {"highScores", usersStatistics} };
     return makeSerializedPacket(response, GET_HIGH_SCORE_RESPONSE_CODE);
 }
