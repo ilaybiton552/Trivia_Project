@@ -64,10 +64,9 @@ namespace Client
                 switch ((Codes)statusPacket.status)
                 {
                     case Codes.Success:
-                        // when adding menu window, send to there and remove the next 2 lines
-                        MessageBox.Show("Sending to menu...", "success", MessageBoxButton.OK);
-                        communicator.Close();
+                        MenuWindow menuWindow = new MenuWindow(ref communicator);
                         Close();
+                        menuWindow.ShowDialog();
                         break;
                     case Codes.UserDoesNotExist:
                         MessageBox.Show("The user doesn't exist", "Error", 
