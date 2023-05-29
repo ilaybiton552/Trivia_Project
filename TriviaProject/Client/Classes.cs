@@ -57,6 +57,11 @@ namespace Client
         public int answerTimeout { get; set; }
     }
 
+    public class GetRoomResponse
+    {
+        public string rooms { get; set; }
+    }
+
     public class RoomDataList
     {
         public LinkedList<int> id { get; set; }
