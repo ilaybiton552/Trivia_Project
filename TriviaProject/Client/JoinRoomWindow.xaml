@@ -28,9 +28,9 @@
 			<TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
 		</StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-		<StackPanel x:Name="stackPanel">
+			<StackPanel x:Name="buttons">
 			
-		</StackPanel>
+			</StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Row="3">
 			<TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
