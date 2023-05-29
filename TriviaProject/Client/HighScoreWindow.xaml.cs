@@ -56,7 +56,7 @@ namespace Client
             }
             HighScores highScores = JsonConvert.DeserializeObject<HighScores>(serverPacket.data);
 
-            for (int i = 0; i < numOfScores; i++)
+            for (int i = 0; i < numOfScores && highScores.highScores != ""; i++)
             {
                 string temp = highScores.highScores;
                 scores.usernames[i] = temp.Remove(temp.IndexOf(','));

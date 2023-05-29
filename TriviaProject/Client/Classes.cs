@@ -57,16 +57,28 @@ namespace Client
         public int answerTimeout { get; set; }
     }
 
-    public class RoomDataList
+    public class GetRoomResponse
     {
-        public LinkedListNode<int> id { get; set; }
-        public LinkedListNode<string> name { get; set; }
-        public LinkedListNode<int> maxPlayers { get; set; }
-        public LinkedListNode<int> numOfQuestions { get; set; }
-        public LinkedListNode<int> timePerQuestion { get; set; }
-        public LinkedListNode<int> isActive { get; set; } 
-
-       
+        public string rooms { get; set; }
     }
 
+    public class RoomDataList
+    {
+        public LinkedList<int> id { get; set; }
+        public LinkedList<string> name { get; set; }
+        public LinkedList<int> maxPlayers { get; set; }
+        public LinkedList<int> numOfQuestions { get; set; }
+        public LinkedList<int> timePerQuestion { get; set; }
+        public LinkedList<int> isActive { get; set; } 
+
+        public RoomDataList()
+        {
+            id = new LinkedList<int>();
+            LinkedList<string> name = new LinkedList<string>();
+            maxPlayers = new LinkedList<int>();
+            numOfQuestions = new LinkedList<int>();
+            timePerQuestion = new LinkedList<int>();
+            isActive = new LinkedList<int>();
+        }
+    }
 }
