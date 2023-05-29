@@ -56,4 +56,15 @@ namespace Client
         public int questionCount { get; set; }
         public int answerTimeout { get; set; }
     }
+
+    public class RoomDataList
+    {
+        public LinkedListNode<int> id { get; set; }
+        public LinkedListNode<string> name { get; set; }
+        public LinkedListNode<int> maxPlayers { get; set; }
+        public LinkedListNode<int> numOfQuestiong { get; set; }
+        public LinkedListNode<int> timePerQuestion { get; set; }
+        public LinkedListNode<int> isActive { get; set; } 
+    }
+
 }
