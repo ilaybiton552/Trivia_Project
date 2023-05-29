@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,7 @@ namespace Client
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
+            statistics = JsonConvert.DeserializeObject<PersonalStatistics>(serverPacket.data);
         }
 
         /// <summary>
