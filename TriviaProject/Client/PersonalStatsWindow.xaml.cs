@@ -21,6 +21,8 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
+        private const int getPersonalStatsRequestCode = 106;
+        private const int getPersonalStatsResponseCode = 209;
 
         public PersonalStatsWindow(ref Communicator communicator, string username)
         {
@@ -29,6 +31,25 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             usernameTextBlock.Text += username;
+            getPersonalStats();
+        }
+
+        /// <summary>
+        /// Gets from the server the personal stats of the user
+        /// </summary>
+        private void getPersonalStats()
+        {
+            PacketInfo clientPacket = new PacketInfo() { code=getPersonalStatsRequestCode, data=""};
+            communicator.SendPacket(clientPacket);
+
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != getPersonalStatsResponseCode)
+            {
+                MessageBox.Show("Error getting data", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
         }
 
         /// <summary>
