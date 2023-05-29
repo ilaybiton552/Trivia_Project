@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,15 +23,51 @@ namespace Client
         private Communicator communicator;
         private string username;
         private HighScoresDetails scores;
+        private const int getHighScoreRequestCode = 107;
+        private const int getHighScoreResponseCode = 208;
+        private const int numOfScores = 3;
 
         public HighScoreWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
+            GetHighScores();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             usernameTextBlock.Text = username;
             this.DataContext = scores;
+        }
+
+        /// <summary>
+        /// Gets the high scores from the server
+        /// </summary>
+        private void GetHighScores()
+        {
+            PacketInfo clientPacket = new PacketInfo() { code = getHighScoreRequestCode, data = "" };
+            communicator.SendPacket(clientPacket);
+
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != getHighScoreResponseCode)
+            {
+                MessageBox.Show("An error has occured", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            HighScores highScores = JsonConvert.DeserializeObject<HighScores>(serverPacket.data);
+
+            highScores.highScores.Replace("<", "");
+            highScores.highScores.Replace(">,", ";");
+
+            for (int i = 0; i < numOfScores; i++)
+            {
+                string temp = highScores.highScores;
+                scores.usernames[i] = temp.Remove(temp.IndexOf(','));
+                highScores.highScores.Substring(highScores.highScores.IndexOf(',') + 1);
+                temp = highScores.highScores;
+                scores.scores[i] = int.Parse(temp.Remove(temp.IndexOf(';')));
+                highScores.highScores.Substring(highScores.highScores.IndexOf(';') + 1);
+            }
+
         }
 
         /// <summary>

@@ -38,11 +38,13 @@ namespace Client
 
     public class HighScoresDetails
     {
-        public string username1 { get; set; }
-        public string username2 { get; set; }
-        public string username3 { get; set; }
-        public int score1 { get; set; }
-        public int score2 { get; set; }
-        public int score3 { get; set; }
-
+        private const int numOfScores = 3;
+        public string[] usernames { get; set; }
+        public int[] scores { get; set; }
+        public HighScoresDetails()
+        {
+            usernames = new string[numOfScores];
+            scores = new int[numOfScores];
+        }
+    }
 }
