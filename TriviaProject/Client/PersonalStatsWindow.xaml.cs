@@ -29,5 +29,16 @@ namespace Client
             this.username = username;
             usernameTextBlock.Text += username;
         }
+
+        /// <summary>
+        /// Goes a window back (statistics window)
+        /// </summary>
+        private void BackClick(object sender, RoutedEventArgs e)
+        {
+            StatisticsWindow statisticsWindow = new StatisticsWindow(ref communicator, username);
+            Close();
+            statisticsWindow.ShowDialog();
+        }
+
     }
 }
