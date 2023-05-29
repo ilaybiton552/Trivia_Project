@@ -23,7 +23,7 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
-        private RoomDataList roomDataList;
+        private LinkedList<RoomData> roomDataList;
         private const int ErrorResponseCode = 200;
         private const int GetRoomsResponseCode = 204;
         private const int GetRoomsRequestCode = 104;
@@ -36,8 +36,7 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
-            roomDataList = new RoomDataList();
-            getRooms();
+            GetRooms();
             var button1 = new Button() { Content = "Room Name", MaxWidth=300.0}; // Creating button
             var button2 = new Button() { Content = "Room Nam", MaxWidth = 300.0}; // Creating button
             var button3 = new Button() { Content = "Room Na", MaxWidth = 300.0}; // Creating button
@@ -53,7 +52,7 @@ namespace Client
              
         }
 
-        private void getRooms()
+        private void GetRooms()
         {
             PacketInfo packetToSend = new PacketInfo() { code = GetRoomsRequestCode, data =""};
             communicator.SendPacket(packetToSend);
@@ -69,33 +68,36 @@ namespace Client
             {
                 // room id
                 string temp = response.rooms;
-                roomDataList.id.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                RoomData roomData = new RoomData();
+                roomData.id = int.Parse(temp.Remove(temp.IndexOf(',')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
 
                 // room name
                 temp = response.rooms;
-                roomDataList.name.AddLast(temp.Remove(temp.IndexOf(',')));
+                roomData.name = temp.Remove(temp.IndexOf(','));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
 
                 // max players
                 temp = response.rooms;
-                roomDataList.maxPlayers.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                roomData.maxPlayers = int.Parse(temp.Remove(temp.IndexOf(',')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
 
                 // num of questions
                 temp = response.rooms;
-                roomDataList.numOfQuestions.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                roomData.numOfQuestions = int.Parse(temp.Remove(temp.IndexOf(',')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
 
                 // time per question
                 temp = response.rooms;
-                roomDataList.timePerQuestion.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                roomData.timePerQuestion = int.Parse(temp.Remove(temp.IndexOf(',')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
 
                 // is active
                 temp = response.rooms;
-                roomDataList.isActive.AddLast(int.Parse(temp.Remove(temp.IndexOf(';'))));
+                roomData.isActive = int.Parse(temp.Remove(temp.IndexOf(';')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
+
+                roomDataList.AddLast(roomData);
             }
 
         }
