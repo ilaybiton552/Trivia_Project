@@ -68,12 +68,12 @@ namespace Client
 
         public RoomDataList()
         {
-            id = new LinkedListNode<int>();
-            name = new LinkedListNode<string>();
-            maxPlayers = new LinkedListNode<int>();
-            numOfQuestions = new LinkedListNode<int>();
-            timePerQuestion = new LinkedListNode<int>();
-            isActive = new LinkedListNode<int>();
+            id = new LinkedListNode<int>(0);
+            name = new LinkedListNode<string>("");
+            maxPlayers = new LinkedListNode<int>(0);
+            numOfQuestions = new LinkedListNode<int>(0);
+            timePerQuestion = new LinkedListNode<int>(0);
+            isActive = new LinkedListNode<int>(0);
         }
     }
 
