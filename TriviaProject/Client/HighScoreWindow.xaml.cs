@@ -21,6 +21,7 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
+        private HighScoresDetails scores;
 
         public HighScoreWindow(ref Communicator communicator, string username)
         {

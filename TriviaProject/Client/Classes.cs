@@ -36,4 +36,13 @@ namespace Client
         public string highScores { get; set;}
     }
 
+    public class HighScoresDetails
+    {
+        public string username1 { get; set; }
+        public string username2 { get; set; }
+        public string username3 { get; set; }
+        public int score1 { get; set; }
+        public int score2 { get; set; }
+        public int score3 { get; set; }
+
 }
