@@ -31,4 +31,9 @@ namespace Client
         public float averageAnswerTime { get; set; }
     }
 
+    public class HighScores
+    {
+        public string highScores { get; set;}
+    }
+
 }
