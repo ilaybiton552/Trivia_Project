@@ -46,7 +46,9 @@ namespace Client
         /// </summary>
         private void HighScoresClick(object sender, RoutedEventArgs e)
         {
+            HighScoreWindow highScoreWindow = new HighScoreWindow(ref communicator, username);
             Close();
+            highScoreWindow.ShowDialog();
         }
 
         /// <summary>
