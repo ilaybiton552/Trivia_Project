@@ -21,6 +21,7 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
+        private PersonalStatistics statistics;
         private const int getPersonalStatsRequestCode = 106;
         private const int getPersonalStatsResponseCode = 209;
 
@@ -32,6 +33,7 @@ namespace Client
             this.username = username;
             usernameTextBlock.Text += username;
             getPersonalStats();
+            this.DataContext = statistics;
         }
 
         /// <summary>
