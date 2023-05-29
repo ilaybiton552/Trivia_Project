@@ -93,7 +93,9 @@ namespace Client
                 if (receivedPacket.code == CreateRoomResponseCode)
                 {
                     MessageBox.Show("The room created successfully...", "success", MessageBoxButton.OK);
+                    MenuWindow menuWindow = new MenuWindow(ref communicator, username);
                     Close();
+                    menuWindow.ShowDialog();
                 }
                 else //if (receivedPacket.code == ErrorResponseCode)
                 {

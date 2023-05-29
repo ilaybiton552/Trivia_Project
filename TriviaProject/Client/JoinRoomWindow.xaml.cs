@@ -34,11 +34,12 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            getRooms();
         }
 
         private void getRooms()
         {
-            PacketInfo packetToSend = new PacketInfo() { code = GetRoomsRequestCode};
+            PacketInfo packetToSend = new PacketInfo() { code = GetRoomsRequestCode, data =""};
             communicator.SendPacket(packetToSend);
 
             PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
@@ -46,6 +47,16 @@ namespace Client
             {
                 MessageBox.Show(receivedPacket.data);
             }
+        }
+
+        /// <summary>
+        /// Opens menu window and closes join room window
+        /// </summary>
+        private void MenuClick(object sender, MouseButtonEventArgs e)
+        {
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
         }
     }
 }

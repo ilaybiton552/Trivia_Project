@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="JoinRoomWindow" Height="450" Width="350">
     <Grid>
-        
+		<TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
     </Grid>
 </Window>
