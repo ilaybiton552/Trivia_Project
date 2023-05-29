@@ -10,6 +10,7 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
+			<Setter Property="FontFamily" Value="Dubai"/>
             <Setter Property="Margin" Value="10"/>
         </Style>
 
@@ -17,6 +18,7 @@
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="75"/>
+			<Setter Property="FontFamily" Value="Dubai"/>
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
@@ -111,8 +113,8 @@
             </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="btnSignup_Click"/>
-            <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="btnClear_Click"/>
+            <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick"/>
+            <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick"/>
         </StackPanel>
     </Grid>
 

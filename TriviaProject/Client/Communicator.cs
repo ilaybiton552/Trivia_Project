@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class Communicator
+    public class Communicator
     {
         private TcpClient client;
         private NetworkStream clientStream;
