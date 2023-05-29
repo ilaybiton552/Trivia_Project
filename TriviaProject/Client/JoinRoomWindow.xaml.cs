@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -49,6 +50,41 @@ namespace Client
             {
                 MessageBox.Show(receivedPacket.data);
             }
+            GetRoomResponse response = JsonConvert.DeserializeObject<GetRoomResponse>(receivedPacket.data);
+
+            while (response.rooms != "") 
+            {
+                // room id
+                string temp = response.rooms;
+                roomDataList.id.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
+
+                // room name
+                temp = response.rooms;
+                roomDataList.name.AddLast(temp.Remove(temp.IndexOf(',')));
+                response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
+
+                // max players
+                temp = response.rooms;
+                roomDataList.maxPlayers.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
+
+                // num of questions
+                temp = response.rooms;
+                roomDataList.numOfQuestions.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
+
+                // time per question
+                temp = response.rooms;
+                roomDataList.timePerQuestion.AddLast(int.Parse(temp.Remove(temp.IndexOf(','))));
+                response.rooms = response.rooms.Substring(response.rooms.IndexOf(',') + 1);
+
+                // is active
+                temp = response.rooms;
+                roomDataList.isActive.AddLast(int.Parse(temp.Remove(temp.IndexOf(';'))));
+                response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
+            }
+
         }
 
         /// <summary>
