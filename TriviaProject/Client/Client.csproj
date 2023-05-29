@@ -59,20 +59,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes.cs" />
-<<<<<<< HEAD
-<<<<<<< .merge_file_fsO8hD
-    <Compile Include="CreateRoomWindow.xaml.cs">
+    <Compile Include="CreateRoomWindow.xaml.cs"/>
       <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
-=======
-    <Compile Include="MenuWindow.xaml.cs">
+    <Compile Include="MenuWindow.xaml.cs"/>
       <DependentUpon>MenuWindow.xaml</DependentUpon>
->>>>>>> .merge_file_YGNdJt
-=======
-    <Compile Include="CreateRoomWindow.xaml.cs">
+    <Compile Include="CreateRoomWindow.xaml.cs"/>
       <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
->>>>>>> 59e62fa50d27d1e86518016115d46f77b4a57dde
     </Compile>
     <Compile Include="SignupWindow.xaml.cs">
       <DependentUpon>SignupWindow.xaml</DependentUpon>
