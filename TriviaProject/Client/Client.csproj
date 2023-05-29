@@ -81,8 +81,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MenuWindow.xaml">
+<<<<<<< TriviaProject/Client/Client.csproj
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+=======
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+>>>>>>> TriviaProject/Client/Client.csproj
     </Page>
     <Page Include="SignupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
