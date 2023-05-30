@@ -110,7 +110,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomRe
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse createRoomResponse)
 {
-    json response = { {"status", createRoomResponse.status} };
+    json response = { {"status", createRoomResponse.status}, {"roomId", createRoomResponse.roomId}};
     return makeSerializedPacket(response, CREATE_ROOM_RESPONSE_CODE);
 }
 

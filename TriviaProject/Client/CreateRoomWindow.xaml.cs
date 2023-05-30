@@ -88,12 +88,11 @@ namespace Client
                 communicator.SendPacket(packetToSend);
 
                 PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
-
+                CreateRoomResponse response = JsonConvert.DeserializeObject<CreateRoomResponse>(receivedPacket.data);
                 if (receivedPacket.code == CreateRoomResponseCode)
                 {
-                    int roomId = 0;
                     RoomData roomData = new RoomData() { admin = username, isActive = 1, players = username,
-                        name = tbRoomName.Text, maxPlayers = int.Parse(tbMaxUsers.Text), id = roomId,
+                        name = tbRoomName.Text, maxPlayers = int.Parse(tbMaxUsers.Text), id = response.roomId,
                         numOfQuestions = int.Parse(tbQuestionCount.Text), timePerQuestion = int.Parse(tbAnswerTimeout.Text)};
                     RoomWindow roomWindow = new RoomWindow(ref communicator, username, roomData);
                     Close();

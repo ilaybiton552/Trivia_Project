@@ -85,4 +85,10 @@ namespace Client
         public string players { get; set; }
     }
 
+    public class CreateRoomResponse
+    {
+        public int status { get; set; }
+        public int roomId { get; set;}
+    }
+
 }
