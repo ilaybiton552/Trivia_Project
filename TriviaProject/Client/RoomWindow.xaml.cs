@@ -19,9 +19,16 @@ namespace Client
     /// </summary>
     public partial class RoomWindow : Window
     {
+        private Communicator communicator;
+        private string username;
+        private RoomData roomData;
         public RoomWindow(ref Communicator communicator, string username, RoomData roomData)
         {
             InitializeComponent();
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            this.communicator = communicator;
+            this.username = username;
+            this.roomData = roomData;
         }
     }
 }
