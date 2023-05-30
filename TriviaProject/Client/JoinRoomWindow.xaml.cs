@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,7 @@ namespace Client
                 button.Background = Brushes.Azure;
                 button.Content = it.Value.name;
                 button.MouseEnter += ShowRoomDetails;
+                button.Tag = it.Value.id;
                 rooms.Children.Add(button);
             }
         }
