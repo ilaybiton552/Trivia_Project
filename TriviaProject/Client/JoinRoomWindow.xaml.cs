@@ -215,8 +215,8 @@ namespace Client
             {
                 string temp = players;
                 roomData.admin = temp.Remove(temp.IndexOf(','));
-                roomData.players = players.Substring(players.IndexOf(','));
             }
+            roomData.players = players.Substring(players.IndexOf(','));
 
         }
 
