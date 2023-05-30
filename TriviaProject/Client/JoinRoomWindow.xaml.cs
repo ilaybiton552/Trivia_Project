@@ -68,7 +68,7 @@ namespace Client
         private void ShowRoomDetails(object sender, MouseEventArgs e)
         {
             Button button = (Button)sender;
-            MessageBox.Show(button.Content.ToString());
+            RoomData roomData = GetRoomData((int)button.Tag);
         }
 
         /// <summary>
