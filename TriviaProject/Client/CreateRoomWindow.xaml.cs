@@ -81,9 +81,8 @@ namespace Client
                 check = false;
             }
 
-            if (check)
+            if (check) // all of the needed information is correct
             {
-                MessageBox.Show("Ok");
                 string json = JsonConvert.SerializeObject(request);
                 PacketInfo packetToSend = new PacketInfo() { code = CreateRoomRequestCode, data = json };
                 communicator.SendPacket(packetToSend);
@@ -92,10 +91,13 @@ namespace Client
 
                 if (receivedPacket.code == CreateRoomResponseCode)
                 {
-                    MessageBox.Show("The room created successfully...", "success", MessageBoxButton.OK);
-                    MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                    int roomId = 0;
+                    RoomData roomData = new RoomData() { admin = username, isActive = 1, players = username,
+                        name = tbRoomName.Text, maxPlayers = int.Parse(tbMaxUsers.Text), id = roomId,
+                        numOfQuestions = int.Parse(tbQuestionCount.Text), timePerQuestion = int.Parse(tbAnswerTimeout.Text)};
+                    RoomWindow roomWindow = new RoomWindow(ref communicator, username, roomData);
                     Close();
-                    menuWindow.ShowDialog();
+                    roomWindow.ShowDialog();
                 }
                 else //if (receivedPacket.code == ErrorResponseCode)
                 {
