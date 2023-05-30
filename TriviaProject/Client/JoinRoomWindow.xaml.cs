@@ -100,6 +100,11 @@ namespace Client
                 roomData.isActive = int.Parse(temp.Remove(temp.IndexOf(';')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
 
+                if (roomDataList == null)
+                {
+                    roomDataList = new LinkedList<RoomData>();
+                }
+
                 roomDataList.AddLast(roomData);
             }
 
