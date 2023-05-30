@@ -69,6 +69,12 @@ namespace Client
         {
             Button button = (Button)sender;
             RoomData roomData = GetRoomData((int)button.Tag);
+            nameTextBlock.Text = "Name: " + roomData.name;
+            adminTextBlock.Text = "   Admin: " + roomData.admin;
+            maxPlayersTextBlock.Text = "   Max Players: " + roomData.maxPlayers.ToString();
+            numOfQTextBlock.Text = "Number of Questions: " + roomData.numOfQuestions.ToString();
+            timeTextBlock.Text = "   Time per Question: " + roomData.timePerQuestion.ToString();
+            playersTextBlock.Text = "Players: " + roomData.players;
         }
 
         /// <summary>
@@ -183,16 +189,7 @@ namespace Client
             {
                 string temp = players;
                 roomData.admin = temp.Remove(temp.IndexOf(','));
-                players = players.Substring(players.IndexOf(','));
-
-                while (players.IndexOf(',') != -1) // while there are more than 1 playres left
-                {
-                    temp = players;
-                    roomData.players.AddLast(temp.Remove(temp.IndexOf(',')));
-                    players = players.Substring(players.IndexOf(','));
-                }
-
-                roomData.players.AddLast(players); // inserting last players
+                roomData.players = players.Substring(players.IndexOf(','));
             }
 
         }

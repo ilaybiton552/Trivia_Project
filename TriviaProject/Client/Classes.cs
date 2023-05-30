@@ -72,11 +72,7 @@ namespace Client
         public int isActive { get; set; } 
 
         public string admin { get; set; }
-        public LinkedList<string> players { get; set; }
-        public RoomData()
-        {
-            players = new LinkedList<string>();
-        }
+        public string players { get; set; }
     }
 
     public class RoomIdRequest
