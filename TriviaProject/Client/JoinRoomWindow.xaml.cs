@@ -32,6 +32,7 @@ namespace Client
         private const int JoinRoomRequestCode = 108;
         private const int GetPlayersInRoomRequestCode = 105;
         private const int GetPlayersInRoomResponseCode = 205;
+        private const int SuccesStatus = 1;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
         {
@@ -99,7 +100,32 @@ namespace Client
         /// </summary>
         private void RoomClick(object sender, RoutedEventArgs e)
         {
-            
+            // sends the join room request packet
+            int id = (int)((Button)sender).Tag; // room id
+            RoomIdRequest request = new RoomIdRequest() { roomId = id };
+            string json = JsonConvert.SerializeObject(request);
+            PacketInfo clientPacket = new PacketInfo() { code = JoinRoomRequestCode, data = json };
+            communicator.SendPacket(clientPacket);
+
+            // getting the message from the server
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != JoinRoomResponseCode)
+            {
+                MessageBox.Show("Error joining room", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            StatusPacket response = JsonConvert.DeserializeObject<StatusPacket>(serverPacket.data);
+            if (response.status != SuccesStatus)
+            {
+                MessageBox.Show("Error joining room", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            RoomWindow roomWindow = new RoomWindow(ref communicator, username, GetRoomData(id));
+            Close();
+            roomWindow.ShowDialog();
         }
 
         /// <summary>
