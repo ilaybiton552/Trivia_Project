@@ -48,7 +48,8 @@ namespace Client
         {
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
-                var button = new Button() { Content = it.Value.name, MaxWidth = 300 };
+                Button button = new Button();
+                button.Content = it.Value.name;
                 buttons.Children.Add(button);
             }
         }
