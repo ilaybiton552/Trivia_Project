@@ -36,6 +36,7 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            roomDataList = new LinkedList<RoomData>();
             GetRooms();
             AddRoomsData();
         }
@@ -61,9 +62,9 @@ namespace Client
             communicator.SendPacket(packetToSend);
 
             PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
-            if (receivedPacket.code == GetRoomsResponseCode)
+            if (receivedPacket.code != GetRoomsResponseCode)
             {
-                MessageBox.Show(receivedPacket.data);
+                MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             GetRoomResponse response = JsonConvert.DeserializeObject<GetRoomResponse>(receivedPacket.data);
 
@@ -99,11 +100,6 @@ namespace Client
                 temp = response.rooms;
                 roomData.isActive = int.Parse(temp.Remove(temp.IndexOf(';')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
-
-                if (roomDataList == null)
-                {
-                    roomDataList = new LinkedList<RoomData>();
-                }
 
                 roomDataList.AddLast(roomData);
             }
