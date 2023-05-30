@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="LoginWindow" Height="450" Width="350">
-    <Grid>
+    <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="2*"/>
@@ -14,23 +14,23 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Harrington"/>
-            <TextBlock Text="Login:" FontSize="35" TextAlignment="Center" FontFamily="Ink Free"/>
+            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="#FFFFFF" />
+            <TextBlock Text="Login:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White"/>
         </StackPanel>
 
         <Canvas Grid.Row="1">
-            <TextBlock Canvas.Top="25" Text="Username:" FontSize="30" FontFamily="Dubai"/>
-            <TextBox x:Name="usernameTextBox" Text="{Binding username, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="25" Canvas.Left="150" FontSize="30" FontFamily="Dubai" Width="200"/>
-            <TextBlock Canvas.Top="125" Text="Password:" FontSize="30" FontFamily="Dubai"/>
-            <TextBox x:Name="passwordTextBox" Text="{Binding password, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="125" Canvas.Left="150" FontSize="30" FontFamily="Dubai" Width="200"/>
+            <TextBlock Canvas.Top="25" Text="Username:" FontSize="30" FontFamily="Berlin Sans FB Demi" Foreground="#FFFFFF"/>
+            <TextBox x:Name="usernameTextBox" Text="{Binding username, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="25" Canvas.Left="135" FontSize="25" FontFamily="Berlin Sans FB Demi" Width="200" Foreground="#8AAAE5"/>
+            <TextBlock Canvas.Top="125" Text="Password:" FontSize="30" FontFamily="Berlin Sans FB Demi" Foreground="White"/>
+            <TextBox x:Name="passwordTextBox" Text="{Binding password, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="125" Canvas.Left="130" FontSize="25" FontFamily="Berlin Sans FB Demi" Width="200" Foreground="#8AAAE5"/>
         </Canvas>
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <Button Content="Login" Height="50" Width="75" FontSize="30" FontFamily="Dubai" Margin="10" Click="LoginClick"/>
-                <Button Content="Clear" Height="50" Width="75" FontSize="30" FontFamily="Dubai" Margin="10" Click="ClearClick"/>
+                <Button Content="Login" Height="50" Width="75" FontSize="30" FontFamily="Berlin Sans FB Demi" Margin="10" Click="LoginClick" Background="White" Foreground="#8AAAE5"/>
+                <Button Content="Clear" Height="50" Width="75" FontSize="30" FontFamily="Berlin Sans FB Demi" Margin="10" Click="ClearClick" Background="White" Foreground="#8AAAE5"/>
             </StackPanel>
-            <TextBlock Text="--Sign up--" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="25" Margin="0, 0, 0, 10" MouseDown="SignUpClick"/>
+            <TextBlock Text="--Sign up--" TextAlignment="Center" Foreground="#FF0E2144" FontSize="25" Margin="0, 0, 0, 10" MouseDown="SignUpClick" FontFamily="Berlin Sans FB"/>
         </StackPanel>
 
     </Grid>
