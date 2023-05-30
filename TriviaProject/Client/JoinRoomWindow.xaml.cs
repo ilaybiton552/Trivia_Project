@@ -42,16 +42,24 @@ namespace Client
         }
 
         /// <summary>
-        /// Adds buttons of all of the rooms
+        /// Adds the names of all of the rooms as stack panel
         /// </summary>
         private void AddRoomsData() 
         {
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
                 Button button = new Button();
+                button.Click += StackPanelMouseLeftButtonDown;
+                button.BorderBrush = Brushes.Black;
+                button.Background = Brushes.Azure;
                 button.Content = it.Value.name;
-                buttons.Children.Add(button);
+                rooms.Children.Add(button);
             }
+        }
+
+        private void StackPanelMouseLeftButtonDown(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         /// <summary>
