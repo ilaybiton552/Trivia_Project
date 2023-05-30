@@ -78,4 +78,15 @@ namespace Client
             players = new LinkedList<string>();
         }
     }
+
+    public class RoomIdRequest
+    {
+        public int roomId { get; set; }
+    }
+
+    public class GetPlayersResponse
+    {
+        public string players { get; set; }
+    }
+
 }

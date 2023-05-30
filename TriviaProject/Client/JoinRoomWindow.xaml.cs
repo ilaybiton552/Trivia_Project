@@ -29,6 +29,8 @@ namespace Client
         private const int GetRoomsRequestCode = 104;
         private const int JoinRoomResponseCode = 206;
         private const int JoinRoomRequestCode = 108;
+        private const int GetPlayersInRoomRequestCode = 105;
+        private const int GetPlayersInRoomResponseCode = 205;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
         {
@@ -123,8 +125,18 @@ namespace Client
                 roomData.isActive = int.Parse(temp.Remove(temp.IndexOf(';')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
 
+                GetPlayers(roomData);
                 roomDataList.AddLast(roomData);
             }
+
+        }
+
+        /// <summary>
+        /// Gets the players in the room
+        /// </summary>
+        /// <param name="roomData">RoomData, the data of the current room</param>
+        private void GetPlayers(RoomData roomData)
+        {
 
         }
 
