@@ -70,5 +70,12 @@ namespace Client
         public int numOfQuestions { get; set; }
         public int timePerQuestion { get; set; }
         public int isActive { get; set; } 
+
+        public string admin { get; set; }
+        public LinkedList<string> players { get; set; }
+        public RoomData()
+        {
+            players = new LinkedList<string>();
+        }
     }
 }
