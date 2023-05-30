@@ -6,7 +6,52 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="RoomWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="Margin" Value="2.5"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Harrington"/>
+            <TextBlock x:Name="usernameTextBlock" Text="Hello - " FontSize="30" TextAlignment="Center" FontFamily="Harrington"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Name: "/>
+                <TextBlock x:Name="nameTextBlock"/>
+                <TextBlock Text="   Admin: "/>
+                <TextBlock x:Name="adminTextBlock"/>
+                <TextBlock Text="   Max Players: "/>
+                <TextBlock x:Name="maxPlayersTextBlock"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Number of Questions: "/>
+                <TextBlock x:Name="numOfQTextBlock"/>
+                <TextBlock Text="   Time per Question: "/>
+                <TextBlock x:Name="timeTextBlock"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Players: "/>
+                <TextBlock x:Name="playersTextBlock" TextWrapping="Wrap"/>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Window>
