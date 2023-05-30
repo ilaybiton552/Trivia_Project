@@ -89,6 +89,7 @@ namespace Client
             if (receivedPacket.code != GetRoomsResponseCode)
             {
                 MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
             GetRoomResponse response = JsonConvert.DeserializeObject<GetRoomResponse>(receivedPacket.data);
 
@@ -125,7 +126,7 @@ namespace Client
                 roomData.isActive = int.Parse(temp.Remove(temp.IndexOf(';')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
 
-                GetPlayers(roomData);
+                GetPlayers(ref roomData);
                 roomDataList.AddLast(roomData);
             }
 
@@ -134,9 +135,46 @@ namespace Client
         /// <summary>
         /// Gets the players in the room
         /// </summary>
-        /// <param name="roomData">RoomData, the data of the current room</param>
-        private void GetPlayers(RoomData roomData)
+        /// <param name="roomData">ref of RoomData, the data of the current room</param>
+        private void GetPlayers(ref RoomData roomData)
         {
+            // sending the packet to the server
+            RoomIdRequest request = new RoomIdRequest() { roomId = roomData.id};
+            string json = JsonConvert.SerializeObject(request);
+            PacketInfo clientPacket = new PacketInfo() { code = GetPlayersInRoomRequestCode, data = json};
+            communicator.SendPacket(clientPacket);
+
+            // receiving the packet from the server
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != GetPlayersInRoomResponseCode)
+            {
+                MessageBox.Show("Error occured", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error); 
+                return;
+            }
+            GetPlayersResponse response = JsonConvert.DeserializeObject<GetPlayersResponse>(serverPacket.data);
+            string players = response.players;
+
+            // getting the players
+            if (players.IndexOf(',') == -1) // only admin in the room
+            {
+                roomData.admin = players;
+            }
+            else
+            {
+                string temp = players;
+                roomData.admin = temp.Remove(temp.IndexOf(','));
+                players = players.Substring(players.IndexOf(','));
+
+                while (players.IndexOf(',') != -1) // while there are more than 1 playres left
+                {
+                    temp = players;
+                    roomData.players.AddLast(temp.Remove(temp.IndexOf(',')));
+                    players = players.Substring(players.IndexOf(','));
+                }
+
+                roomData.players.AddLast(players); // inserting last players
+            }
 
         }
 
