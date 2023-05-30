@@ -10,21 +10,23 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
-			<Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
             <Setter Property="Margin" Value="10"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
 
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="75"/>
-			<Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <AdornedElementPlaceholder x:Name="placeholder" />
-                        <TextBlock FontSize="10" FontStyle="Italic" Foreground="Red"
+                            <TextBlock FontSize="10" FontFamily="Berlin Sans FB Demi" Foreground="#FF0E2144"
                                    Text="{Binding ElementName=placeholder, 
                                    Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
                         </StackPanel>
@@ -43,7 +45,7 @@
         </Style>
         
     </Window.Resources>
-    <Grid>
+    <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -54,7 +56,7 @@
             <RowDefinition/>
             <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Sign up" FontSize="35" TextAlignment="Center" Margin="0"/>
+        <TextBlock Text="Sign up:" FontSize="35" TextAlignment="Center" Margin="0" FontFamily="Berlin Sans FB" Foreground="White"/>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Username:"/>
@@ -113,11 +115,11 @@
             </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="7">
-            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick"/>
-                <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick"/>
+            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Height="45">
+                <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
+                <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
             </StackPanel>
-            <TextBlock Text="Already have an account?" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="LoginClick"/>
+            <TextBlock Text="Already have an account?" TextAlignment="Center" Foreground="#FF0E2144" FontFamily="Berlin Sans FB" FontSize="15" Margin="0, 0, 0, 10" MouseDown="LoginClick"/>
         </StackPanel>
     </Grid>
 
