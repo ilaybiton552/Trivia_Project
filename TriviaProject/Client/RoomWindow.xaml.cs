@@ -34,7 +34,8 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             this.roomData = roomData;
-            GetPlayers();
+            usernameTextBlock.Text = username;
+            UpdateRoomData();
         }
 
         /// <summary>
@@ -57,6 +58,20 @@ namespace Client
             }
             GetPlayersResponse response = JsonConvert.DeserializeObject<GetPlayersResponse>(serverPacket.data);
             roomData.players = response.players;
+            playersTextBlock.Text = roomData.players;
+        }
+
+        /// <summary>
+        /// Updates the data of the room on the design
+        /// </summary>
+        private void UpdateRoomData()
+        {
+            nameTextBlock.Text = roomData.name;
+            adminTextBlock.Text = roomData.admin;
+            maxPlayersTextBlock.Text = roomData.maxPlayers.ToString();
+            numOfQTextBlock.Text = roomData.numOfQuestions.ToString();
+            timeTextBlock.Text = roomData.timePerQuestion.ToString();
+            GetPlayers();
         }
 
     }
