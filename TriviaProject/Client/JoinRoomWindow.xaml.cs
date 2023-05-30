@@ -72,6 +72,23 @@ namespace Client
         }
 
         /// <summary>
+        /// Gets data of a room by its id
+        /// </summary>
+        /// <param name="roomId">int, the id of the room</param>
+        private RoomData GetRoomData(int roomId)
+        {
+            RoomData roomData = new RoomData();
+            for (var it = roomDataList.First; it != null; it = it.Next)
+            {
+                if (it.Value.id == roomId)
+                {
+                    roomData = it.Value;
+                }
+            }
+            return roomData;
+        }
+
+        /// <summary>
         /// Sends the user to the room he joined
         /// </summary>
         private void RoomClick(object sender, RoutedEventArgs e)
