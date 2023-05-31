@@ -44,7 +44,7 @@ namespace Client
         {
             bool check = true;
 
-            if (tbRoomName.Text.Length != 0)
+            if (tbRoomName.Text.Length != 0 && tbRoomName.Text.Length <= 25)
             {
                 tbRoomName.BorderBrush = Brushes.Green;
             }
@@ -53,7 +53,7 @@ namespace Client
                 tbRoomName.BorderBrush = Brushes.Red;
                 check = false;
             }
-            if (int.TryParse(tbMaxUsers.Text, out _) && tbMaxUsers.Text.Length != 0)
+            if (int.TryParse(tbMaxUsers.Text, out _) && 2 <= int.Parse(tbMaxUsers.Text) && int.Parse(tbMaxUsers.Text) <= 10)
             {
                 tbMaxUsers.BorderBrush = Brushes.Green;
             }
@@ -62,7 +62,7 @@ namespace Client
                 tbMaxUsers.BorderBrush = Brushes.Red; 
                 check = false;
             }
-            if (int.TryParse(tbQuestionCount.Text, out _) && tbQuestionCount.Text.Length != 0)
+            if (int.TryParse(tbQuestionCount.Text, out _) && 2 <= int.Parse(tbQuestionCount.Text) && int.Parse(tbQuestionCount.Text) <= 10)
             {
                 tbQuestionCount.BorderBrush = Brushes.Green;
             }
@@ -71,7 +71,7 @@ namespace Client
                 tbQuestionCount.BorderBrush = Brushes.Red;
                 check = false;
             }
-            if (int.TryParse(tbAnswerTimeout.Text, out _) && tbAnswerTimeout.Text.Length != 0)
+            if (int.TryParse(tbAnswerTimeout.Text, out _) && 5 <= int.Parse(tbAnswerTimeout.Text) && int.Parse(tbAnswerTimeout.Text) <= 15)
             {
                 tbAnswerTimeout.BorderBrush = Brushes.Green;
             }
