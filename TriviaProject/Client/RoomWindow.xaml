@@ -5,22 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="RoomWindow" Height="450" Width="800">
+        Title="RoomWindow" Height="450" Width="350">
 
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
-            <Setter Property="Margin" Value="2.5"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
         </Style>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
             <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="4*"/>
@@ -28,23 +32,29 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Harrington"/>
-            <TextBlock x:Name="usernameTextBlock" Text="Hello - " FontSize="30" TextAlignment="Center" FontFamily="Harrington"/>
+            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
+            <TextBlock Text="Room information:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Name: "/>
                 <TextBlock x:Name="nameTextBlock"/>
-                <TextBlock Text="   Admin: "/>
-                <TextBlock x:Name="adminTextBlock"/>
-                <TextBlock Text="   Max Players: "/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="   Admin: "/>
+            <TextBlock x:Name="adminTextBlock"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="   Max Players: "/>
                 <TextBlock x:Name="maxPlayersTextBlock"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Number of Questions: "/>
                 <TextBlock x:Name="numOfQTextBlock"/>
-                <TextBlock Text="   Time per Question: "/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="   Time per Question: "/>
                 <TextBlock x:Name="timeTextBlock"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -52,6 +62,7 @@
                 <TextBlock x:Name="playersTextBlock" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
-
+        
+        <Button Grid.Row="2" Content="Back" HorizontalAlignment="Left" Click="BackClick" Margin="5,32.5,0,5"/>
     </Grid>
 </Window>

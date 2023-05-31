@@ -34,7 +34,6 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             this.roomData = roomData;
-            usernameTextBlock.Text = username;
             UpdateRoomData();
         }
 
@@ -72,6 +71,16 @@ namespace Client
             numOfQTextBlock.Text = roomData.numOfQuestions.ToString();
             timeTextBlock.Text = roomData.timePerQuestion.ToString();
             GetPlayers();
+        }
+
+        /// <summary>
+        /// Goes back to menu window
+        /// </summary>
+        private void BackClick(object sender, RoutedEventArgs e)
+        {
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
         }
 
     }

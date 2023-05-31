@@ -116,7 +116,7 @@
         </StackPanel>
         <StackPanel Grid.Row="7">
             <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Height="45">
-                <Button x:Name="btnSignup" Content="Sing up" FontSize="20" Margin="5" Click="SignupClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
+                <Button x:Name="btnSignup" Content="Sign up" FontSize="20" Margin="5" Click="SignupClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
                 <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
             </StackPanel>
             <TextBlock Text="Already have an account?" TextAlignment="Center" Foreground="#FF0E2144" FontFamily="Berlin Sans FB" FontSize="15" Margin="0, 0, 0, 10" MouseDown="LoginClick"/>
