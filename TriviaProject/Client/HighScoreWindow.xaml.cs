@@ -34,7 +34,6 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             scores = new HighScoresDetails();
-            usernameTextBlock.Text = username;
             GetHighScores();
             this.DataContext = scores;
         }

@@ -5,20 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="HighScoreWindow" Height="450" Width="800">
+        Title="HighScoreWindow" Height="450" Width="350">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="FontSize" Value="35"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
-            <Setter Property="Margin" Value="30"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="65"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="4*"/>
@@ -26,8 +31,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontFamily="Harrington"/>
-            <TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
+            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
+            <TextBlock Text="High scores:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
         </StackPanel>
 
         <Canvas Grid.Row="1">
@@ -44,7 +49,7 @@
             <TextBlock Text="{Binding scores[2]}" Canvas.Top="215" Canvas.Left="425"/>
         </Canvas>
 
-        <Button Grid.Row="2" Content="Back" Margin="5" HorizontalAlignment="Left" FontSize="25" Click="BackClick"/>
+        <Button Grid.Row="2" Content="Back" HorizontalAlignment="Left" Click="BackClick"/>
 
     </Grid>
 </Window>
