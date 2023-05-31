@@ -10,20 +10,23 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
-            <Setter Property="Margin" Value="0, 20, 5, 20"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="25"/>
         </Style>
 
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="75"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
 
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -33,7 +36,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Sign up" FontSize="35" TextAlignment="Center" Margin="0"/>
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="#FFFFFF" Height="30"/>
+            <TextBlock Text="Create room:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White" Height="35"/>
+        </StackPanel>
+        
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Room Name:"/>
             <TextBox Text="{Binding roomName, 
@@ -59,11 +66,11 @@
                     FontSize="15" x:Name="tbAnswerTimeout"/>
         </StackPanel>
         <StackPanel Grid.Row="5">
-            <StackPanel  Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSend" Content="Send" FontSize="20" Margin="5" Click="SendClick"/>
-                <Button x:Name="btnClear" Content="Clear" FontSize="20" Margin="5" Click="ClearClick"/>
+            <StackPanel  Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Height="45">
+                <Button x:Name="btnSend" Content="Send" Width="50" FontSize="20" Margin="5" Click="SendClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
+                <Button x:Name="btnClear" Content="Clear" Width="50" FontSize="20" Margin="5" Click="ClearClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
             </StackPanel>
-            <TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
+            <TextBlock Text="Back to menu" TextAlignment="Center" Foreground="#FF0E2144" FontFamily="Berlin Sans FB" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
         </StackPanel>
     </Grid>
 </Window>
