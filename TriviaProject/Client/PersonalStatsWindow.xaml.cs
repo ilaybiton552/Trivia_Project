@@ -32,7 +32,6 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
-            usernameTextBlock.Text += username;
             getPersonalStats();
             this.DataContext = statistics;
         }

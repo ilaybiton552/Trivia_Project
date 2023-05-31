@@ -5,21 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="PersonalStatsWindow" Height="450" Width="800">
+        Title="PersonalStatsWindow" Height="450" Width="350">
 
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="FontSize" Value="35"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
-            <Setter Property="Margin" Value="30"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Margin" Value="5, 32.5, 0, 5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="50"/>
         </Style>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="4*"/>
@@ -27,22 +33,30 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontFamily="Harrington"/>
-            <TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
+            <TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontSize="30" FontFamily="Berlin Sans FB"/>
+            <TextBlock Text="Personal statistics:" TextAlignment="Center" FontSize="35" FontFamily="Berlin Sans FB"/>
         </StackPanel>
 
         <Canvas Grid.Row="1">
-            <TextBlock Text="Number of games: " Canvas.Top="20" Canvas.Left="25"/>
-            <TextBlock Text="Number of right answers: " Canvas.Top="85" Canvas.Left="25"/>
-            <TextBlock Text="Number of wrong answers: " Canvas.Top="150" Canvas.Left="25"/>
-            <TextBlock Text="Average answer time: " Canvas.Top="215" Canvas.Left="25"/>
-            <TextBlock Text="{Binding numOfGames}" Canvas.Top="25" Canvas.Left="425"/>
-            <TextBlock Text="{Binding numOfRightAnswers}" Canvas.Top="90" Canvas.Left="425"/>
-            <TextBlock Text="{Binding numOfWrongAnswers}" Canvas.Top="155" Canvas.Left="425"/>
-            <TextBlock Text="{Binding averageAnswerTime}" Canvas.Top="220" Canvas.Left="425"/>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Number of games: " Margin="10, 15, 5, 0"/>
+                <TextBlock Text="{Binding numOfGames}" Margin="0, 15, 5, 0"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Number of right answers: " Margin="10, 65, 5, 0"/>
+                <TextBlock Text="{Binding numOfRightAnswers}" Margin="0, 65, 5, 0"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Number of wrong answers: " Margin="10, 115, 5, 0"/>
+                <TextBlock Text="{Binding numOfWrongAnswers}" Margin="0, 115, 5, 0"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Average answer time: " Margin="10, 165, 5, 0"/>
+                <TextBlock Text="{Binding averageAnswerTime}" Margin="0, 165, 5, 0"/>
+            </StackPanel>
         </Canvas>
 
-        <Button Grid.Row="2" Content="Back" Margin="5" HorizontalAlignment="Left" FontSize="25" Click="BackClick"/>
+        <Button Grid.Row="2" Content="Back" HorizontalAlignment="Left" Click="BackClick"/>
 
     </Grid>
 </Window>
