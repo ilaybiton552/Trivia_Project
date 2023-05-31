@@ -81,21 +81,22 @@ namespace Client
                 check = false;
             }
 
-            if (check)
+            if (check) // all of the needed information is correct
             {
-                MessageBox.Show("Ok");
                 string json = JsonConvert.SerializeObject(request);
                 PacketInfo packetToSend = new PacketInfo() { code = CreateRoomRequestCode, data = json };
                 communicator.SendPacket(packetToSend);
 
                 PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
-
+                CreateRoomResponse response = JsonConvert.DeserializeObject<CreateRoomResponse>(receivedPacket.data);
                 if (receivedPacket.code == CreateRoomResponseCode)
                 {
-                    MessageBox.Show("The room created successfully...", "success", MessageBoxButton.OK);
-                    MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                    RoomData roomData = new RoomData() { admin = username, isActive = 1, players = username,
+                        name = tbRoomName.Text, maxPlayers = int.Parse(tbMaxUsers.Text), id = response.roomId,
+                        numOfQuestions = int.Parse(tbQuestionCount.Text), timePerQuestion = int.Parse(tbAnswerTimeout.Text)};
+                    RoomWindow roomWindow = new RoomWindow(ref communicator, username, roomData);
                     Close();
-                    menuWindow.ShowDialog();
+                    roomWindow.ShowDialog();
                 }
                 else //if (receivedPacket.code == ErrorResponseCode)
                 {

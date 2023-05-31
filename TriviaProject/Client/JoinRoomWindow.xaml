@@ -8,34 +8,44 @@
         Title="JoinRoomWindow" Height="450" Width="800">
 	<Window.Resources>
 		<Style TargetType="Button">
-			<Setter Property="FontSize" Value="35"/>
-			<Setter Property="FontFamily" Value="Dubai"/>
-			<Setter Property="Margin" Value="30"/>
-		</Style>
+			<Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Dubai"/>
+            <Setter Property="Margin" Value="2.5"/>
+        </Style>
 		<Style TargetType="TextBlock">
 			<Setter Property="FontSize" Value="30"/>
 			<Setter Property="FontFamily" Value="Dubai"/>
-		</Style>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
 	</Window.Resources>
     <Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
-			<RowDefinition Height="3*"/>
 			<RowDefinition Height="2*"/>
+			<RowDefinition Height="3*"/>
 			<RowDefinition Height="0.5*"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
-			<TextBlock Text="Ready for some Trivia?" TextAlignment="Center" FontFamily="Harrington"/>
-			<TextBlock x:Name="usernameTextBlock" Text="Hello - " TextAlignment="Center" FontFamily="Harrington"/>
+			<TextBlock Text="Ready for some Trivia?" FontFamily="Harrington"/>
+			<TextBlock x:Name="usernameTextBlock" Text="Hello - " FontFamily="Harrington"/>
 		</StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-			<StackPanel x:Name="buttons" >
+			<StackPanel x:Name="rooms" Margin="100, 5, 100, 5">
 			
 			</StackPanel>
         </ScrollViewer>
 
-        <StackPanel x:Name="roomData" Grid.Row="2">
-            
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="nameTextBlock"/>
+                <TextBlock x:Name="adminTextBlock"/>
+                <TextBlock x:Name="maxPlayersTextBlock"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="numOfQTextBlock"/>
+                <TextBlock x:Name="timeTextBlock"/>
+            </StackPanel>
+            <TextBlock x:Name="playersTextBlock" TextWrapping="Wrap"/>
         </StackPanel> 
         
         <StackPanel Grid.Row="3">

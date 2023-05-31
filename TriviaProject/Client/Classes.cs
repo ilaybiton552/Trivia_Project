@@ -70,5 +70,25 @@ namespace Client
         public int numOfQuestions { get; set; }
         public int timePerQuestion { get; set; }
         public int isActive { get; set; } 
+
+        public string admin { get; set; }
+        public string players { get; set; }
     }
+
+    public class RoomIdRequest
+    {
+        public int roomId { get; set; }
+    }
+
+    public class GetPlayersResponse
+    {
+        public string players { get; set; }
+    }
+
+    public class CreateRoomResponse
+    {
+        public int status { get; set; }
+        public int roomId { get; set;}
+    }
+
 }

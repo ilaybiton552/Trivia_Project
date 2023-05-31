@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,9 @@ namespace Client
         private const int GetRoomsRequestCode = 104;
         private const int JoinRoomResponseCode = 206;
         private const int JoinRoomRequestCode = 108;
+        private const int GetPlayersInRoomRequestCode = 105;
+        private const int GetPlayersInRoomResponseCode = 205;
+        private const int SuccesStatus = 1;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
         {
@@ -42,16 +46,86 @@ namespace Client
         }
 
         /// <summary>
-        /// Adds buttons of all of the rooms
+        /// Adds the names of all of the rooms as buttons
         /// </summary>
         private void AddRoomsData() 
         {
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
                 Button button = new Button();
+                button.Click += RoomClick;
+                button.BorderBrush = Brushes.Black;
+                button.Background = Brushes.Azure;
                 button.Content = it.Value.name;
-                buttons.Children.Add(button);
+                button.MouseEnter += ShowRoomDetails;
+                button.Tag = it.Value.id;
+                rooms.Children.Add(button);
             }
+        }
+
+        /// <summary>
+        /// Shows the details of the room the mouse is on
+        /// </summary>
+        private void ShowRoomDetails(object sender, MouseEventArgs e)
+        {
+            Button button = (Button)sender;
+            RoomData roomData = GetRoomData((int)button.Tag);
+            nameTextBlock.Text = "Name: " + roomData.name;
+            adminTextBlock.Text = "   Admin: " + roomData.admin;
+            maxPlayersTextBlock.Text = "   Max Players: " + roomData.maxPlayers.ToString();
+            numOfQTextBlock.Text = "Number of Questions: " + roomData.numOfQuestions.ToString();
+            timeTextBlock.Text = "   Time per Question: " + roomData.timePerQuestion.ToString();
+            playersTextBlock.Text = "Players: " + roomData.players;
+        }
+
+        /// <summary>
+        /// Gets data of a room by its id
+        /// </summary>
+        /// <param name="roomId">int, the id of the room</param>
+        private RoomData GetRoomData(int roomId)
+        {
+            RoomData roomData = new RoomData();
+            for (var it = roomDataList.First; it != null; it = it.Next)
+            {
+                if (it.Value.id == roomId)
+                {
+                    roomData = it.Value;
+                }
+            }
+            return roomData;
+        }
+
+        /// <summary>
+        /// Sends the user to the room he joined
+        /// </summary>
+        private void RoomClick(object sender, RoutedEventArgs e)
+        {
+            // sends the join room request packet
+            int id = (int)((Button)sender).Tag; // room id
+            RoomIdRequest request = new RoomIdRequest() { roomId = id };
+            string json = JsonConvert.SerializeObject(request);
+            PacketInfo clientPacket = new PacketInfo() { code = JoinRoomRequestCode, data = json };
+            communicator.SendPacket(clientPacket);
+
+            // getting the message from the server
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != JoinRoomResponseCode)
+            {
+                MessageBox.Show("Error joining room", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            StatusPacket response = JsonConvert.DeserializeObject<StatusPacket>(serverPacket.data);
+            if (response.status != SuccesStatus)
+            {
+                MessageBox.Show("Error joining room", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            RoomWindow roomWindow = new RoomWindow(ref communicator, username, GetRoomData(id));
+            Close();
+            roomWindow.ShowDialog();
         }
 
         /// <summary>
@@ -66,6 +140,7 @@ namespace Client
             if (receivedPacket.code != GetRoomsResponseCode)
             {
                 MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
             GetRoomResponse response = JsonConvert.DeserializeObject<GetRoomResponse>(receivedPacket.data);
 
@@ -102,9 +177,46 @@ namespace Client
                 roomData.isActive = int.Parse(temp.Remove(temp.IndexOf(';')));
                 response.rooms = response.rooms.Substring(response.rooms.IndexOf(';') + 1);
 
+                GetPlayers(ref roomData);
                 roomDataList.AddLast(roomData);
             }
 
+        }
+
+        /// <summary>
+        /// Gets the players in the room
+        /// </summary>
+        /// <param name="roomData">ref of RoomData, the data of the current room</param>
+        private void GetPlayers(ref RoomData roomData)
+        {
+            // sending the packet to the server
+            RoomIdRequest request = new RoomIdRequest() { roomId = roomData.id};
+            string json = JsonConvert.SerializeObject(request);
+            PacketInfo clientPacket = new PacketInfo() { code = GetPlayersInRoomRequestCode, data = json};
+            communicator.SendPacket(clientPacket);
+
+            // receiving the packet from the server
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != GetPlayersInRoomResponseCode)
+            {
+                MessageBox.Show("Error occured", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error); 
+                return;
+            }
+            GetPlayersResponse response = JsonConvert.DeserializeObject<GetPlayersResponse>(serverPacket.data);
+            string players = response.players;
+
+            // getting the players
+            if (players.IndexOf(',') == -1) // only admin in the room
+            {
+                roomData.admin = players;
+            }
+            else
+            {
+                string temp = players;
+                roomData.admin = temp.Remove(temp.IndexOf(','));
+            }
+            roomData.players = players;
         }
 
         /// <summary>
