@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="JoinRoomWindow" Height="450" Width="350">
+        Title="JoinRoomWindow" Height="500" Width="450">
 	<Window.Resources>
         <Style TargetType="Button">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
-            <Setter Property="Margin" Value="5, 32.5, 0, 5"/>
+            <Setter Property="Margin" Value="5"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="#8AAAE5"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
@@ -35,7 +36,7 @@
             <TextBlock Text="Join room:" FontFamily="Berlin Sans FB" FontSize="35"/>
 		</StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-			<StackPanel x:Name="rooms" Margin="100, 5, 100, 5">
+			<StackPanel x:Name="rooms" Margin="5">
 			
 			</StackPanel>
         </ScrollViewer>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="350">
+        Title="LoginWindow" Height="500" Width="450">
     <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
             <RowDefinition/>

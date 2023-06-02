@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="CreateRoomWindow" Height="450" Width="350">
+        Title="CreateRoomWindow" Height="550" Width="450">
 
     <Window.Resources>
         <Style TargetType="TextBlock">

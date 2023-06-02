@@ -54,8 +54,6 @@ namespace Client
             {
                 Button button = new Button();
                 button.Click += RoomClick;
-                button.BorderBrush = Brushes.Black;
-                button.Background = Brushes.Azure;
                 button.Content = it.Value.name;
                 button.MouseEnter += ShowRoomDetails;
                 button.Tag = it.Value.id;

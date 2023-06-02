@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="StatisticsWindow" Height="450" Width="350">
+        Title="StatisticsWindow" Height="500" Width="450">
 
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="FontSize" Value="25"/>
             <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
-            <Setter Property="Margin" Value="0, 10, 0, 10"/>
+            <Setter Property="Margin" Value="0, 15, 0, 15"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="#8AAAE5"/>
             <Setter Property="Height" Value="50"/>
