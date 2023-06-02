@@ -70,7 +70,7 @@
                 <Button x:Name="btnSend" Content="Send" Width="50" FontSize="20" Margin="5" Click="SendClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
                 <Button x:Name="btnClear" Content="Clear" Width="50" FontSize="20" Margin="5" Click="ClearClick" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
             </StackPanel>
-            <TextBlock Text="Back to menu" TextAlignment="Center" Foreground="#FF0E2144" FontFamily="Berlin Sans FB" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
+            <Button Grid.Row="2" Content="Back" HorizontalAlignment="Left" Click="BackClick" FontSize="20" Margin="5, 10, 0, 0" FontFamily="Berlin Sans FB Demi" Foreground="#8AAAE5" Background="White"/>
         </StackPanel>
     </Grid>
 </Window>

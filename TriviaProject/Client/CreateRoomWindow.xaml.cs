@@ -123,9 +123,9 @@ namespace Client
         }
 
         /// <summary>
-        /// Opens menu window and closes create room window
+        /// Goes a window back (menu window)
         /// </summary>
-        private void MenuClick(object sender, MouseButtonEventArgs e)
+        private void BackClick(object sender, RoutedEventArgs e)
         {
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
