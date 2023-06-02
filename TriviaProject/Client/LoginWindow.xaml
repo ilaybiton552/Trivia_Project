@@ -19,10 +19,10 @@
         </StackPanel>
 
         <Canvas Grid.Row="1">
-            <TextBlock Canvas.Top="25" Text="Username:" FontSize="30" FontFamily="Berlin Sans FB Demi" Foreground="#FFFFFF"/>
-            <TextBox x:Name="usernameTextBox" Text="{Binding username, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="25" Canvas.Left="135" FontSize="25" FontFamily="Berlin Sans FB Demi" Width="200" Foreground="#8AAAE5"/>
-            <TextBlock Canvas.Top="125" Text="Password:" FontSize="30" FontFamily="Berlin Sans FB Demi" Foreground="White"/>
-            <TextBox x:Name="passwordTextBox" Text="{Binding password, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="125" Canvas.Left="130" FontSize="25" FontFamily="Berlin Sans FB Demi" Width="200" Foreground="#8AAAE5"/>
+            <TextBlock Canvas.Left="60" Canvas.Top="25" Text="Username:" FontSize="30" FontFamily="Berlin Sans FB Demi" Foreground="#FFFFFF"/>
+            <TextBox x:Name="usernameTextBox" Text="{Binding username, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="30" Canvas.Left="200" FontSize="25" FontFamily="Berlin Sans FB Demi" Width="200" Foreground="#8AAAE5"/>
+            <TextBlock Canvas.Left="60" Canvas.Top="125" Text="Password:" FontSize="30" FontFamily="Berlin Sans FB Demi" Foreground="White"/>
+            <TextBox x:Name="passwordTextBox" Text="{Binding password, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="130" Canvas.Left="200" FontSize="25" FontFamily="Berlin Sans FB Demi" Width="200" Foreground="#8AAAE5"/>
         </Canvas>
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">

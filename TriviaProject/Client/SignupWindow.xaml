@@ -15,6 +15,10 @@
             <Setter Property="Foreground" Value="White"/>
         </Style>
 
+        <Style TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="25"/>
