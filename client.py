@@ -20,6 +20,7 @@ USER_ALREADY_LOGGED_CODE = 5
 USER_DOES_NOT_LOGGED_CODE = 6
 REGEX_ERROR = 7
 
+
 def client_socket():
     """
     Opens a client socket
@@ -152,21 +153,6 @@ def custom_message():
     return data, code
 
 
-def action(choice, sock):
-    """
-    the function does the wanted action
-    :param choice: user's choice of action
-    :param sock: Socket sock
-    :return: None
-    """
-    if choice is LOGIN:
-        serialize_message(login_message(), LOGIN_REQUEST_CODE, sock)
-    elif choice is SIGNUP:
-        serialize_message(signup_message(), SIGNUP_REQUEST_CODE, sock)
-    elif choice is EXIT:
-        print("Goodbye!")
-
-
 def password_check(password):
     """
     the function checks if the password is valid or not
@@ -236,45 +222,6 @@ def birthdate_check(birthdate):
     """
     regex = re.compile(r'([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})')
     return bool((re.fullmatch(regex, birthdate)))
-
-
-def menu():
-    """
-    the function prints the menu and receives user choice
-    :return: user's choice
-    """
-    print("What would you like to do?")
-    print("0 - Exit")
-    print("1 - Login")
-    print("2 - Signup")
-    print("3 - Custom message")
-    choice = -1
-    while not (0 <= choice <= 3):
-        try:
-            choice = int(input("Please enter your choice: "))
-        except Exception as ex:
-            print("Invalid input!" + str(ex))
-
-    return choice
-
-
-def action(choice, sock):
-    """
-    the function does the wanted action
-    :param choice: user's choice of action
-    :param sock: Socket sock
-    :return: None
-    """
-    if choice is LOGIN:
-        serialize_message(login_message(), LOGIN_REQUEST_CODE, sock)
-    elif choice is SIGNUP:
-        serialize_message(signup_message(), SIGNUP_REQUEST_CODE, sock)
-    elif choice is EXIT:
-        print("Goodbye!")
-        serialize_message("disconnect", DISCONNECT_REQUEST_CODE, sock)
-    elif choice is CUSTOM_MESSAGE:
-        data, code = custom_message()
-        serialize_message(data, code, sock)
 
 
 def menu():

@@ -1,6 +1,7 @@
 #include "LoginRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
+#include "LoggedUser.h"
 
 /// <summary>
 /// Constructor of LoginRequestHandler
@@ -66,7 +67,7 @@ RequestResult LoginRequestHandler::login(const RequestInfo& requestInfo)
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
     if (loginResponse.status == SUCCESS_CODE)
     {
-        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler();
+        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler(LoggedUser(loginRequest.username));
     }
 
     return requestResult;
@@ -87,7 +88,7 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& requestInfo)
     requestResult.response = JsonResponsePacketSerializer::serializeResponse(signupResponse);
     if (signupResponse.status == SUCCESS_CODE)
     {
-        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler();
+        requestResult.newHandler = m_handlerFactory.createMenuRequestHandler(LoggedUser(signupRequest.username));
     }
 
     return requestResult;

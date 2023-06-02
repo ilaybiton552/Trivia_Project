@@ -27,9 +27,51 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vect
     signupRequest.password = data["password"];
     signupRequest.username = data["username"];
     signupRequest.address = data["address"];
-    signupRequest.phoneNumber = data["phone_number"];
+    signupRequest.phoneNumber = data["phone"];
     signupRequest.birthDate = data["birthdate"];
     return signupRequest;
+}
+
+/// <summary>
+/// Deserizlizes get players in room request
+/// </summary>
+/// <param name="buffer">vector of bytes, the get players in room request from the client</param>
+/// <returns>struct GetPlayersInRoomRequest, struct with the data of get players in room request</returns>
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(const vector<unsigned char>& buffer)
+{
+    GetPlayersInRoomRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.roomId = data["roomId"];
+    return request;
+}
+
+/// <summary>
+/// Deserizlizes join room request
+/// </summary>
+/// <param name="buffer">vector of bytes, the join room request from the client</param>
+/// <returns>struct JoinRoomRequest, struct with the data of join room request</returns>
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const vector<unsigned char>& buffer)
+{
+    JoinRoomRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.roomId = data["roomId"];
+    return request;
+}
+
+/// <summary>
+/// Deserizlizes create room request
+/// </summary>
+/// <param name="buffer">vector of bytes, the get players in create room client</param>
+/// <returns>struct CreateRoomRequest, struct with the data of create room request</returns>
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const vector<unsigned char>& buffer)
+{
+    CreateRoomRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.roomName = data["roomName"];
+    request.maxUsers = data["maxUsers"];
+    request.questionCount = data["questionCount"];
+    request.answerTimeout = data["answerTimeout"];
+    return request;
 }
 
 /// <summary>
