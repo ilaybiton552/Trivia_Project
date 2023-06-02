@@ -51,18 +51,21 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LogoutResp
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomResponse getRoomResponse)
 {
-    string rooms;
+    string rooms; // id,name,maxPlayers,numQuestions,timeQuestions,isActive;...
     for (auto it = getRoomResponse.rooms.begin(); it != getRoomResponse.rooms.end(); ++it)
     {
-        rooms += '<';
-        rooms += it->name;
-        rooms += ",";
         rooms += std::to_string(it->id);
-        rooms += ">,";
-    }
-    if (!rooms.empty())
-    {
-        rooms.pop_back(); // deleting last comma
+        rooms += ',';
+        rooms += it->name;
+        rooms += ',';
+        rooms += std::to_string(it->maxPlayers);
+        rooms += ',';
+        rooms += std::to_string(it->numOfQuestionsInGame);
+        rooms += ',';
+        rooms += std::to_string(it->timePerQuestion);
+        rooms += ',';
+        rooms += std::to_string(it->isActive);
+        rooms += ';';
     }
     json response = { {"rooms", rooms} };
     return makeSerializedPacket(response, GET_ROOM_RESPONSE_CODE);
@@ -107,7 +110,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomRe
 /// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse createRoomResponse)
 {
-    json response = { {"status", createRoomResponse.status} };
+    json response = { {"status", createRoomResponse.status}, {"roomId", createRoomResponse.roomId}};
     return makeSerializedPacket(response, CREATE_ROOM_RESPONSE_CODE);
 }
 
@@ -122,11 +125,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighSco
     for (auto it = scoreResponse.statistics.begin(); it != scoreResponse.statistics.end(); ++it)
     {
         usersStatistics += *it;
-        usersStatistics += ',';
-    }
-    if (!usersStatistics.empty())
-    {
-        usersStatistics.pop_back(); // deleting last comma
+        usersStatistics += ';';
     }
     json response = { {"highScores", usersStatistics} };
     return makeSerializedPacket(response, GET_HIGH_SCORE_RESPONSE_CODE);

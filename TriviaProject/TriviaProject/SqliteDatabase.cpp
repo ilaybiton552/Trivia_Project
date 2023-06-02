@@ -1,4 +1,4 @@
-#include "SqliteDatabase.h"
+ #include "SqliteDatabase.h"
 
 /// <summary>
 /// the function opens database
@@ -160,18 +160,16 @@ int SqliteDatabase::getPlayerScore(const string& username)
 vector<string> SqliteDatabase::getHighScores()
 {
 	vector<string> usernames;
-	vector<string> scores; // will be <username,score>
+	vector<string> scores; // will be username,score;username,score
 	string currScore;
 	// get all usernames sorted by highest score (limit of 5)
-	sqlQuery("SELECT USERNAME FROM STATISTICS WHERE IS_CORRECT_ANSWER = 1 GROUP BY USERNAME ORDER BY COUNT(IS_CORRECT_ANSWER) DESC LIMIT 5;", getUsernames, &usernames);
+	sqlQuery("SELECT USERNAME FROM STATISTICS WHERE IS_CORRECT_ANSWER = 1 GROUP BY USERNAME ORDER BY COUNT(IS_CORRECT_ANSWER) DESC LIMIT 3;", getUsernames, &usernames);
 
 	for (int i = 0; i < usernames.size(); i++) // create the scores vector with the wanted data
 	{
-		currScore += '<';
 		currScore += usernames[i];
 		currScore += ',';
 		currScore += std::to_string(getPlayerScore(usernames[i]));
-		currScore += '>';
 		scores.push_back(currScore);
 		currScore.clear();
 	}
