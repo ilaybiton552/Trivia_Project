@@ -5,29 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="JoinRoomWindow" Height="450" Width="800">
+        Title="JoinRoomWindow" Height="450" Width="350">
 	<Window.Resources>
-		<Style TargetType="Button">
-			<Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontFamily" Value="Dubai"/>
-            <Setter Property="Margin" Value="2.5"/>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Margin" Value="5, 32.5, 0, 5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="50"/>
         </Style>
-		<Style TargetType="TextBlock">
-			<Setter Property="FontSize" Value="30"/>
-			<Setter Property="FontFamily" Value="Dubai"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
             <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
 	</Window.Resources>
-    <Grid>
-		<Grid.RowDefinitions>
+    <Grid Background="#8AAAE5">
+        <Grid.RowDefinitions>
 			<RowDefinition/>
 			<RowDefinition Height="2*"/>
 			<RowDefinition Height="3*"/>
 			<RowDefinition Height="0.5*"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
-			<TextBlock Text="Ready for some Trivia?" FontFamily="Harrington"/>
-			<TextBlock x:Name="usernameTextBlock" Text="Hello - " FontFamily="Harrington"/>
+            <TextBlock Text="Ready for some Trivia?" FontFamily="Berlin Sans FB" FontSize="30"/>
+            <TextBlock Text="Join room:" FontFamily="Berlin Sans FB" FontSize="35"/>
 		</StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
 			<StackPanel x:Name="rooms" Margin="100, 5, 100, 5">
@@ -49,7 +54,7 @@
         </StackPanel> 
         
         <StackPanel Grid.Row="3">
-			<TextBlock Text="Back to menu" TextAlignment="Center" Foreground="Blue" FontStyle="Italic" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
+            <TextBlock Text="Back to menu" Foreground="#FF0E2144" FontFamily="Berlin Sans FB" FontSize="15" Margin="0, 0, 0, 10" MouseDown="MenuClick"/>
 		</StackPanel>
 		
     </Grid>
