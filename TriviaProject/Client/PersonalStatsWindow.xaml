@@ -38,22 +38,14 @@
         </StackPanel>
 
         <Canvas Grid.Row="1">
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="Number of games: " Margin="10, 15, 5, 0"/>
-                <TextBlock Text="{Binding numOfGames}" Margin="0, 15, 5, 0"/>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="Number of right answers: " Margin="10, 65, 5, 0"/>
-                <TextBlock Text="{Binding numOfRightAnswers}" Margin="0, 65, 5, 0"/>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="Number of wrong answers: " Margin="10, 115, 5, 0"/>
-                <TextBlock Text="{Binding numOfWrongAnswers}" Margin="0, 115, 5, 0"/>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Text="Average answer time: " Margin="10, 165, 5, 0"/>
-                <TextBlock Text="{Binding averageAnswerTime}" Margin="0, 165, 5, 0"/>
-            </StackPanel>
+            <TextBlock Text="Number of games:" Canvas.Left="30" Canvas.Top="50"/>
+            <TextBlock Text="{Binding numOfGames}" Canvas.Left="320" Canvas.Top="50"/>
+            <TextBlock Text="Number of right answers:" Canvas.Left="30" Canvas.Top="110"/>
+            <TextBlock Text="{Binding numOfRightAnswers}" Canvas.Left="320" Canvas.Top="110"/>
+            <TextBlock Text="Number of wrong answers:" Canvas.Left="30" Canvas.Top="170"/>
+            <TextBlock Text="{Binding numOfWrongAnswers}" Canvas.Left="320" Canvas.Top="170"/>
+            <TextBlock Text="Average answer time:" Canvas.Left="30" Canvas.Top="230"/>
+            <TextBlock Text="{Binding averageAnswerTime}" Canvas.Left="320" Canvas.Top="230"/>
         </Canvas>
 
         <Button Grid.Row="2" Content="Back" HorizontalAlignment="Left" Click="BackClick"/>
