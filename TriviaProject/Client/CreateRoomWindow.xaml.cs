@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +81,7 @@ namespace Client
                 check = false;
             }
 
-            if (check) // all of the needed information is correct
+            if (check) // check if all of the needed information is correct
             {
                 string json = JsonConvert.SerializeObject(request);
                 PacketInfo packetToSend = new PacketInfo() { code = CreateRoomRequestCode, data = json };
@@ -98,7 +98,7 @@ namespace Client
                     Close();
                     roomWindow.ShowDialog();
                 }
-                else //if (receivedPacket.code == ErrorResponseCode)
+                else
                 {
                     MessageBox.Show(receivedPacket.data, "Error", MessageBoxButton.OK);
                     request = new CreateRoomRequest();
