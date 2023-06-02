@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace Client
         /// </summary>
         private void GetHighScores()
         {
-            PacketInfo clientPacket = new PacketInfo() { code = getHighScoreRequestCode, data = "b" };
+            PacketInfo clientPacket = new PacketInfo() { code = getHighScoreRequestCode, data = "" };
             communicator.SendPacket(clientPacket);
 
             PacketInfo serverPacket = communicator.GetMessageFromServer();
