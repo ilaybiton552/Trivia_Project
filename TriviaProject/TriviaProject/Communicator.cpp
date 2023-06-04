@@ -283,5 +283,7 @@ void Communicator::handleClientsInRooms(const RequestInfo& requestInfo, const SO
 	if (requestInfo.id == CREATE_ROOM_CODE)
 	{
 		RoomAdminRequestHandler clientHandler = *static_cast<RoomAdminRequestHandler*>(m_clients[clientSocket]);
+		unsigned int roomId = clientHandler.getRoomId();
+		m_roomsSocket[roomId].push_back(clientSocket);
 	}
 }
