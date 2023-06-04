@@ -5,6 +5,9 @@
 #include "RequestHandlerFactory.h"
 #include "Structs.h"
 
+#define GET_ROOM_STATE_CODE 112
+#define LEAVE_ROOM_CODE 113
+
 class RequestHandlerFactory;
 
 class RoomMemberRequestHandler

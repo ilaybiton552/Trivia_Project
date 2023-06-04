@@ -13,9 +13,14 @@ RoomMemberRequestHandler::RoomMemberRequestHandler(const LoggedUser& user, const
 {
 }
 
+/// <summary>
+/// Checks if the request of the client is relevant
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>bool, true if the request is relevant and false otherwise</returns>
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo requestInfo)
 {
-
+	return requestInfo.id == GET_ROOM_STATE_CODE || requestInfo.id == LEAVE_ROOM_CODE;
 }
 
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo requestInfo) 
