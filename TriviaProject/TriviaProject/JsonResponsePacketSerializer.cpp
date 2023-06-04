@@ -132,7 +132,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHighSco
 }
 
 /// <summary>
-/// Serializes a stats response
+/// Serializes a personal statistics response
 /// </summary>
 /// <param name="statsResponse">getPersonalStatsResponse, the response to serialize</param>
 /// <returns>vector of bytes, the serialized response</returns>
@@ -143,24 +143,52 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPersona
     return makeSerializedPacket(response, GET_PERSONAL_STATS_RESPONSE_CODE);
 }
 
+/// <summary>
+/// Serializes a close room response
+/// </summary>
+/// <param name="closeRoomResponse">closeRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse closeRoomResponse)
 {
-
+    json response = { {"status", closeRoomResponse.status} };
+    return makeSerializedPacket(response, CLOSE_ROOM_RESPONSE_CODE);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse startGameResponse)
 {
-
+    json response = { {"status", startGameResponse.status} };
+    return makeSerializedPacket(response, START_GAME_RESPONSE_CODE);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse getRoomStateResponse)
 {
+    string players;
+    for (auto it = getRoomStateResponse.players.begin(); it != getRoomStateResponse.players.end(); ++it)
+    {
+        players += *it;
+        players += ",";
+    }
+    if (!players.empty())
+    {
+        players.pop_back(); // deleting last comma
+    }
 
+    string hasGameBegun = "false";
+    if (getRoomStateResponse.hasGameBegun)
+    {
+        hasGameBegun = "true";
+    }
+
+    json response = { {"status", getRoomStateResponse.status}, {"hasGameBegun", hasGameBegun}, {"players", players},
+                        {"questionCount", getRoomStateResponse.questionCount}, {"answerTimeout", getRoomStateResponse.answerTimeout} };
+
+    return makeSerializedPacket(response, GET_ROOM_STATE_RESPONSE_CODE);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomResponse)
 {
-
+    json response = { {"status", leaveRoomResponse.status} };
+    return makeSerializedPacket(response, LEAVE_ROOM_RESPONSE_CODE);
 }
 
 /// <summary>
