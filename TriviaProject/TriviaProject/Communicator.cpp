@@ -292,22 +292,19 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 {
 	if (code == CREATE_ROOM_CODE)
 	{
-		RoomAdminRequestHandler* clientHandler = static_cast<RoomAdminRequestHandler*>(clientHandler);
-		roomId = clientHandler->getRoomId();
+		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
 		m_roomsSocket[roomId].push_back(clientSocket);
 	}
 	else if (code == JOIN_ROOM_CODE)
 	{
-		RoomMemberRequestHandler* clientHandler = static_cast<RoomMemberRequestHandler*>(clientHandler);
-		Room room = clientHandler->getRoom();
+		Room room = static_cast<RoomMemberRequestHandler*>(clientHandler)->getRoom();
 		roomId = room.getRoomData().id;
 		m_roomsSocket[roomId].push_back(clientSocket);
 		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], room);
 	}
 	else if (code == START_GAME_CODE)
 	{
-		RoomAdminRequestHandler* clientHandler = static_cast<RoomAdminRequestHandler*>(clientHandler); // will be changed next version
-		roomId = clientHandler->getRoomId();
+		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
 		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
 	}
