@@ -85,3 +85,12 @@ RoomData Room::getRoomData() const
 {
 	return m_metadata;
 }
+
+/// <summary>
+/// Setter for isActive in room data
+/// </summary>
+/// <param name="isActive">unsigned int, the new isActive</param>
+void Room::setIsActive(const unsigned int isActive)
+{
+	m_metadata.isActive = isActive;
+}

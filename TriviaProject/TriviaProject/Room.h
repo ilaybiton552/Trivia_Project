@@ -20,6 +20,8 @@ public:
 	vector<string> getAllUsers() const;
 	RoomData getRoomData() const;
 
+	void setIsActive(const unsigned int isActive);
+
 private:
 	//Fields
 	RoomData m_metadata;

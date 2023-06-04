@@ -73,6 +73,10 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo requestInfo)
 
 	result.newHandler = nullptr;
 	StartGameResponse response = { SUCCESS };
+	if (response.status == SUCCESS)
+	{
+		m_room.setIsActive(ACTIVE_ROOM);
+	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
 	return result;

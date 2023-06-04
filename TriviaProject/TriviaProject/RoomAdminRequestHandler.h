@@ -7,6 +7,7 @@
 
 enum CODES {CLOSE_ROOM_CODE = 110, START_GAME_CODE, GET_ROOM_STATE_CODE};
 #define SUCCESS 1
+#define ACTIVE_ROOM 1
 
 class RequestHandlerFactory;
 
