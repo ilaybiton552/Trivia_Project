@@ -115,6 +115,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
 				}
+
 			}
 			else
 			{
@@ -271,4 +272,17 @@ void Communicator::disconnectClient(const SOCKET& clientSocket)
 	}
 	m_clients.erase(clientSocket);
 	closesocket(clientSocket);
+}
+
+/// <summary>
+/// Handles clients in rooms and updates them according to the request information
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <param name="clientSocket">SOCKET, the socket of the current client</param>
+void Communicator::handleClientsInRooms(const RequestInfo& requestInfo, const SOCKET& clientSocket)
+{
+	if (requestInfo.id == CREATE_ROOM_CODE)
+	{
+		RoomAdminRequestHandler clientHandler = *static_cast<RoomAdminRequestHandler*>(m_clients[clientSocket]);
+	}
 }
