@@ -62,9 +62,20 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo requestInfo)
 	return result;
 }
 
+/// <summary>
+/// Starts a game
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo requestInfo)
 {
+	RequestResult result;
 
+	result.newHandler = nullptr;
+	StartGameResponse response = { SUCCESS };
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+	return result;
 }
 
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo requestInfo)
