@@ -1,4 +1,5 @@
 #include "RoomMemberRequestHandler.h"
+#include "JsonResponsePacketSerializer.h"
 
 /// <summary>
 /// Constructor of RoomMemberRequestHandler
@@ -27,7 +28,17 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo requestInfo)
 
 }
 
+/// <summary>
+/// Gets the state of the room
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result of the requst</returns>
 RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo requestInfo)
 {
+	RequestResult result;
 
+	result.newHandler = nullptr;
+	result.response = JsonResponsePacketSerializer::serializeResponse(m_room.getRoomState());
+
+	return result;
 }
