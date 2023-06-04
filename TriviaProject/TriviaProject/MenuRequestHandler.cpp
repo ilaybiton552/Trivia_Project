@@ -172,6 +172,10 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
     RoomData roomData = { newRoomId, requestData.roomName, (unsigned int)(requestData.maxUsers),
                           (unsigned int)(requestData.questionCount), (unsigned int)(requestData.answerTimeout), NON_ACTIVE_ROOM };
     CreateRoomResponse response = { m_roomManager.createRoom(m_user, roomData), newRoomId };
+    if (response.status == SUCCESS)
+    {
+        result.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, Room(roomData));
+    }
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;

@@ -1,4 +1,5 @@
 #pragma once 
+#include "IRequestHandler.h"
 #include "Room.h"
 #include "LoggedUser.h"
 #include "RoomManager.h"
@@ -11,14 +12,14 @@ enum CODES {CLOSE_ROOM_CODE = 110, START_GAME_CODE, GET_ROOM_STATE_CODE};
 
 class RequestHandlerFactory;
 
-class RoomAdminRequestHandler
+class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
 	RoomAdminRequestHandler(const LoggedUser& user, const Room& room, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
 
 	//Methods
-	bool isRequestRelevant(RequestInfo requestInfo);
-	RequestResult handleRequest(RequestInfo requestInfo);
+	bool isRequestRelevant(const RequestInfo& requestInfo) override;
+	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
 private:
 	//Fields
