@@ -119,7 +119,10 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
-					handleClientsInRooms(requestInfo.id, client_socket, clientHandler, roomId);
+					if (requestInfo.id != GET_ROOM_STATE_CODE && (requestInfo.id >= CREATE_ROOM_CODE || requestInfo.id <= LEAVE_ROOM_CODE))
+					{
+						handleClientsInRooms(requestInfo.id, client_socket, clientHandler, roomId);
+					}
 				}
 			}
 			else
@@ -306,6 +309,15 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 		RoomAdminRequestHandler* clientHandler = static_cast<RoomAdminRequestHandler*>(clientHandler); // will be changed next version
 		roomId = clientHandler->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
+	}
+	else if (code == LEAVE_ROOM_CODE)
+	{
+		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], m_handlerFactory.getRoomManager().getRoom(roomId));
+	}
+	else // close room
+	{
+		LeaveRoomResponse response = { STATUS_SUCCESS };
 		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
 	}
 }
