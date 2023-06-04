@@ -12,9 +12,14 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(const LoggedUser& user, const R
 {
 }
 
+/// <summary>
+/// Checks if the request is relevant
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>bool, true if the request is relevant and false otherwise</returns>
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo requestInfo)
 {
-
+	return requestInfo.id <= GET_ROOM_STATE_CODE && requestInfo.id >= CLOSE_ROOM_CODE;
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo requestInfo)
