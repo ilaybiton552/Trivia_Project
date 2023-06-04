@@ -5,6 +5,8 @@
 #include "RequestHandlerFactory.h"
 #include "Structs.h"
 
+class RequestHandlerFactory;
+
 class RoomAdminRequestHandler
 {
 public:

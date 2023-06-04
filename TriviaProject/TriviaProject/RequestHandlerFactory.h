@@ -5,16 +5,20 @@
 #include "RoomManager.h"
 #include "StatisticsManager.h"
 #include "LoggedUser.h"
+#include "RoomAdminRequestHandler.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
+class RoomAdminRequestHandler;
 
 class RequestHandlerFactory
 {
 public:
 	RequestHandlerFactory(IDatabase* database);
+
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser loggedUser);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser user, const Room room);
 
 	LoginManager& getLoginManager();
 	StatisticsManager& getStatisticsManager();

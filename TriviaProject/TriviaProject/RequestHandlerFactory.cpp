@@ -55,3 +55,14 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(const Logged
 {
 	return new MenuRequestHandler(loggedUser, m_roomManager, m_statisticsManager, *this);
 }
+
+/// <summary>
+/// Creates room admin request handler
+/// </summary>
+/// <param name="user">Logged user, the logged user</param>
+/// <param name="room">Room, the room the admin created</param>
+/// <returns>pointer of RoomAdminRequestHandler, the created handler</returns>
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser user, const Room room)
+{
+	return new RoomAdminRequestHandler(user, room, m_roomManager, *this);
+}

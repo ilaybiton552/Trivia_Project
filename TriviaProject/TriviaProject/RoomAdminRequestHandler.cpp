@@ -3,7 +3,7 @@
 /// <summary>
 /// Constrcutor of RoomAdminRequestHandler
 /// </summary>
-/// <param name="user">LoggedUser, the user</param>
+/// <param name="user">LoggedUser, the logged user</param>
 /// <param name="room">Room, the room</param>
 /// <param name="roomManager">RoomManger, the room manager</param>
 /// <param name="handlerFactory">RequestHandlerFactory, the handler factory</param>
