@@ -94,3 +94,20 @@ void Room::setIsActive(const unsigned int isActive)
 {
 	m_metadata.isActive = isActive;
 }
+
+/// <summary>
+/// Gets the state of the room
+/// </summary>
+/// <returns>GetRoomStateResponse, the state of the room</returns>
+GetRoomStateResponse Room::getRoomState() const
+{
+	GetRoomStateResponse response;
+
+	response.answerTimeout = m_metadata.timePerQuestion;
+	response.hasGameBegun = m_metadata.isActive;
+	response.players = getAllUsers();
+	response.questionCount = m_metadata.numOfQuestionsInGame;
+	response.status = SUCCESS;
+
+	return response;
+}

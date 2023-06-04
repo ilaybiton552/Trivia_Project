@@ -4,6 +4,8 @@
 #include "LoggedUser.h"
 #include "Structs.h"
 
+#define SUCCESS 1
+
 using std::vector;
 using std::string;
 
@@ -21,6 +23,7 @@ public:
 	RoomData getRoomData() const;
 
 	void setIsActive(const unsigned int isActive);
+	GetRoomStateResponse getRoomState() const;
 
 private:
 	//Fields
