@@ -106,7 +106,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		while (requestInfo.id != CLIENT_LOG_OUT)
 		{
 			IRequestHandler* clientHandler = m_clients[client_socket];
-			int roomId = 0; // in case of leave/close room, want to get the id before handle the request (changes the handler)
+			int roomId = 0; // in case of leave/close room, want to get the id before handling the request (changes the handler)
 			if (clientHandler->isRequestRelevant(requestInfo))
 			{
 				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE)
@@ -119,7 +119,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
-					handleClientsInRooms(requestInfo, client_socket);
+					handleClientsInRooms(requestInfo.id, client_socket, clientHandler, roomId);
 				}
 			}
 			else
@@ -284,27 +284,27 @@ void Communicator::disconnectClient(const SOCKET& clientSocket)
 /// </summary>
 /// <param name="requestInfo">RequestInfo, the information of the request</param>
 /// <param name="clientSocket">SOCKET, the socket of the current client</param>
-void Communicator::handleClientsInRooms(const RequestInfo& requestInfo, const SOCKET& clientSocket)
+/// <param name="roomId">unsigned int, the id of the room</param>
+void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& clientSocket, IRequestHandler* clientHandler, unsigned int roomId)
 {
-	if (requestInfo.id == CREATE_ROOM_CODE)
+	if (code == CREATE_ROOM_CODE)
 	{
-		RoomAdminRequestHandler clientHandler = *static_cast<RoomAdminRequestHandler*>(m_clients[clientSocket]);
-		unsigned int roomId = clientHandler.getRoomId();
+		RoomAdminRequestHandler* clientHandler = static_cast<RoomAdminRequestHandler*>(clientHandler);
+		roomId = clientHandler->getRoomId();
 		m_roomsSocket[roomId].push_back(clientSocket);
 	}
-	else if (requestInfo.id == JOIN_ROOM_CODE)
+	else if (code == JOIN_ROOM_CODE)
 	{
-		RoomMemberRequestHandler clientHandler = *static_cast<RoomMemberRequestHandler*>(m_clients[clientSocket]);
-		Room room = clientHandler.getRoom();
-		unsigned int roomId = room.getRoomData().id;
+		RoomMemberRequestHandler* clientHandler = static_cast<RoomMemberRequestHandler*>(clientHandler);
+		Room room = clientHandler->getRoom();
+		roomId = room.getRoomData().id;
 		m_roomsSocket[roomId].push_back(clientSocket);
 		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], room);
 	}
-	else if (requestInfo.id == START_GAME_CODE)
+	else if (code == START_GAME_CODE)
 	{
-		RoomAdminRequestHandler clientHandler = *static_cast<RoomAdminRequestHandler*>(m_clients[clientSocket]); // will be changed next version
-		unsigned int roomId = clientHandler.getRoomId();
-
+		RoomAdminRequestHandler* clientHandler = static_cast<RoomAdminRequestHandler*>(clientHandler); // will be changed next version
+		roomId = clientHandler->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
 		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
 	}
