@@ -37,9 +37,24 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo requestInfo)
 	return leaveRoom(requestInfo);
 }
 
+/// <summary>
+/// Leaves the room
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result of the request</returns>
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo requestInfo)
 {
+	RequestResult result;
 
+	result.newHandler = nullptr;
+	LeaveRoomResponse response = { m_room.removeUser(m_user) };
+	if (response.status == SUCCESS)
+	{
+		result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	}
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+	return result;
 }
 
 /// <summary>
