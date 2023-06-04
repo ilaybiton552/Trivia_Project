@@ -16,18 +16,21 @@ class RoomMemberRequestHandler;
 class RequestHandlerFactory
 {
 public:
-	RequestHandlerFactory(IDatabase* database);
+	//Methods
+	RequestHandlerFactory(IDatabase* database); //c'tor
 
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser loggedUser);
-	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser user, const Room room);
-	RoomMemberRequestHandler* createRoomMemberRequestHandler(const LoggedUser user, const Room room);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser admin, const Room& room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(const LoggedUser member, const Room& room);
 
+	//Getters
 	LoginManager& getLoginManager();
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
 
 private:
+	//Fields
 	IDatabase* m_database;
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
