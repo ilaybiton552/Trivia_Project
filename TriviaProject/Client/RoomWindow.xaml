@@ -24,7 +24,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="#8AAAE5">
+    <Grid Background="#8AAAE5" x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="4*"/>
@@ -63,6 +63,6 @@
             </StackPanel>
         </StackPanel>
         
-        <Button Grid.Row="2" Content="Back" HorizontalAlignment="Left" Click="BackClick" Margin="5,32.5,0,5"/>
+        <Button Grid.Row="2" x:Name="leaveButton" Content="" HorizontalAlignment="Left" Click="LeaveClick" Margin="5,32.5,0,5"/>
     </Grid>
 </Window>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,10 @@ namespace Client
         private RoomData roomData;
         private const int GetPlayersRequestCode = 105;
         private const int GetPlayersResponseCode = 205;
+        private const int CloseRoomRequestCode = 110;
+        private const int CloseRoomResponseCode = 210;
+        private const int LeaveRoomRequestCode = 113;
+        private const int LeaveRoomResponseCode = 213;
 
 
         public RoomWindow(ref Communicator communicator, string username, RoomData roomData)
@@ -35,6 +40,17 @@ namespace Client
             this.username = username;
             this.roomData = roomData;
             UpdateRoomData();
+            if (roomData.admin == username)
+            {
+                leaveButton.Width = 100;
+                leaveButton.Content = "Close room";
+            }
+            else
+            {
+                leaveButton.Content = "Leave";
+                leaveButton.Width = 60;
+            }
+            
         }
 
         /// <summary>
@@ -74,14 +90,42 @@ namespace Client
         }
 
         /// <summary>
-        /// Goes back to menu window
+        /// Goes back to menu window, after the user has left or the admin closes the room
         /// </summary>
-        private void BackClick(object sender, RoutedEventArgs e)
+        private void LeaveClick(object sender, RoutedEventArgs e)
         {
+            if (roomData.admin == username)
+            {
+                PacketInfo clientPacket = new PacketInfo() { code = CloseRoomRequestCode, data = "" };
+                communicator.SendPacket(clientPacket);
+
+                // getting the message from the server
+                PacketInfo serverPacket = communicator.GetMessageFromServer();
+                if (serverPacket.code != CloseRoomResponseCode)
+                {
+                    MessageBox.Show("Error closing the room", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            else
+            {
+                PacketInfo clientPacket = new PacketInfo() { code = LeaveRoomRequestCode, data = "" };
+                communicator.SendPacket(clientPacket);
+
+                // getting the message from the server
+                PacketInfo serverPacket = communicator.GetMessageFromServer();
+                if (serverPacket.code != LeaveRoomResponseCode)
+                {
+                    MessageBox.Show("Error leaving the room", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
             menuWindow.ShowDialog();
         }
-
     }
 }
