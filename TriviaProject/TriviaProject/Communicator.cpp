@@ -292,15 +292,24 @@ void Communicator::handleClientsInRooms(const RequestInfo& requestInfo, const SO
 		Room room = clientHandler.getRoom();
 		unsigned int roomId = room.getRoomData().id;
 		m_roomsSocket[roomId].push_back(clientSocket);
+		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], room);
+	}
+}
 
-		// getting list of all of the players in the room
-		GetPlayersInRoomResponse response = { STATUS_SUCCESS, room.getAllUsers() };
-		vector<unsigned char> message = JsonResponsePacketSerializer::serializeResponse(response);
+/// <summary>
+/// Sends to all of the clients in a room list of the players in the room
+/// </summary>
+/// <param name="clients">vector of SOCKET, the clients in the room</param>
+/// <param name="room">Room, the room</param>
+void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room)
+{
+	// getting list of all of the players in the room
+	GetPlayersInRoomResponse response = { STATUS_SUCCESS, room.getAllUsers() };
+	vector<unsigned char> message = JsonResponsePacketSerializer::serializeResponse(response);
 
-		// sends to every client the list of players
-		for (auto it = m_roomsSocket[roomId].begin(); it != m_roomsSocket[roomId].end(); ++it)
-		{
-			sendMessageToClient(message, *it);
-		}
+	// sends to every client the list of players
+	for (auto it = clients.begin(); it != clients.end(); ++it)
+	{
+		sendMessageToClient(message, *it);
 	}
 }

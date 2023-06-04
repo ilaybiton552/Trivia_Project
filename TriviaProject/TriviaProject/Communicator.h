@@ -41,6 +41,7 @@ private:
 	void printClientMessage(const vector<unsigned char>& message);
 	void disconnectClient(const SOCKET& clientSocket);
 	void handleClientsInRooms(const RequestInfo& requestInfo, const SOCKET& clientSocket);
+	void sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room);
 
 	//Fields
 	SOCKET m_serverSocket;
