@@ -22,9 +22,23 @@ bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo requestInfo)
 	return requestInfo.id <= GET_ROOM_STATE_CODE && requestInfo.id >= CLOSE_ROOM_CODE;
 }
 
+/// <summary>
+/// Handles the request of the client
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo requestInfo)
 {
-
+	switch (requestInfo.id)
+	{
+	case CLOSE_ROOM_CODE:
+		return closeRoom(requestInfo);
+	case START_GAME_CODE:
+		return startGame(requestInfo);
+	case GET_ROOM_STATE_CODE:
+		return getRoomState(requestInfo);
+	}
+	return RequestResult();
 }
 
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo requestInfo)
