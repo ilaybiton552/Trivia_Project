@@ -18,7 +18,7 @@ RoomMemberRequestHandler::RoomMemberRequestHandler(const LoggedUser& user, const
 /// </summary>
 /// <param name="requestInfo">RequestInfo, the information of the request</param>
 /// <returns>bool, true if the request is relevant and false otherwise</returns>
-bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo requestInfo)
+bool RoomMemberRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 {
 	return requestInfo.id == GET_ROOM_STATE_CODE || requestInfo.id == LEAVE_ROOM_CODE;
 }
@@ -28,7 +28,7 @@ bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo requestInfo)
 /// </summary>
 /// <param name="requestInfo">RequestInfo, the information of the request</param>
 /// <returns>RequestResult, the result of the request</returns>
-RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo requestInfo) 
+RequestResult RoomMemberRequestHandler::handleRequest(const RequestInfo& requestInfo) 
 {
 	if (requestInfo.id == GET_ROOM_STATE_CODE)
 	{

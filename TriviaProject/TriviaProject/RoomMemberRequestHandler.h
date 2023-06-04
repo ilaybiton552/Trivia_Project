@@ -1,4 +1,5 @@
 #pragma once
+#include "IRequestHandler.h"
 #include "Room.h"
 #include "LoggedUser.h"
 #include "RoomManager.h"
@@ -10,14 +11,14 @@
 
 class RequestHandlerFactory;
 
-class RoomMemberRequestHandler
+class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
 	RoomMemberRequestHandler(const LoggedUser& user, const Room& room, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
 	
 	//Methods
-	bool isRequestRelevant(RequestInfo requestInfo);
-	RequestResult handleRequest(RequestInfo requestInfo);
+	bool isRequestRelevant(const RequestInfo& requestInfo) override;
+	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
 private:
 	//Fields
