@@ -42,6 +42,7 @@ private:
 	void disconnectClient(const SOCKET& clientSocket);
 	void handleClientsInRooms(const RequestInfo& requestInfo, const SOCKET& clientSocket);
 	void sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room);
+	void sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message);
 
 	//Fields
 	SOCKET m_serverSocket;

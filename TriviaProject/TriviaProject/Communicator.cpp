@@ -286,13 +286,21 @@ void Communicator::handleClientsInRooms(const RequestInfo& requestInfo, const SO
 		unsigned int roomId = clientHandler.getRoomId();
 		m_roomsSocket[roomId].push_back(clientSocket);
 	}
-	if (requestInfo.id == JOIN_ROOM_CODE)
+	else if (requestInfo.id == JOIN_ROOM_CODE)
 	{
 		RoomMemberRequestHandler clientHandler = *static_cast<RoomMemberRequestHandler*>(m_clients[clientSocket]);
 		Room room = clientHandler.getRoom();
 		unsigned int roomId = room.getRoomData().id;
 		m_roomsSocket[roomId].push_back(clientSocket);
 		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], room);
+	}
+	else if (requestInfo.id == START_GAME_CODE)
+	{
+		RoomAdminRequestHandler clientHandler = *static_cast<RoomAdminRequestHandler*>(m_clients[clientSocket]); // will be changed next version
+		unsigned int roomId = clientHandler.getRoomId();
+
+		StartGameResponse response = { STATUS_SUCCESS };
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
 	}
 }
 
@@ -307,6 +315,16 @@ void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, 
 	GetPlayersInRoomResponse response = { STATUS_SUCCESS, room.getAllUsers() };
 	vector<unsigned char> message = JsonResponsePacketSerializer::serializeResponse(response);
 
+	sendMessageToAllClients(clients, message);
+}
+
+/// <summary>
+/// Sends message to all of the clients
+/// </summary>
+/// <param name="clients">vector of SOCKET, the clients to send the message to</param>
+/// <param name="message">vector of bytes, the message to send</param>
+void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message)
+{
 	// sends to every client the list of players
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
