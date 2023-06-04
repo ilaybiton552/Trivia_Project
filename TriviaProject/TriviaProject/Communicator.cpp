@@ -286,4 +286,21 @@ void Communicator::handleClientsInRooms(const RequestInfo& requestInfo, const SO
 		unsigned int roomId = clientHandler.getRoomId();
 		m_roomsSocket[roomId].push_back(clientSocket);
 	}
+	if (requestInfo.id == JOIN_ROOM_CODE)
+	{
+		RoomMemberRequestHandler clientHandler = *static_cast<RoomMemberRequestHandler*>(m_clients[clientSocket]);
+		Room room = clientHandler.getRoom();
+		unsigned int roomId = room.getRoomData().id;
+		m_roomsSocket[roomId].push_back(clientSocket);
+
+		// getting list of all of the players in the room
+		GetPlayersInRoomResponse response = { STATUS_SUCCESS, room.getAllUsers() };
+		vector<unsigned char> message = JsonResponsePacketSerializer::serializeResponse(response);
+
+		// sends to every client the list of players
+		for (auto it = m_roomsSocket[roomId].begin(); it != m_roomsSocket[roomId].end(); ++it)
+		{
+			sendMessageToClient(message, *it);
+		}
+	}
 }

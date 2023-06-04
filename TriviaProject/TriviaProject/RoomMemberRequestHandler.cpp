@@ -40,10 +40,10 @@ RequestResult RoomMemberRequestHandler::handleRequest(const RequestInfo& request
 /// <summary>
 /// Gets the id of the room
 /// </summary>
-/// <returns>unsigned int, the id of the room</returns>
-unsigned int RoomMemberRequestHandler::getRoomId() const
+/// <returns>Room, the room</returns>
+Room RoomMemberRequestHandler::getRoom() const
 {
-	return m_room.getRoomData().id;
+	return m_room;
 }
 
 /// <summary>
