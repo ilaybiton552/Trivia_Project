@@ -23,9 +23,18 @@ bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo requestInfo)
 	return requestInfo.id == GET_ROOM_STATE_CODE || requestInfo.id == LEAVE_ROOM_CODE;
 }
 
+/// <summary>
+/// Handels the request
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result of the request</returns>
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo requestInfo) 
 {
-
+	if (requestInfo.id == GET_ROOM_STATE_CODE)
+	{
+		return getRoomState(requestInfo);
+	}
+	return leaveRoom(requestInfo);
 }
 
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo requestInfo)
