@@ -6,10 +6,12 @@
 #include "StatisticsManager.h"
 #include "LoggedUser.h"
 #include "RoomAdminRequestHandler.h"
+#include "RoomMemberRequestHandler.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomAdminRequestHandler;
+class RoomMemberRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -19,6 +21,7 @@ public:
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser loggedUser);
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser user, const Room room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(const LoggedUser user, const Room room);
 
 	LoginManager& getLoginManager();
 	StatisticsManager& getStatisticsManager();

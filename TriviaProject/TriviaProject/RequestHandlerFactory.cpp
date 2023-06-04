@@ -66,3 +66,14 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(co
 {
 	return new RoomAdminRequestHandler(user, room, m_roomManager, *this);
 }
+
+/// <summary>
+/// Creates room member request handler
+/// </summary>
+/// <param name="user">Logged user, the logged user</param>
+/// <param name="room">Room, the room the admin created</param>
+/// <returns>pointer of RoomMemberRequestHandler, the created handler</returns>
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser user, const Room room)
+{
+	return new RoomMemberRequestHandler(user, room, m_roomManager, *this);;
+}
