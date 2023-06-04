@@ -8,6 +8,10 @@ JoinRoomResponse - 206
 CreateRoomResponse - 207
 getHighScoreResponse - 208
 getPersonalStatsResponse - 209
+CloseRoomResponse - 210
+StartGameResponse - 211
+GetRoomStateResponse - 212
+LeaveRoomResponse - 213
 
 LoginRequest - 101
 SignupRequest - 102
@@ -18,6 +22,10 @@ GetPersonalStatsRequest - 106
 GetHighScoreRequest - 107
 JoinRoomRequest - 108
 CreateRoomRequest - 109
+CloseRoomRequest - 110
+StartGameRequest - 111
+GetRoomStateRequest - 112
+LeaveRoomRequest - 113
 
 status of RequestResult of login:
 success - 1
