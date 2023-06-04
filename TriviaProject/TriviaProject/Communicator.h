@@ -43,6 +43,7 @@ private:
 	void handleClientsInRooms(const RequestInfo& requestInfo, const SOCKET& clientSocket);
 	void sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room);
 	void sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message);
+	unsigned int getRoomId(const unsigned int code, IRequestHandler* clientHanlder);
 
 	//Fields
 	SOCKET m_serverSocket;

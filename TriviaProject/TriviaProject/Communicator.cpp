@@ -106,14 +106,20 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		while (requestInfo.id != CLIENT_LOG_OUT)
 		{
 			IRequestHandler* clientHandler = m_clients[client_socket];
+			int roomId = 0; // in case of leave/close room, want to get the id before handle the request (changes the handler)
 			if (clientHandler->isRequestRelevant(requestInfo))
 			{
+				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE)
+				{
+					roomId = getRoomId(requestInfo.id, clientHandler);
+				}
 				RequestResult requestResult = clientHandler->handleRequest(requestInfo);
 				sendMessageToClient(requestResult.response, client_socket);
 				if (requestResult.newHandler != nullptr)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
+					handleClientsInRooms(requestInfo, client_socket);
 				}
 			}
 			else
@@ -330,4 +336,19 @@ void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const 
 	{
 		sendMessageToClient(message, *it);
 	}
+}
+
+/// <summary>
+/// Gets the id of the room according to the handler of the client and the request
+/// </summary>
+/// <param name="code">unsigned int, the code of the request</param>
+/// <param name="clientHanlder">IRequestHandler, the handler of the client</param>
+/// <returns>unsigned int, the id of the room</returns>
+unsigned int Communicator::getRoomId(const unsigned int code, IRequestHandler* clientHanlder)
+{
+	if (code == LEAVE_ROOM_CODE)
+	{
+		return static_cast<RoomMemberRequestHandler*>(clientHanlder)->getRoom().getRoomData().id;
+	}
+	return static_cast<RoomAdminRequestHandler*>(clientHanlder)->getRoomId();
 }
