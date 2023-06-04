@@ -123,3 +123,27 @@ struct CreateRoomRequest
 	unsigned int questionCount;
 	unsigned int answerTimeout;
 };
+
+struct CloseRoomResponse
+{
+	unsigned int status;
+};
+
+struct StartGameResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomStateResponse
+{
+	unsigned int status;
+	bool hasGameBegun;
+	vector<string> players;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
+
+struct LeaveRoomResponse
+{
+	unsigned int status;
+};
