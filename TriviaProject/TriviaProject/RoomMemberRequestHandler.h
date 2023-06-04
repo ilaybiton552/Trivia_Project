@@ -5,9 +5,13 @@
 #include "RequestHandlerFactory.h"
 #include "Structs.h"
 
+class RequestHandlerFactory;
+
 class RoomMemberRequestHandler
 {
 public:
+	RoomMemberRequestHandler(const LoggedUser& user, const Room& room, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
+	
 	//Methods
 	bool isRequestRelevant(RequestInfo requestInfo);
 	RequestResult handleRequest(RequestInfo requestInfo);
