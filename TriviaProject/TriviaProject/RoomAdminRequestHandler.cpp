@@ -1,4 +1,5 @@
 #include "RoomAdminRequestHandler.h"
+#include "JsonResponsePacketSerializer.h"
 
 /// <summary>
 /// Constrcutor of RoomAdminRequestHandler
@@ -41,9 +42,24 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo requestInfo)
 	return RequestResult();
 }
 
+/// <summary>
+/// Closes the room
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>RequestResult, the result for the request</returns>
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo requestInfo)
 {
+	RequestResult result;
 
+	result.newHandler = nullptr;
+	CloseRoomResponse response = { m_roomManager.deleteRoom(m_room.getRoomData().id) };
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+	if (response.status == SUCCESS) // success closing the room
+	{
+		result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	}
+
+	return result;
 }
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo requestInfo)
