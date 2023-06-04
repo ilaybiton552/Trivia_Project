@@ -29,6 +29,10 @@ public:
 	static vector<unsigned char> serializeResponse(CreateRoomResponse createRoomResponse);
 	static vector<unsigned char> serializeResponse(getHighScoreResponse scoreResponse);
 	static vector<unsigned char> serializeResponse(getPersonalStatsResponse statsResponse);
+	static vector<unsigned char> serializeResponse(CloseRoomResponse closeRoomResponse);
+	static vector<unsigned char> serializeResponse(StartGameResponse startGameResponse);
+	static vector<unsigned char> serializeResponse(GetRoomStateResponse getRoomStateResponse);
+	static vector<unsigned char> serializeResponse(LeaveRoomResponse leaveRoomResponse);
 private:
 	static vector<unsigned char> convertNumberToByte(const unsigned int num);
 	static vector<unsigned char> convertJsonToByte(const json jsonObject);

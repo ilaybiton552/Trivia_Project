@@ -143,6 +143,26 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPersona
     return makeSerializedPacket(response, GET_PERSONAL_STATS_RESPONSE_CODE);
 }
 
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse closeRoomResponse)
+{
+
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse startGameResponse)
+{
+
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse getRoomStateResponse)
+{
+
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomResponse)
+{
+
+}
+
 /// <summary>
 /// Converts a number to a byte
 /// </summary>
