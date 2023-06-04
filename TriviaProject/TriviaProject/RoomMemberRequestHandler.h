@@ -6,7 +6,6 @@
 #include "RequestHandlerFactory.h"
 #include "Structs.h"
 
-#define GET_ROOM_STATE_CODE 112
 #define LEAVE_ROOM_CODE 113
 
 class RequestHandlerFactory;
@@ -19,6 +18,8 @@ public:
 	//Methods
 	bool isRequestRelevant(const RequestInfo& requestInfo) override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
+
+	unsigned int getRoomId() const;
 
 private:
 	//Fields

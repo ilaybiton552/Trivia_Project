@@ -21,6 +21,8 @@ public:
 	bool isRequestRelevant(const RequestInfo& requestInfo) override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
+	unsigned int getRoomId() const;
+
 private:
 	//Fields
 	Room m_room;

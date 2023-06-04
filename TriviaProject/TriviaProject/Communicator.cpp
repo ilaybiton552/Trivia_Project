@@ -110,12 +110,11 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 			{
 				RequestResult requestResult = clientHandler->handleRequest(requestInfo);
 				sendMessageToClient(requestResult.response, client_socket);
-				if (requestResult.newHandler != nullptr) // success
+				if (requestResult.newHandler != nullptr)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
 				}
-
 			}
 			else
 			{

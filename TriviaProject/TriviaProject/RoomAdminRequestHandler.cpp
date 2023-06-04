@@ -43,6 +43,15 @@ RequestResult RoomAdminRequestHandler::handleRequest(const RequestInfo& requestI
 }
 
 /// <summary>
+/// Gets the id of the room
+/// </summary>
+/// <returns>unsigned int, the id of the room</returns>
+unsigned int RoomAdminRequestHandler::getRoomId() const
+{
+	return m_room.getRoomData().id;
+}
+
+/// <summary>
 /// Closes the room
 /// </summary>
 /// <param name="requestInfo">RequestInfo, the information of the request</param>
