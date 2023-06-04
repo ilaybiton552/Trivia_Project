@@ -170,7 +170,7 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
     CreateRoomRequest requestData = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
     newRoomId++;
     RoomData roomData = { newRoomId, requestData.roomName, (unsigned int)(requestData.maxUsers),
-                          (unsigned int)(requestData.questionCount), (unsigned int)(requestData.answerTimeout), ACTIVE_ROOM };
+                          (unsigned int)(requestData.questionCount), (unsigned int)(requestData.answerTimeout), NON_ACTIVE_ROOM };
     CreateRoomResponse response = { m_roomManager.createRoom(m_user, roomData), newRoomId };
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
