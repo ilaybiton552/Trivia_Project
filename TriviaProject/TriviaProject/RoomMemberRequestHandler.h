@@ -1,11 +1,11 @@
-#pragma once 
+#pragma once
 #include "Room.h"
 #include "LoggedUser.h"
 #include "RoomManager.h"
 #include "RequestHandlerFactory.h"
 #include "Structs.h"
 
-class RoomAdminRequestHandler
+class RoomMemberRequestHandler
 {
 public:
 	//Methods
@@ -20,7 +20,7 @@ private:
 	RequestHandlerFactory& m_handlerFactory;
 
 	//Methods
-	RequestResult closeRoom(RequestInfo requestInfo);
-	RequestResult startGame(RequestInfo requestInfo);
+	RequestResult leaveRoom(RequestInfo requestInfo);
 	RequestResult getRoomState(RequestInfo requestInfo);
 };
+
