@@ -23,4 +23,3 @@ private:
 	RequestResult leaveRoom(RequestInfo requestInfo);
 	RequestResult getRoomState(RequestInfo requestInfo);
 };
-

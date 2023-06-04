@@ -8,6 +8,8 @@
 class RoomAdminRequestHandler
 {
 public:
+	RoomAdminRequestHandler(const LoggedUser& user, const Room& room, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
+
 	//Methods
 	bool isRequestRelevant(RequestInfo requestInfo);
 	RequestResult handleRequest(RequestInfo requestInfo);
