@@ -154,12 +154,22 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomR
     return makeSerializedPacket(response, CLOSE_ROOM_RESPONSE_CODE);
 }
 
+/// <summary>
+/// Serializes a start game response
+/// </summary>
+/// <param name="startGameResponse">startGameResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse startGameResponse)
 {
     json response = { {"status", startGameResponse.status} };
     return makeSerializedPacket(response, START_GAME_RESPONSE_CODE);
 }
 
+/// <summary>
+/// Serializes a get room state response
+/// </summary>
+/// <param name="getRoomStateResponse">getRoomStateResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse getRoomStateResponse)
 {
     string players;
@@ -185,6 +195,11 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomSta
     return makeSerializedPacket(response, GET_ROOM_STATE_RESPONSE_CODE);
 }
 
+/// <summary>
+/// Serializes a leave room response
+/// </summary>
+/// <param name="leaveRoomResponse">leaveRoomResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomResponse)
 {
     json response = { {"status", leaveRoomResponse.status} };
