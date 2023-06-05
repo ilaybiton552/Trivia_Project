@@ -316,6 +316,7 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	{
 		LeaveRoomResponse response = { STATUS_SUCCESS };
 		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
+		m_roomsSocket.erase(roomId);
 	}
 }
 
