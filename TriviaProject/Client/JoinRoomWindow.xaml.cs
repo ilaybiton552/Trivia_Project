@@ -54,6 +54,7 @@ namespace Client
         /// </summary>
         private void AddRoomsData() 
         {
+            rooms.Children.Clear();
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
                 Button button = new Button();
