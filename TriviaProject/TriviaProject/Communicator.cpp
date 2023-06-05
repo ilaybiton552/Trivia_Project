@@ -106,14 +106,23 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 		while (requestInfo.id != CLIENT_LOG_OUT)
 		{
 			IRequestHandler* clientHandler = m_clients[client_socket];
+			int roomId = 0; // in case of leave/close room, want to get the id before handling the request (changes the handler)
 			if (clientHandler->isRequestRelevant(requestInfo))
 			{
+				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE)
+				{
+					roomId = getRoomId(requestInfo.id, clientHandler);
+				}
 				RequestResult requestResult = clientHandler->handleRequest(requestInfo);
 				sendMessageToClient(requestResult.response, client_socket);
-				if (requestResult.newHandler != nullptr) // success
+				if (requestResult.newHandler != nullptr)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
+					if (requestInfo.id != GET_ROOM_STATE_CODE && (requestInfo.id >= CREATE_ROOM_CODE || requestInfo.id <= LEAVE_ROOM_CODE))
+					{
+						handleClientsInRooms(requestInfo.id, client_socket, clientHandler, roomId);
+					}
 				}
 			}
 			else
@@ -271,4 +280,85 @@ void Communicator::disconnectClient(const SOCKET& clientSocket)
 	}
 	m_clients.erase(clientSocket);
 	closesocket(clientSocket);
+}
+
+/// <summary>
+/// Handles clients in rooms and updates them according to the request information
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <param name="clientSocket">SOCKET, the socket of the current client</param>
+/// <param name="roomId">unsigned int, the id of the room</param>
+void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& clientSocket, IRequestHandler* clientHandler, unsigned int roomId)
+{
+	if (code == CREATE_ROOM_CODE)
+	{
+		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
+		m_roomsSocket[roomId].push_back(clientSocket);
+	}
+	else if (code == JOIN_ROOM_CODE)
+	{
+		Room room = static_cast<RoomMemberRequestHandler*>(clientHandler)->getRoom();
+		roomId = room.getRoomData().id;
+		m_roomsSocket[roomId].push_back(clientSocket);
+		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], room);
+	}
+	else if (code == START_GAME_CODE)
+	{
+		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
+		StartGameResponse response = { STATUS_SUCCESS };
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
+	}
+	else if (code == LEAVE_ROOM_CODE)
+	{
+		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], m_handlerFactory.getRoomManager().getRoom(roomId));
+	}
+	else // close room
+	{
+		LeaveRoomResponse response = { STATUS_SUCCESS };
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
+		m_roomsSocket.erase(roomId);
+	}
+}
+
+/// <summary>
+/// Sends to all of the clients in a room list of the players in the room
+/// </summary>
+/// <param name="clients">vector of SOCKET, the clients in the room</param>
+/// <param name="room">Room, the room</param>
+void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room)
+{
+	// getting list of all of the players in the room
+	GetPlayersInRoomResponse response = { STATUS_SUCCESS, room.getAllUsers() };
+	vector<unsigned char> message = JsonResponsePacketSerializer::serializeResponse(response);
+
+	sendMessageToAllClients(clients, message);
+}
+
+/// <summary>
+/// Sends message to all of the clients
+/// </summary>
+/// <param name="clients">vector of SOCKET, the clients to send the message to</param>
+/// <param name="message">vector of bytes, the message to send</param>
+void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message)
+{
+	// sends to every client the list of players
+	for (auto it = clients.begin(); it != clients.end(); ++it)
+	{
+		sendMessageToClient(message, *it);
+	}
+}
+
+/// <summary>
+/// Gets the id of the room according to the handler of the client and the request
+/// </summary>
+/// <param name="code">unsigned int, the code of the request</param>
+/// <param name="clientHanlder">IRequestHandler, the handler of the client</param>
+/// <returns>unsigned int, the id of the room</returns>
+unsigned int Communicator::getRoomId(const unsigned int code, IRequestHandler* clientHanlder)
+{
+	if (code == LEAVE_ROOM_CODE)
+	{
+		return static_cast<RoomMemberRequestHandler*>(clientHanlder)->getRoom().getRoomData().id;
+	}
+	return static_cast<RoomAdminRequestHandler*>(clientHanlder)->getRoomId();
 }

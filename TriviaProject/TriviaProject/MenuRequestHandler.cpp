@@ -144,7 +144,12 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
 
     result.newHandler = nullptr; // don't want to change the handler
     JoinRoomRequest requestData = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(request.buffer);
-    JoinRoomResponse response = { m_roomManager.getRoom(requestData.roomId).addUser(m_user.getUsername())};
+    Room room = m_roomManager.getRoom(requestData.roomId);
+    JoinRoomResponse response = { room.addUser(m_user.getUsername())};
+    if (response.status == SUCCESS)
+    {
+        result.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user, room);
+    }
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;
@@ -166,12 +171,16 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
         newRoomId = rooms[rooms.size() - 1].id; // gets the last room's id
     }
     
-    result.newHandler = nullptr; // don't want to change the handler
+    result.newHandler = nullptr;
     CreateRoomRequest requestData = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
     newRoomId++;
     RoomData roomData = { newRoomId, requestData.roomName, (unsigned int)(requestData.maxUsers),
-                          (unsigned int)(requestData.questionCount), (unsigned int)(requestData.answerTimeout), ACTIVE_ROOM };
+                          (unsigned int)(requestData.questionCount), (unsigned int)(requestData.answerTimeout), NON_ACTIVE_ROOM };
     CreateRoomResponse response = { m_roomManager.createRoom(m_user, roomData), newRoomId };
+    if (response.status == SUCCESS)
+    {
+        result.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, Room(roomData));
+    }
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;
