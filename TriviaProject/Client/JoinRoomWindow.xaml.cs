@@ -139,6 +139,7 @@ namespace Client
                 return;
             }
 
+            backgroundWorker.CancelAsync(); // closes the background worker
             RoomWindow roomWindow = new RoomWindow(ref communicator, username, GetRoomData(id));
             Close();
             roomWindow.ShowDialog();
@@ -236,16 +237,8 @@ namespace Client
         }
 
         /// <summary>
-        /// the function update the window with thread
+        /// the function starts the background worker main thread
         /// </summary>
-        private void UpdateWindow()
-        {
-            this.roomDataList.Clear();
-            rooms.Children.Clear();
-            GetRooms();
-            AddRoomsData();
-        }
-
         void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -256,13 +249,19 @@ namespace Client
                     return;
                 }
                 backgroundWorker.ReportProgress(0);
-                Thread.Sleep(3 * 1000);
+                Thread.Sleep(3 * 1000); // wait for 3 seconds
             }
         }
 
+        /// <summary>
+        /// the function update the window with thread
+        /// </summary>
         void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            UpdateWindow();
+            this.roomDataList.Clear(); // clear the room list
+            rooms.Children.Clear(); // clear the window
+            GetRooms(); // update the room list
+            AddRoomsData(); // add the updated rooms to the window
         }
 
         /// <summary>
@@ -270,9 +269,10 @@ namespace Client
         /// </summary>
         private void BackClick(object sender, RoutedEventArgs e)
         {
+            backgroundWorker.CancelAsync(); // closes the background worker
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
             menuWindow.ShowDialog();
         }
-    }
+    } 
 }
