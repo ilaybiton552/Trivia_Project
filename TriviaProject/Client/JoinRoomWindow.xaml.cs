@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Shapes;
 
 namespace Client
@@ -41,12 +43,23 @@ namespace Client
         {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            backgroundWorker = new BackgroundWorker();
             this.communicator = communicator;
             this.username = username;
             roomDataList = new LinkedList<RoomData>();
-            GetRooms();
-            AddRoomsData();
+            backgroundWorker = new BackgroundWorker();
+            SetBackgroundWorkerDetails();
+        }
+
+        /// <summary>
+        /// Sets the details of the background worker
+        /// </summary>
+        private void SetBackgroundWorkerDetails()
+        {
+            backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.DoWork += backgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += backgroundWorker_ProgressChanged;
+            backgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -228,13 +241,28 @@ namespace Client
         private void UpdateWindow()
         {
             this.roomDataList.Clear();
+            rooms.Children.Clear();
             GetRooms();
             AddRoomsData();
         }
 
-        static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Add code here
+            while (true)
+            {
+                if (backgroundWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                backgroundWorker.ReportProgress(0);
+                Thread.Sleep(3 * 1000);
+            }
+        }
+
+        void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            UpdateWindow();
         }
 
         /// <summary>
