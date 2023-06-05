@@ -2,9 +2,11 @@
 using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,11 +35,13 @@ namespace Client
         private const int GetPlayersInRoomRequestCode = 105;
         private const int GetPlayersInRoomResponseCode = 205;
         private const int SuccesStatus = 1;
+        private BackgroundWorker backgroundWorker;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            backgroundWorker = new BackgroundWorker();
             this.communicator = communicator;
             this.username = username;
             roomDataList = new LinkedList<RoomData>();
@@ -134,7 +138,7 @@ namespace Client
             PacketInfo packetToSend = new PacketInfo() { code = GetRoomsRequestCode, data =""};
             communicator.SendPacket(packetToSend);
 
-            PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
+            PacketInfo receivedPacket = communicator.GetMessageFromServer();
             if (receivedPacket.code != GetRoomsResponseCode)
             {
                 MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -215,6 +219,21 @@ namespace Client
                 roomData.admin = temp.Remove(temp.IndexOf(','));
             }
             roomData.players = players;
+        }
+
+        /// <summary>
+        /// the function update the window with thread
+        /// </summary>
+        private void UpdateWindow()
+        {
+            this.roomDataList.Clear();
+            GetRooms();
+            AddRoomsData();
+        }
+
+        static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Add code here
         }
 
         /// <summary>
