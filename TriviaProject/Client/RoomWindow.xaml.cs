@@ -97,7 +97,7 @@ namespace Client
             maxPlayersTextBlock.Text = roomData.maxPlayers.ToString();
             numOfQTextBlock.Text = roomData.numOfQuestions.ToString();
             timeTextBlock.Text = roomData.timePerQuestion.ToString();
-            GetPlayers();
+            playersTextBlock.Text = roomData.players;
         }
 
         /// <summary>

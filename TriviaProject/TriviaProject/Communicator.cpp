@@ -119,9 +119,9 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
-					if (requestInfo.id != GET_ROOM_STATE_CODE && (requestInfo.id >= CREATE_ROOM_CODE || requestInfo.id <= LEAVE_ROOM_CODE))
+					if (requestInfo.id != GET_ROOM_STATE_CODE && requestInfo.id >= CREATE_ROOM_CODE && requestInfo.id <= LEAVE_ROOM_CODE)
 					{
-						handleClientsInRooms(requestInfo.id, client_socket, clientHandler, roomId);
+						handleClientsInRooms(requestInfo.id, client_socket, requestResult.newHandler, roomId);
 					}
 				}
 			}
