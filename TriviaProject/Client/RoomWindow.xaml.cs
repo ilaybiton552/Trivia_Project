@@ -34,6 +34,7 @@ namespace Client
         private const int LeaveRoomResponseCode = 213;
         private const int StartGameRequestCode = 111;
         private const int StartGameResponseCode = 211;
+        private const int GetPlayersInRoomResponse = 205;
         private BackgroundWorker backgroundWorker;
 
 
@@ -188,7 +189,18 @@ namespace Client
         /// </summary>
         void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            switch (serverPacket.code)
+            {
+                case StartGameResponseCode:
+                    break;
+                case LeaveRoomResponseCode:
+                    break;
+                case CloseRoomResponseCode:
+                    break;
+                case GetPlayersInRoomResponse:
+                    break;
+            }
         }
 
     }
