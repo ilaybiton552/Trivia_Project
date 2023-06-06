@@ -128,6 +128,7 @@ namespace Client
                 {
                     MessageBox.Show("Error leaving the room", "Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 backgroundWorker.RunWorkerAsync();
                 MenuWindow menuWindow = new MenuWindow(ref communicator, username);
@@ -150,6 +151,7 @@ namespace Client
         /// </summary>
         private void SetBackgroundWorkerDetails()
         {
+            backgroundWorker = new BackgroundWorker();
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.WorkerReportsProgress = true;
             backgroundWorker.DoWork += backgroundWorker_DoWork;

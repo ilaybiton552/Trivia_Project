@@ -306,16 +306,25 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	{
 		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
-		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
 	}
 	else if (code == LEAVE_ROOM_CODE)
 	{
+		// erasing the client's socket from the room
+		for (auto it = m_roomsSocket[roomId].begin(); it != m_roomsSocket[roomId].end(); ++it)
+		{
+			if (*it == clientSocket)
+			{
+				m_roomsSocket[roomId].erase(it);
+				break;
+			}
+		}
 		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], m_handlerFactory.getRoomManager().getRoom(roomId));
 	}
 	else // close room
 	{
 		LeaveRoomResponse response = { STATUS_SUCCESS };
-		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response));
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
 		m_roomsSocket.erase(roomId);
 	}
 }
@@ -339,12 +348,16 @@ void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, 
 /// </summary>
 /// <param name="clients">vector of SOCKET, the clients to send the message to</param>
 /// <param name="message">vector of bytes, the message to send</param>
-void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message)
+/// <param name="clientSocket">SOCKET, the socket of the client, if don't want to send a message back to him</param>
+void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket)
 {
 	// sends to every client the list of players
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
-		sendMessageToClient(message, *it);
+		if (*it != clientSocket)
+		{
+			sendMessageToClient(message, *it);
+		}
 	}
 }
 
