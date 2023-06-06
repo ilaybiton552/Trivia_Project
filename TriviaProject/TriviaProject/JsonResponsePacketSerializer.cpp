@@ -183,13 +183,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomSta
         players.pop_back(); // deleting last comma
     }
 
-    string hasGameBegun = "false";
-    if (getRoomStateResponse.hasGameBegun)
-    {
-        hasGameBegun = "true";
-    }
-
-    json response = { {"status", getRoomStateResponse.status}, {"hasGameBegun", hasGameBegun}, {"players", players},
+    json response = { {"status", getRoomStateResponse.status}, {"hasGameBegun", getRoomStateResponse.hasGameBegun}, {"players", players},
                         {"questionCount", getRoomStateResponse.questionCount}, {"answerTimeout", getRoomStateResponse.answerTimeout} };
 
     return makeSerializedPacket(response, GET_ROOM_STATE_RESPONSE_CODE);
