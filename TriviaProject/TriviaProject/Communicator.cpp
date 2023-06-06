@@ -119,7 +119,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 				{
 					delete m_clients[client_socket];
 					m_clients[client_socket] = requestResult.newHandler;
-					if (requestInfo.id != GET_ROOM_STATE_CODE && requestInfo.id >= CREATE_ROOM_CODE && requestInfo.id <= LEAVE_ROOM_CODE)
+					if (requestInfo.id != GET_ROOM_STATE_CODE && requestInfo.id >= JOIN_ROOM_CODE && requestInfo.id <= LEAVE_ROOM_CODE)
 					{
 						handleClientsInRooms(requestInfo.id, client_socket, requestResult.newHandler, roomId);
 					}
@@ -170,7 +170,7 @@ RequestInfo Communicator::receiveMessage(const SOCKET& clientSocket)
 
 	cout << "Data: ";
 	printClientMessage(message);
-	cout << endl;
+	cout << endl << endl;
 	requestInfo.buffer = message;
 
 	return requestInfo;
@@ -208,7 +208,7 @@ int Communicator::initializeReceive(RequestInfo& requestInfo, const SOCKET& clie
 	}
 	requestInfo.receivalTime = time(0);
 	requestInfo.id = LoginRequestHandler::convertByteToNumber(vector<unsigned char>(1, buffer[REQUEST_ID_INDEX]));
-	cout << "Client's message: " << endl << "Id: " << requestInfo.id << endl;
+	cout << endl << "Client's message: " << endl << "Id: " << requestInfo.id << endl;
 
 	vector<unsigned char> dataBytes;
 	insertBackIntoVector(dataBytes, buffer, HEADER_MESSAGE_SIZE);
@@ -299,8 +299,8 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	{
 		Room room = static_cast<RoomMemberRequestHandler*>(clientHandler)->getRoom();
 		roomId = room.getRoomData().id;
-		m_roomsSocket[roomId].push_back(clientSocket);
 		sendToAllClientsPlayersInRoom(m_roomsSocket[roomId], room);
+		m_roomsSocket[roomId].push_back(clientSocket);
 	}
 	else if (code == START_GAME_CODE)
 	{
@@ -351,6 +351,7 @@ void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, 
 /// <param name="clientSocket">SOCKET, the socket of the client, if don't want to send a message back to him</param>
 void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket)
 {
+	int count = 0;
 	// sends to every client the list of players
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
@@ -358,7 +359,9 @@ void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const 
 		{
 			sendMessageToClient(message, *it);
 		}
+		count++;
 	}
+	cout << endl << "Num Of Send: " << count << endl << endl;
 }
 
 /// <summary>

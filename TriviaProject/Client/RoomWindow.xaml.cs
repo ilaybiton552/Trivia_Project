@@ -68,6 +68,7 @@ namespace Client
                 leaveButton.Content = "Leave";
                 leaveButton.Width = 60;
             }
+            backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
         }
 
@@ -151,7 +152,6 @@ namespace Client
         /// </summary>
         private void SetBackgroundWorkerDetails()
         {
-            backgroundWorker = new BackgroundWorker();
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.WorkerReportsProgress = true;
             backgroundWorker.DoWork += backgroundWorker_DoWork;
@@ -166,7 +166,8 @@ namespace Client
         {
             while (!backgroundWorker.CancellationPending)
             {
-                backgroundWorker.ReportProgress(0); // calling ProgressChanged
+                PacketInfo serverPacket = communicator.GetMessageFromServer();
+                backgroundWorker.ReportProgress(0, serverPacket);
             }
             e.Cancel = true;
         }
@@ -176,21 +177,28 @@ namespace Client
         /// </summary>
         void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            PacketInfo serverPacket = communicator.GetMessageFromServer();
-            switch (serverPacket.code)
+            try
             {
-                case StartGameResponseCode:
-                    HandleStartGameResponse(serverPacket);
-                    break;
-                case LeaveRoomResponseCode:
-                    HandleLeaveRoomResponse(serverPacket);
-                    break;
-                case CloseRoomResponseCode:
-                    HandleCloseRoomResponse(serverPacket);
-                    break;
-                case GetPlayersInRoomResponse:
-                    HandleGetPlayersResponse(serverPacket);
-                    break;
+                PacketInfo packet = (PacketInfo)e.UserState;
+                switch (packet.code)
+                {
+                    case StartGameResponseCode:
+                        HandleStartGameResponse(packet);
+                        break;
+                    case LeaveRoomResponseCode:
+                        HandleLeaveRoomResponse(packet);
+                        break;
+                    case CloseRoomResponseCode:
+                        HandleCloseRoomResponse(packet);
+                        break;
+                    case GetPlayersInRoomResponse:
+                        HandleGetPlayersResponse(packet);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception - " + ex);
             }
         }
 
