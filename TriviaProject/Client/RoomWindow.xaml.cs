@@ -187,6 +187,7 @@ namespace Client
                     HandleCloseRoomResponse(serverPacket);
                     break;
                 case GetPlayersInRoomResponse:
+                    HandleGetPlayersResponse(serverPacket);
                     break;
             }
         }
@@ -243,6 +244,16 @@ namespace Client
                 Close();
                 menuWindow.ShowDialog();
             }
+        }
+
+        /// <summary>
+        /// Handles get players response
+        /// </summary>
+        /// <param name="packet">PacketInfo, the information of the packet</param>
+        private void HandleGetPlayersResponse(PacketInfo packet)
+        {
+            GetPlayersResponse playersPacket = JsonConvert.DeserializeObject<GetPlayersResponse>(packet.data);
+            playersTextBlock.Text = playersPacket.players;
         }
 
     }
