@@ -24,8 +24,8 @@ namespace Client
         private Communicator communicator;
         private string username;
         private RoomData roomData;
-        private const int GetPlayersRequestCode = 105;
-        private const int GetPlayersResponseCode = 205;
+        private const int GetRoomStateRequestCode = 112;
+        private const int GetRoomStateResponseCode = 212;
         private const int CloseRoomRequestCode = 110;
         private const int CloseRoomResponseCode = 210;
         private const int LeaveRoomRequestCode = 113;
@@ -70,19 +70,18 @@ namespace Client
         private void GetPlayers()
         {
             // sends packet to server
-            string json = JsonConvert.SerializeObject(new RoomIdRequest() { roomId = roomData.id });
-            PacketInfo clientPacket = new PacketInfo() { code = GetPlayersRequestCode, data = json };
+            PacketInfo clientPacket = new PacketInfo() { code = GetRoomStateRequestCode, data = "" };
             communicator.SendPacket(clientPacket);
 
             // gets message from server
             PacketInfo serverPacket = communicator.GetMessageFromServer();
-            if (serverPacket.code != GetPlayersResponseCode)
+            if (serverPacket.code != GetRoomStateResponseCode)
             {
                 MessageBox.Show("Error occured", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            GetPlayersResponse response = JsonConvert.DeserializeObject<GetPlayersResponse>(serverPacket.data);
+            GetRoomStateResponse response = JsonConvert.DeserializeObject<GetRoomStateResponse>(serverPacket.data);
             roomData.players = response.players;
             playersTextBlock.Text = roomData.players;
         }
@@ -97,7 +96,7 @@ namespace Client
             maxPlayersTextBlock.Text = roomData.maxPlayers.ToString();
             numOfQTextBlock.Text = roomData.numOfQuestions.ToString();
             timeTextBlock.Text = roomData.timePerQuestion.ToString();
-            playersTextBlock.Text = roomData.players;
+            GetPlayers();
         }
 
         /// <summary>
