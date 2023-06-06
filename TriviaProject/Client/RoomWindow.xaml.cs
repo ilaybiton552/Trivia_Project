@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,7 @@ namespace Client
         private const int StartGameRequestCode = 111;
         private const int StartGameResponseCode = 211;
         private const int GetPlayersInRoomResponse = 205;
+        private const int StatusSuccess = 1;
         private BackgroundWorker backgroundWorker;
 
 
@@ -149,15 +151,6 @@ namespace Client
         {
             PacketInfo clientPacket = new PacketInfo() { code = StartGameRequestCode, data = "" };
             communicator.SendPacket(clientPacket);
-
-            // getting the message from the server
-            PacketInfo serverPacket = communicator.GetMessageFromServer();
-            if (serverPacket.code != StartGameResponseCode)
-            {
-                MessageBox.Show("Error starting the game", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
         }
 
         /// <summary>
@@ -193,6 +186,7 @@ namespace Client
             switch (serverPacket.code)
             {
                 case StartGameResponseCode:
+                    HandleStartGameResponse(serverPacket);
                     break;
                 case LeaveRoomResponseCode:
                     break;
@@ -200,6 +194,24 @@ namespace Client
                     break;
                 case GetPlayersInRoomResponse:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Handles with a start game response from the server
+        /// </summary>
+        /// <param name="packet">PacketInfo, the information of the packet</param>
+        private void HandleStartGameResponse(PacketInfo packet)
+        {
+            StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(packet.data);
+            if (statusPacket.status != StatusSuccess)
+            {
+                MessageBox.Show("Error starting the game", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                MessageBox.Show("Starting a game");
             }
         }
 
