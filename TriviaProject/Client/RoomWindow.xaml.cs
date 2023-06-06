@@ -139,9 +139,7 @@ namespace Client
                 }
             }
 
-            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
-            Close();
-            menuWindow.ShowDialog();
+            
         }
 
         /// <summary>
@@ -191,6 +189,7 @@ namespace Client
                 case LeaveRoomResponseCode:
                     break;
                 case CloseRoomResponseCode:
+                    HandleCloseRoomResponse(serverPacket);
                     break;
                 case GetPlayersInRoomResponse:
                     break;
@@ -211,7 +210,29 @@ namespace Client
             }
             else
             {
+                backgroundWorker.CancelAsync();
                 MessageBox.Show("Starting a game");
+            }
+        }
+
+        /// <summary>
+        /// Handles close room response
+        /// </summary>
+        /// <param name="packet">PacketInfo, the information of the packet</param>
+        private void HandleCloseRoomResponse(PacketInfo packet)
+        {
+            StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(packet.data);
+            if (statusPacket.status != StatusSuccess)
+            {
+                MessageBox.Show("Error closing the room", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                backgroundWorker.CancelAsync();
+                MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                Close();
+                menuWindow.ShowDialog();
             }
         }
 
