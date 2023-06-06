@@ -360,7 +360,6 @@ void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, 
 /// <param name="clientSocket">SOCKET, the socket of the client, if don't want to send a message back to him</param>
 void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket)
 {
-	int count = 0;
 	// sends to every client the list of players
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
@@ -368,9 +367,7 @@ void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const 
 		{
 			sendMessageToClient(message, *it);
 		}
-		count++;
 	}
-	cout << endl << "Num Of Send: " << count << endl << endl;
 }
 
 /// <summary>
