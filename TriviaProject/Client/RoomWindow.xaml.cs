@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +34,7 @@ namespace Client
         private const int LeaveRoomResponseCode = 213;
         private const int StartGameRequestCode = 111;
         private const int StartGameResponseCode = 211;
+        private BackgroundWorker backgroundWorker;
 
 
         public RoomWindow(ref Communicator communicator, string username, RoomData roomData)
@@ -61,7 +64,7 @@ namespace Client
                 leaveButton.Content = "Leave";
                 leaveButton.Width = 60;
             }
-            
+            SetBackgroundWorkerDetails();
         }
 
         /// <summary>
@@ -155,5 +158,38 @@ namespace Client
                 return;
             }
         }
+
+        /// <summary>
+        /// Sets the details of the background worker
+        /// </summary>
+        private void SetBackgroundWorkerDetails()
+        {
+            backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.DoWork += backgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += backgroundWorker_ProgressChanged;
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// the function starts the background worker main thread
+        /// </summary>
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!backgroundWorker.CancellationPending)
+            {
+                backgroundWorker.ReportProgress(0); // calling ProgressChanged
+            }
+            e.Cancel = true;
+        }
+
+        /// <summary>
+        /// the function update the window with thread
+        /// </summary>
+        void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
     }
 }
