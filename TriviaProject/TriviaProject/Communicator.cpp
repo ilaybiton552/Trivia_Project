@@ -323,7 +323,7 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	}
 	else // close room
 	{
-		LeaveRoomResponse response = { STATUS_SUCCESS };
+		LeaveRoomResponse response = { STATUS_CLOSED_ROOM };
 		// erasing the client's socket from the room
 		for (auto it = m_roomsSocket[roomId].begin(); it != m_roomsSocket[roomId].end(); ++it)
 		{

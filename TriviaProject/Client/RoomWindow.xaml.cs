@@ -38,6 +38,8 @@ namespace Client
         private const int StartGameResponseCode = 211;
         private const int GetPlayersInRoomResponse = 205;
         private const int StatusSuccess = 1;
+        private const int StatusClosed = 2;
+        private const int StatusFail = 0;
         private BackgroundWorker backgroundWorker;
 
 
@@ -121,20 +123,6 @@ namespace Client
             {
                 PacketInfo clientPacket = new PacketInfo() { code = LeaveRoomRequestCode, data = "" };
                 communicator.SendPacket(clientPacket);
-
-                backgroundWorker.CancelAsync();
-                PacketInfo serverPacket = communicator.GetMessageFromServer();
-                StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(serverPacket.data);
-                if (statusPacket.status != StatusSuccess)
-                {
-                    MessageBox.Show("Error leaving the room", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                    backgroundWorker.RunWorkerAsync();
-                    return;
-                }
-                MenuWindow menuWindow = new MenuWindow(ref communicator, username);
-                Close();
-                menuWindow.ShowDialog();
             }
         }
 
@@ -164,10 +152,12 @@ namespace Client
         /// </summary>
         void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (!backgroundWorker.CancellationPending)
+            int packetCode = GetPlayersInRoomResponse;
+            while (!backgroundWorker.CancellationPending && packetCode == GetPlayersInRoomResponse)
             {
                 PacketInfo serverPacket = communicator.GetMessageFromServer();
                 backgroundWorker.ReportProgress(0, serverPacket);
+                packetCode = serverPacket.code;
             }
             e.Cancel = true;
         }
@@ -228,7 +218,16 @@ namespace Client
         private void HandleLeaveRoomResponse(PacketInfo packet)
         {
             StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(packet.data);
-            MessageBox.Show("The admin closed this room");
+            if (statusPacket.status == StatusFail)
+            {
+                MessageBox.Show("Error leaving the room", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (statusPacket.status == StatusClosed) // admin closed the room
+            {
+                MessageBox.Show("The admin closed this room");
+            }
             backgroundWorker.CancelAsync();
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();

@@ -13,6 +13,7 @@
 #define REQUEST_ID_INDEX 0
 #define HEADER_MESSAGE_SIZE 5
 #define CLIENT_LOG_OUT 0
+#define STATUS_CLOSED_ROOM 2
 
 using std::map;
 using std::pair;
