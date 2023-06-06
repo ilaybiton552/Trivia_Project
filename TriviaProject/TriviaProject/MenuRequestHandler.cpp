@@ -179,7 +179,7 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
     CreateRoomResponse response = { m_roomManager.createRoom(m_user, roomData), newRoomId };
     if (response.status == SUCCESS)
     {
-        result.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, Room(roomData));
+        result.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_roomManager.getRoom(newRoomId));
     }
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
