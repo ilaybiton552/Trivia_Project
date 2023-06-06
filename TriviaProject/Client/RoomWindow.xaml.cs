@@ -129,9 +129,9 @@ namespace Client
                 {
                     MessageBox.Show("Error leaving the room", "Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
+                    backgroundWorker.RunWorkerAsync();
                     return;
                 }
-                backgroundWorker.RunWorkerAsync();
                 MenuWindow menuWindow = new MenuWindow(ref communicator, username);
                 Close();
                 menuWindow.ShowDialog();
