@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -114,32 +115,25 @@ namespace Client
             {
                 PacketInfo clientPacket = new PacketInfo() { code = CloseRoomRequestCode, data = "" };
                 communicator.SendPacket(clientPacket);
-
-                // getting the message from the server
-                PacketInfo serverPacket = communicator.GetMessageFromServer();
-                if (serverPacket.code != CloseRoomResponseCode)
-                {
-                    MessageBox.Show("Error closing the room", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
             }
             else
             {
                 PacketInfo clientPacket = new PacketInfo() { code = LeaveRoomRequestCode, data = "" };
                 communicator.SendPacket(clientPacket);
 
-                // getting the message from the server
+                backgroundWorker.CancelAsync();
                 PacketInfo serverPacket = communicator.GetMessageFromServer();
-                if (serverPacket.code != LeaveRoomResponseCode)
+                StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(serverPacket.data);
+                if (statusPacket.status != StatusSuccess)
                 {
                     MessageBox.Show("Error leaving the room", "Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
                 }
+                backgroundWorker.RunWorkerAsync();
+                MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                Close();
+                menuWindow.ShowDialog();
             }
-
-            
         }
 
         /// <summary>
@@ -187,6 +181,7 @@ namespace Client
                     HandleStartGameResponse(serverPacket);
                     break;
                 case LeaveRoomResponseCode:
+                    HandleLeaveRoomResponse(serverPacket);
                     break;
                 case CloseRoomResponseCode:
                     HandleCloseRoomResponse(serverPacket);
@@ -213,6 +208,20 @@ namespace Client
                 backgroundWorker.CancelAsync();
                 MessageBox.Show("Starting a game");
             }
+        }
+
+        /// <summary>
+        /// Handles leave room response
+        /// </summary>
+        /// <param name="packet">PacketInfo, the information of the packet</param>
+        private void HandleLeaveRoomResponse(PacketInfo packet)
+        {
+            StatusPacket statusPacket = JsonConvert.DeserializeObject<StatusPacket>(packet.data);
+            MessageBox.Show("The admin closed this room");
+            backgroundWorker.CancelAsync();
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
         }
 
         /// <summary>
