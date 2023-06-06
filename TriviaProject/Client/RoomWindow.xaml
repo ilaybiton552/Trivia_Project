@@ -28,7 +28,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="4*"/>
-            <RowDefinition/>
+            <RowDefinition x:Name="lastRow"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">

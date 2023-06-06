@@ -30,6 +30,8 @@ namespace Client
         private const int CloseRoomResponseCode = 210;
         private const int LeaveRoomRequestCode = 113;
         private const int LeaveRoomResponseCode = 213;
+        private const int StartGameRequestCode = 111;
+        private const int StartGameResponseCode = 211;
 
 
         public RoomWindow(ref Communicator communicator, string username, RoomData roomData)
@@ -44,6 +46,15 @@ namespace Client
             {
                 leaveButton.Width = 100;
                 leaveButton.Content = "Close room";
+                Button startGame = new Button();
+                startGame.HorizontalAlignment = HorizontalAlignment.Right;
+                startGame.VerticalAlignment = VerticalAlignment.Bottom;
+                startGame.Content = "Start";
+                startGame.Width = 60;
+                startGame.Margin = new Thickness(0, 32.5, 5, 5);
+                startGame.Click += StartGameClick;
+                Grid.SetRow(startGame, 2);
+                grid.Children.Add(startGame);
             }
             else
             {
@@ -126,6 +137,24 @@ namespace Client
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
             menuWindow.ShowDialog();
+        }
+
+        /// <summary>
+        /// the function starts the game
+        /// </summary>
+        private void StartGameClick(object sender, RoutedEventArgs e)
+        {
+            PacketInfo clientPacket = new PacketInfo() { code = StartGameRequestCode, data = "" };
+            communicator.SendPacket(clientPacket);
+
+            // getting the message from the server
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != StartGameResponseCode)
+            {
+                MessageBox.Show("Error starting the game", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
     }
 }
