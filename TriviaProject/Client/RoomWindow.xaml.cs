@@ -55,20 +55,12 @@ namespace Client
             {
                 leaveButton.Width = 100;
                 leaveButton.Content = "Close room";
-                Button startGame = new Button();
-                startGame.HorizontalAlignment = HorizontalAlignment.Right;
-                startGame.VerticalAlignment = VerticalAlignment.Bottom;
-                startGame.Content = "Start";
-                startGame.Width = 60;
-                startGame.Margin = new Thickness(0, 32.5, 5, 5);
-                startGame.Click += StartGameClick;
-                Grid.SetRow(startGame, 2);
-                grid.Children.Add(startGame);
             }
             else
             {
                 leaveButton.Content = "Leave";
                 leaveButton.Width = 60;
+                grid.Children.Remove(startGame);
             }
             backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
@@ -217,7 +209,16 @@ namespace Client
             else
             {
                 backgroundWorker.CancelAsync();
-                MessageBox.Show("Starting a game");
+                TextBlock textBlock = new TextBlock() { Text = "Starting the game..." };
+                textBlock.FontSize = 30;
+                textBlock.Foreground = new SolidColorBrush(Colors.Red);
+                textBlock.Margin = new Thickness(10);
+                roomDataPanel.Children.Add(textBlock);
+                grid.Children.Remove(leaveButton);
+                if (roomData.admin == username)
+                {
+                    grid.Children.Remove(startGame);
+                }
             }
         }
 
@@ -238,10 +239,14 @@ namespace Client
             if (statusPacket.status == StatusClosed) // admin closed the room
             {
                 TextBlock textBlock = new TextBlock() { Text = "The admin closed this room" };
+                textBlock.FontSize = 30;
+                textBlock.Foreground = new SolidColorBrush(Colors.Red);
+                textBlock.Margin = new Thickness(10);
                 Button button = new Button() { Content = "ok" };
                 button.Click += OkClick;
                 roomDataPanel.Children.Add(textBlock);
                 roomDataPanel.Children.Add(button);
+                grid.Children.Remove(leaveButton);
             }
             else // the user decided to leave
             {
