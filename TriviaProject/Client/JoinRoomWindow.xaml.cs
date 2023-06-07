@@ -2,9 +2,12 @@
 using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Shapes;
 
 namespace Client
@@ -33,6 +37,7 @@ namespace Client
         private const int GetPlayersInRoomRequestCode = 105;
         private const int GetPlayersInRoomResponseCode = 205;
         private const int SuccesStatus = 1;
+        private BackgroundWorker backgroundWorker;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
         {
@@ -41,8 +46,20 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             roomDataList = new LinkedList<RoomData>();
-            GetRooms();
-            AddRoomsData();
+            backgroundWorker = new BackgroundWorker();
+            SetBackgroundWorkerDetails();
+        }
+
+        /// <summary>
+        /// Sets the details of the background worker
+        /// </summary>
+        private void SetBackgroundWorkerDetails()
+        {
+            backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.DoWork += backgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += backgroundWorker_ProgressChanged;
+            backgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -50,6 +67,7 @@ namespace Client
         /// </summary>
         private void AddRoomsData() 
         {
+            rooms.Children.Clear();
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
                 Button button = new Button();
@@ -121,6 +139,7 @@ namespace Client
                 return;
             }
 
+            backgroundWorker.CancelAsync(); // closes the background worker
             RoomWindow roomWindow = new RoomWindow(ref communicator, username, GetRoomData(id));
             Close();
             roomWindow.ShowDialog();
@@ -134,7 +153,7 @@ namespace Client
             PacketInfo packetToSend = new PacketInfo() { code = GetRoomsRequestCode, data =""};
             communicator.SendPacket(packetToSend);
 
-            PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
+            PacketInfo receivedPacket = communicator.GetMessageFromServer();
             if (receivedPacket.code != GetRoomsResponseCode)
             {
                 MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -218,13 +237,42 @@ namespace Client
         }
 
         /// <summary>
+        /// the function starts the background worker main thread
+        /// </summary>
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                if (backgroundWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                backgroundWorker.ReportProgress(0);
+                Thread.Sleep(3 * 1000); // wait for 3 seconds
+            }
+        }
+
+        /// <summary>
+        /// the function update the window with thread
+        /// </summary>
+        void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            this.roomDataList.Clear(); // clear the room list
+            rooms.Children.Clear(); // clear the window
+            GetRooms(); // update the room list
+            AddRoomsData(); // add the updated rooms to the window
+        }
+
+        /// <summary>
         /// Goes a window back (menu window)
         /// </summary>
         private void BackClick(object sender, RoutedEventArgs e)
         {
+            backgroundWorker.CancelAsync(); // closes the background worker
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
             menuWindow.ShowDialog();
         }
-    }
+    } 
 }

@@ -91,4 +91,13 @@ namespace Client
         public int roomId { get; set;}
     }
 
+    public class GetRoomStateResponse
+    {
+        public int status { get; set; }
+        public bool hasGameBegan { get; set; }
+        public string players { get; set; }
+        public int questionCount { get; set; }
+        public int answerTimeout { get; set; }
+    }
+
 }

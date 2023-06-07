@@ -13,6 +13,7 @@
 #define REQUEST_ID_INDEX 0
 #define HEADER_MESSAGE_SIZE 5
 #define CLIENT_LOG_OUT 0
+#define STATUS_CLOSED_ROOM 2
 
 using std::map;
 using std::pair;
@@ -40,10 +41,15 @@ private:
 	void sendMessageToClient(const vector<unsigned char>& message, const SOCKET& clientSocket);
 	void printClientMessage(const vector<unsigned char>& message);
 	void disconnectClient(const SOCKET& clientSocket);
+	void handleClientsInRooms(const unsigned int code, const SOCKET& clientSocket, IRequestHandler* clientHandler, unsigned int roomId);
+	void sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room);
+	void sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket = 0, const bool changeHandler = false, const bool menuHandler = true);
+	unsigned int getRoomId(const unsigned int code, IRequestHandler* clientHanlder);
 
 	//Fields
 	SOCKET m_serverSocket;
 	map<SOCKET, IRequestHandler*> m_clients;
 	RequestHandlerFactory& m_handlerFactory;
+	map<unsigned int, vector<SOCKET>> m_roomsSocket; // <roomId, vector of sockets of clients in room>
 };
 
