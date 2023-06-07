@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -240,7 +240,7 @@ namespace Client
             {
                 TextBlock textBlock = new TextBlock() { Text = "The admin closed this room" };
                 textBlock.FontSize = 30;
-                textBlock.Foreground = new SolidColorBrush(Colors.Red);
+                textBlock.Foreground = new SolidColorBrush(Color.FromRgb(14, 33, 68));
                 textBlock.Margin = new Thickness(10);
                 Button button = new Button() { Content = "ok" };
                 button.Click += OkClick;
