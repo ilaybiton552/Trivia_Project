@@ -136,6 +136,16 @@ namespace Client
         }
 
         /// <summary>
+        /// Click for a button to move to menu window after the admin closed this room
+        /// </summary>
+        private void OkClick(object sender, RoutedEventArgs e)
+        {
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
+        }
+
+        /// <summary>
         /// Sets the details of the background worker
         /// </summary>
         private void SetBackgroundWorkerDetails()
@@ -224,14 +234,21 @@ namespace Client
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            backgroundWorker.CancelAsync();
             if (statusPacket.status == StatusClosed) // admin closed the room
             {
-                MessageBox.Show("The admin closed this room");
+                TextBlock textBlock = new TextBlock() { Text = "The admin closed this room" };
+                Button button = new Button() { Content = "ok" };
+                button.Click += OkClick;
+                roomDataPanel.Children.Add(textBlock);
+                roomDataPanel.Children.Add(button);
             }
-            backgroundWorker.CancelAsync();
-            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
-            Close();
-            menuWindow.ShowDialog();
+            else // the user decided to leave
+            {
+                MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                Close();
+                menuWindow.ShowDialog();
+            }
         }
 
         /// <summary>
