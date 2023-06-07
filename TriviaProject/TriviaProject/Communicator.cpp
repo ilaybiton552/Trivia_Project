@@ -306,7 +306,7 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	{
 		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
-		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket, true, false);
 	}
 	else if (code == LEAVE_ROOM_CODE)
 	{
@@ -324,16 +324,7 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	else // close room
 	{
 		LeaveRoomResponse response = { STATUS_CLOSED_ROOM };
-		// erasing the client's socket from the room
-		for (auto it = m_roomsSocket[roomId].begin(); it != m_roomsSocket[roomId].end(); ++it)
-		{
-			if (*it == clientSocket)
-			{
-				m_roomsSocket[roomId].erase(it);
-				break;
-			}
-		}
-		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket, true);
 		m_roomsSocket.erase(roomId);
 	}
 }
@@ -358,7 +349,9 @@ void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, 
 /// <param name="clients">vector of SOCKET, the clients to send the message to</param>
 /// <param name="message">vector of bytes, the message to send</param>
 /// <param name="clientSocket">SOCKET, the socket of the client, if don't want to send a message back to him</param>
-void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket)
+/// <param name="changeHandler">bool, if need to change the handler</param>
+/// <param name="menuHandler">bool, if need to change the handler to menu handler</param>
+void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket, const bool changeHandler, const bool menuHandler)
 {
 	// sends to every client the list of players
 	for (auto it = clients.begin(); it != clients.end(); ++it)
@@ -366,6 +359,20 @@ void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const 
 		if (*it != clientSocket)
 		{
 			sendMessageToClient(message, *it);
+			if (changeHandler) // will be true for start game or close room
+			{
+				IRequestHandler** pCurrHandler = &m_clients[*it];
+				// will always be room member request handler
+				RoomMemberRequestHandler* currHandler = static_cast<RoomMemberRequestHandler*>(*pCurrHandler);
+				if (menuHandler) // close room case
+				{
+					*pCurrHandler = m_handlerFactory.createMenuRequestHandler(currHandler->getLoggedUser());
+				}
+				else // game handler (start game case)
+				{
+					// currently nothing to do here
+				}
+			}
 		}
 	}
 }

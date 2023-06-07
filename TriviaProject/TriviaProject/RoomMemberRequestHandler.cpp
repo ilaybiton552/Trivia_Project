@@ -47,6 +47,15 @@ Room RoomMemberRequestHandler::getRoom() const
 }
 
 /// <summary>
+/// Getter for m_user
+/// </summary>
+/// <returns>LoggedUser, the logged user</returns>
+LoggedUser RoomMemberRequestHandler::getLoggedUser() const
+{
+	return m_user;
+}
+
+/// <summary>
 /// Leaves the room
 /// </summary>
 /// <param name="requestInfo">RequestInfo, the information of the request</param>

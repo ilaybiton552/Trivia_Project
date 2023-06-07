@@ -20,6 +20,7 @@ public:
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
 	Room getRoom() const;
+	LoggedUser getLoggedUser() const;
 
 private:
 	//Fields
