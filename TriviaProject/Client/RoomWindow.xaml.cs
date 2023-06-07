@@ -211,7 +211,7 @@ namespace Client
                 backgroundWorker.CancelAsync();
                 TextBlock textBlock = new TextBlock() { Text = "Starting the game..." };
                 textBlock.FontSize = 30;
-                textBlock.Foreground = new SolidColorBrush(Colors.Red);
+                textBlock.Foreground = new SolidColorBrush(Color.FromRgb(14, 33, 68));
                 textBlock.Margin = new Thickness(10);
                 roomDataPanel.Children.Add(textBlock);
                 grid.Children.Remove(leaveButton);
