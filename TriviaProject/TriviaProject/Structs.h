@@ -4,6 +4,7 @@
 #include <ctime>
 #include <map>
 #include "IRequestHandler.h"
+#include "Question.h"
 
 using std::string;
 using std::vector;
