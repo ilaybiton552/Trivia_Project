@@ -2,10 +2,12 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <map>
 #include "IRequestHandler.h"
 
 using std::string;
 using std::vector;
+using std::map;
 
 class IRequestHandler; // problem of circular reference
 

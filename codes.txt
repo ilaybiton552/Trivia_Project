@@ -12,6 +12,10 @@ CloseRoomResponse - 210
 StartGameResponse - 211
 GetRoomStateResponse - 212
 LeaveRoomResponse - 213
+LeaveGameResponse - 214
+GetQuestionResponse - 215
+SubmitAnswerResponse - 216
+GetGameResultsResponse - 217
 
 LoginRequest - 101
 SignupRequest - 102
