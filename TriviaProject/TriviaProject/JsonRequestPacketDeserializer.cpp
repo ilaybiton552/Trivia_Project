@@ -75,6 +75,19 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(co
 }
 
 /// <summary>
+/// Deserizlizes submit answer request
+/// </summary>
+/// <param name="buffer">vector of bytes, the sumbit answer request from the client</param>
+/// <returns>struct SubmitAnswerRequest, struct with the data of submit answer request</returns>
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(const vector<unsigned char>& buffer)
+{
+    SubmitAnswerRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.answerId = data["answerId"];
+    return request;
+}
+
+/// <summary>
 /// Converts the data of the buffer to json
 /// </summary>
 /// <param name="buffer">vector of bytes, the request from the client</param>
