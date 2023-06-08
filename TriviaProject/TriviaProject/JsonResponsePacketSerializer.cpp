@@ -217,6 +217,26 @@ vector<unsigned char> JsonResponsePacketSerializer::convertNumberToByte(const un
     return numberInBytes;
 }
 
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse getGameResultsResponse)
+{
+
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse submitAnswerResponse)
+{
+
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse getQuestionResponse)
+{
+
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse leaveGameResponse)
+{
+
+}
+
 /// <summary>
 /// Converts json to bytes
 /// </summary>

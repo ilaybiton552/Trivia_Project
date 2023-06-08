@@ -148,6 +148,11 @@ struct LeaveRoomResponse
 	unsigned int status;
 };
 
+struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
 struct GetQuestionResponse
 {
 	unsigned int status;
