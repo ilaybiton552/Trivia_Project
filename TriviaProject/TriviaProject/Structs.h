@@ -147,3 +147,43 @@ struct LeaveRoomResponse
 {
 	unsigned int status;
 };
+
+struct GetQuestionResponse
+{
+	unsigned int status;
+	string question;
+	map<unsigned int, string> answers;
+};
+
+struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+struct PlayerResults
+{
+	string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	float averageAnswerTime;
+};
+
+struct GetGameResultsResponse
+{
+	unsigned int status;
+	vector<PlayerResults> results;
+};
+
+struct SubmitAnswerRequest
+{
+	unsigned int answerId;
+};
+
+struct GameData
+{
+	Question currentQuestion;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	float averageAnswerTime;
+};
