@@ -78,6 +78,15 @@ vector<string> Room::getAllUsers() const
 }
 
 /// <summary>
+/// the function returns vector of users in the room
+/// </summary>
+/// <returns>vector of users in the room</returns>
+vector<LoggedUser> Room::getUsers() const
+{
+	return m_users;
+}
+
+/// <summary>
 /// the function returns the room data
 /// </summary>
 /// <returns>the room data</returns>
