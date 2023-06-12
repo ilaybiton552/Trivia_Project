@@ -5,6 +5,7 @@
 #include "LoggedUser.h"
 #include "Structs.h"
 #include "Room.h"
+#include "IDatabase.h"
 
 using std::vector;
 using std::map;
@@ -16,7 +17,7 @@ public:
 	Game(vector<Question> questions, vector<LoggedUser> players, unsigned int gameId); // c'tor
 
 	Question getQuestionForUser(LoggedUser player);
-	void submitAnswer(LoggedUser player, GameData gameData);
+	void submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database);
 	void removePlayer(LoggedUser player);
 	unsigned int getGameId() const;
 
