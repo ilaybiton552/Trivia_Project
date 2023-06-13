@@ -216,6 +216,21 @@ bool SqliteDatabase::addGame()
 }
 
 /// <summary>
+/// Submits a user answer to the database
+/// </summary>
+/// <param name="username">string, the username</param>
+/// <param name="isCorrect">int, if the answer is correct: 1 - correct, 0 - incorrect</param>
+/// <param name="answerTime">float, the time it took the user to answer</param>
+/// <param name="gameId">int the id of the game</param>
+/// <returns></returns>
+bool SqliteDatabase::submitUserAnswer(const string& username, const int isCorrect, const float answerTime, const int gameId)
+{
+	string query("INSERT INTO STATISTICS SELECT '" + username + "', " + std::to_string(isCorrect) + 
+		", " + std::to_string(answerTime) + ", " + std::to_string(gameId) + ';');
+	return sqlQuery(query.c_str());
+}
+
+/// <summary>
 /// the function does the sql query
 /// </summary>
 /// <param name="sqlStatement">the sql statement</param>
