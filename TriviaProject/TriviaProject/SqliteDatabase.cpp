@@ -196,6 +196,17 @@ list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
 }
 
 /// <summary>
+/// Gets from the data base the last game id
+/// </summary>
+/// <returns>unsigned int, the last game id</returns>
+unsigned int SqliteDatabase::getLastGameId()
+{
+	unsigned int lastId = 0;
+	sqlQuery("SELECT * FROM GAMES ORDER BY ID DESC LIMIT 1;", returnOneNumber, &lastId);
+	return lastId;
+}
+
+/// <summary>
 /// the function does the sql query
 /// </summary>
 /// <param name="sqlStatement">the sql statement</param>

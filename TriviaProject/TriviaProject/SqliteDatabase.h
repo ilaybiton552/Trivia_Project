@@ -40,6 +40,7 @@ public:
 	virtual int getPlayerScore(const string& username) override;
 	virtual vector<string> getHighScores() override;
 	virtual list<Question> getQuestions(const int numOfQuestions) override;
+	virtual unsigned int getLastGameId() override;
 
 private:
 	//Field
