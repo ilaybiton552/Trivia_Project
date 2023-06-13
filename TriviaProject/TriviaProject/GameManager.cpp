@@ -22,7 +22,17 @@ Game GameManager::createGame(Room room)
 	m_games.push_back(game);
 }
 
+/// <summary>
+/// the function deletes the game according to its id
+/// </summary>
+/// <param name="gameId">the id of the game to delete</param>
 void GameManager::deleteGame(unsigned int gameId)
 {
-
+	for (auto it = m_games.begin(); it != m_games.end(); it++)
+	{
+		if ((*it).getGameId() == gameId)
+		{
+			m_games.erase(it);
+		}
+	}
 }

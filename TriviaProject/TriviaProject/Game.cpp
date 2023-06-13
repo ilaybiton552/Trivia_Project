@@ -47,6 +47,11 @@ void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTi
 	{
 		m_players[player].wrongAnswerCount++;
 	}
+	m_players[player].averageAnswerTime += answerTime;
+	m_players[player].averageAnswerTime /= 2; // calculate the average time per question
+	
+	// push the answer to the database
+
 }
 
 /// <summary>
