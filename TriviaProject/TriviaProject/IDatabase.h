@@ -25,5 +25,6 @@ public:
 	virtual vector<string> getHighScores() = 0;
 	virtual list<Question> getQuestions(const int numOfQuestions) = 0;
 	virtual unsigned int getLastGameId() = 0;
+	virtual bool addGame() = 0;
 };
 

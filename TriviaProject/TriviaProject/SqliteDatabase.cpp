@@ -207,6 +207,15 @@ unsigned int SqliteDatabase::getLastGameId()
 }
 
 /// <summary>
+/// Adds a game to the database
+/// </summary>
+/// <returns>bool, if succeeded to add the game</returns>
+bool SqliteDatabase::addGame()
+{
+	return sqlQuery("INSERT INTO GAMES SELECT NULL;");
+}
+
+/// <summary>
 /// the function does the sql query
 /// </summary>
 /// <param name="sqlStatement">the sql statement</param>
