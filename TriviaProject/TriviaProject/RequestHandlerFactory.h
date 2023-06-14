@@ -8,11 +8,13 @@
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
 #include "GameManager.h"
+#include "GameRequestHandler.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomAdminRequestHandler;
 class RoomMemberRequestHandler;
+class GameRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -24,6 +26,7 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser loggedUser);
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser admin, const Room& room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(const LoggedUser member, const Room& room);
+	GameRequestHandler* createGameRequestHandler(const LoggedUser& loggedUser, Game& game);
 
 	//Getters
 	LoginManager& getLoginManager();
