@@ -24,5 +24,8 @@ public:
 	virtual int getPlayerScore(const string& username) = 0;
 	virtual vector<string> getHighScores() = 0;
 	virtual list<Question> getQuestions(const int numOfQuestions) = 0;
+	virtual unsigned int getLastGameId() = 0;
+	virtual bool addGame() = 0;
+	virtual bool submitUserAnswer(const string& username, const int isCorrect, const float answerTime, const int gameId) = 0;
 };
 

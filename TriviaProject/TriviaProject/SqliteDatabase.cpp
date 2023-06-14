@@ -18,7 +18,8 @@ bool SqliteDatabase::open()
 	if (file_exist != 0) // if the database doesn't exist
 	{
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
-		sqlQuery("CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME TEXT NOT NULL, IS_CORRECT_ANSWER INTEGER NOT NULL, ANSWER_TIME REAL NOT NULL, GAME_ID INTEGER NOT NULL, FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME)); ");
+		sqlQuery("CREATE TABLE IF NOT EXISTS GAMES (ID INTEGER PRIMARY KEY AUTOINCREMENT);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME TEXT NOT NULL, IS_CORRECT_ANSWER INTEGER NOT NULL, ANSWER_TIME REAL NOT NULL, GAME_ID INTEGER NOT NULL, FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME), FOREIGN KEY(GAME_ID) REFERENCES GAMES(ID));");
 		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT NOT NULL, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
 		createQuestionDataBase();
 	}
@@ -192,6 +193,41 @@ list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
 	}
 
 	return questions;
+}
+
+/// <summary>
+/// Gets from the data base the last game id
+/// </summary>
+/// <returns>unsigned int, the last game id</returns>
+unsigned int SqliteDatabase::getLastGameId()
+{
+	unsigned int lastId = 0;
+	sqlQuery("SELECT * FROM GAMES ORDER BY ID DESC LIMIT 1;", returnOneNumber, &lastId);
+	return lastId;
+}
+
+/// <summary>
+/// Adds a game to the database
+/// </summary>
+/// <returns>bool, if succeeded to add the game</returns>
+bool SqliteDatabase::addGame()
+{
+	return sqlQuery("INSERT INTO GAMES SELECT NULL;");
+}
+
+/// <summary>
+/// Submits a user answer to the database
+/// </summary>
+/// <param name="username">string, the username</param>
+/// <param name="isCorrect">int, if the answer is correct: 1 - correct, 0 - incorrect</param>
+/// <param name="answerTime">float, the time it took the user to answer</param>
+/// <param name="gameId">int the id of the game</param>
+/// <returns></returns>
+bool SqliteDatabase::submitUserAnswer(const string& username, const int isCorrect, const float answerTime, const int gameId)
+{
+	string query("INSERT INTO STATISTICS SELECT '" + username + "', " + std::to_string(isCorrect) + 
+		", " + std::to_string(answerTime) + ", " + std::to_string(gameId) + ';');
+	return sqlQuery(query.c_str());
 }
 
 /// <summary>

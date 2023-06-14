@@ -21,6 +21,7 @@ public:
 	//Getters
 	vector<string> getAllUsers() const;
 	RoomData getRoomData() const;
+	vector<LoggedUser> getUsers() const;
 
 	void setIsActive(const unsigned int isActive);
 	GetRoomStateResponse getRoomState() const;
