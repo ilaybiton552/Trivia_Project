@@ -13,6 +13,16 @@ GameRequestHandler::GameRequestHandler(Game& game, const LoggedUser& loggedUser,
 }
 
 /// <summary>
+/// Checks if the request of the client is relevant
+/// </summary>
+/// <param name="requestInfo">RequestInfo, the information of the request</param>
+/// <returns>bool, if the request is relevant</returns>
+bool GameRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
+{
+	return requestInfo.id <= GET_GAME_RESULT_CODE && requestInfo.id >= LEAVE_GAME_CODE;
+}
+
+/// <summary>
 /// Getter for game
 /// </summary>
 /// <returns>Game, the game of the handler</returns>

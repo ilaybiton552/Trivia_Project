@@ -3,6 +3,8 @@
 #include "GameManager.h"
 #include "RequestHandlerFactory.h"
 
+enum GAME_CODES {LEAVE_GAME_CODE = 114, GET_QUESTION_CODE, SUBMIT_ANSWER_CODE, GET_GAME_RESULT_CODE};
+
 class RequestHandlerFactory;
 
 class GameRequestHandler : public IRequestHandler
