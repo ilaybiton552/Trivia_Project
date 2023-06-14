@@ -11,3 +11,12 @@ GameRequestHandler::GameRequestHandler(Game& game, const LoggedUser& loggedUser,
 	: m_game(game), m_user(loggedUser), m_gameManager(gameManager), m_handlerFactory(handlerFactory)
 {
 }
+
+/// <summary>
+/// Getter for game
+/// </summary>
+/// <returns>Game, the game of the handler</returns>
+Game GameRequestHandler::getGame() const
+{
+	return m_game;
+}

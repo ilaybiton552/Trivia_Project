@@ -109,7 +109,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 			int roomId = 0; // in case of leave/close room, want to get the id before handling the request (changes the handler)
 			if (clientHandler->isRequestRelevant(requestInfo))
 			{
-				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE)
+				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE || requestInfo.id == START_GAME_CODE)
 				{
 					roomId = getRoomId(requestInfo.id, clientHandler);
 				}
@@ -304,7 +304,6 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	}
 	else if (code == START_GAME_CODE)
 	{
-		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
 		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket, true, false);
 	}
