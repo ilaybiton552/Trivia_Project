@@ -4,7 +4,7 @@
 /// Constructor of ReqeusetHandlerFactory
 /// </summary>
 /// <param name="database">pointer of IDatabase, the database of the program</param>
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : m_loginManager(database), m_statisticsManager(database)
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : m_loginManager(database), m_statisticsManager(database), m_gameManager(database)
 {
 	m_database = database;
 	m_roomManager;

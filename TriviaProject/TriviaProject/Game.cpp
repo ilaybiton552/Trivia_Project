@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="questions">vector of questions</param>
 /// <param name="players">vector of players</param>
-/// <param name="gameId"></param>
+/// <param name="gameId">unsigned int, the id of the game</param>
 Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int gameId)
 {
 	m_questions = questions;

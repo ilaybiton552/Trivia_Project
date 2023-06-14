@@ -7,6 +7,7 @@
 #include "LoggedUser.h"
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
+#include "GameManager.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
@@ -35,5 +36,6 @@ private:
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;
+	GameManager m_gameManager;
 };
 
