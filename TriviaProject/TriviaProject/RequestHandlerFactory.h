@@ -32,6 +32,7 @@ public:
 	LoginManager& getLoginManager();
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
+	GameManager& getGameManager();
 
 private:
 	//Fields

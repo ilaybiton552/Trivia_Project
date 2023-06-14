@@ -88,3 +88,12 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 {
 	return m_roomManager;
 }
+
+/// <summary>
+/// Gets the game manager
+/// </summary>
+/// <returns>reference of GameManager, the game manager</returns>
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return m_gameManager;
+}
