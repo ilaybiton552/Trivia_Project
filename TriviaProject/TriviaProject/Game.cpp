@@ -39,9 +39,11 @@ Question Game::getQuestionForUser(LoggedUser player)
 /// <param name="database">the database</param>
 void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database)
 {
+	int isCorrect = 0;
 	if (m_players[player].currentQuestion.getCorrectAnswerId() == answerId)
 	{
 		m_players[player].correctAnswerCount++;
+		isCorrect = 1;
 	}
 	else
 	{
@@ -51,7 +53,7 @@ void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTi
 	m_players[player].averageAnswerTime /= 2; // calculate the average time per question
 	
 	// push the answer to the database
-
+	database->submitUserAnswer(player.getUsername(), isCorrect, answerTime, this->m_gameId);
 }
 
 /// <summary>

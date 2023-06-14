@@ -2,15 +2,9 @@
 
 Game GameManager::createGame(Room room)
 {
-	unsigned int gameId;
-	if (m_games.empty()) // check if there is no games
-	{
-		gameId = 0;
-	}
-	else
-	{
-		gameId = m_games[m_games.size() - 1].getGameId() + 1; // set new game id as one after the last
-	}
+	unsigned int gameId = m_database->getLastGameId() + 1;
+	m_database->addGame();
+
 	list<Question> questionsList = m_database->getQuestions(room.getRoomData().numOfQuestionsInGame);
 	vector<Question> questionsVector;
 	for (Question question : questionsList) // convert the question list to vector
