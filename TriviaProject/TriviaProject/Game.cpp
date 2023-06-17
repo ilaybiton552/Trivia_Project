@@ -62,8 +62,24 @@ void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTi
 /// <param name="player">the player to remove</param>
 void Game::removePlayer(LoggedUser player)
 {
-	this->m_players.erase(player);
 	this->m_answeredQuestions.erase(player);
+}
+
+vector<PlayerResults> Game::getPlayersResults() const
+{
+	vector<PlayerResults> playersResults;
+	int i = 0;
+	auto it = m_players.begin();
+
+	for (it = m_players.begin(), i = 0; it != m_players.end(); it++, i++)
+	{
+		playersResults[i].username = (*it).first.getUsername();
+		playersResults[i].correctAnswerCount = (*it).second.correctAnswerCount;
+		playersResults[i].wrongAnswerCount = (*it).second.wrongAnswerCount;
+		playersResults[i].averageAnswerTime = (*it).second.averageAnswerTime;
+	}
+
+	return playersResults;
 }
 
 /// <summary>
