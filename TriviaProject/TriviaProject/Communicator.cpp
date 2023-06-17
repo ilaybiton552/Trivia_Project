@@ -307,6 +307,9 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 		StartGameResponse response = { STATUS_SUCCESS };
 		Game game = static_cast<GameRequestHandler*>(clientHandler)->getGame();
 		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket, true, &game);
+		// deleting the room (after the game sends to menu)
+		m_handlerFactory.getRoomManager().deleteRoom(roomId); 
+		m_roomsSocket.erase(roomId);
 	}
 	else if (code == LEAVE_ROOM_CODE)
 	{
