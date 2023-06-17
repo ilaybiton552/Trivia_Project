@@ -29,7 +29,6 @@ namespace Client
         private Communicator communicator;
         private string username;
         private LinkedList<RoomData> roomDataList;
-        private const int ErrorResponseCode = 200;
         private const int GetRoomsResponseCode = 204;
         private const int GetRoomsRequestCode = 104;
         private const int JoinRoomResponseCode = 206;
@@ -58,8 +57,8 @@ namespace Client
         {
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.DoWork += backgroundWorker_DoWork;
-            backgroundWorker.ProgressChanged += backgroundWorker_ProgressChanged;
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -243,7 +242,7 @@ namespace Client
         /// <summary>
         /// the function starts the background worker main thread
         /// </summary>
-        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
@@ -260,7 +259,7 @@ namespace Client
         /// <summary>
         /// the function update the window with thread
         /// </summary>
-        void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             this.roomDataList.Clear(); // clear the room list
             rooms.Children.Clear(); // clear the window
