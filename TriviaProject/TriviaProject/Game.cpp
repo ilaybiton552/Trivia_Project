@@ -69,18 +69,18 @@ void Game::removePlayer(LoggedUser player)
 	this->m_answeredQuestions.erase(player);
 }
 
+/// <summary>
+/// Gets the results of the players
+/// </summary>
+/// <returns>vector of PlayerResults, the result of the players</returns>
 vector<PlayerResults> Game::getPlayersResults() const
 {
 	vector<PlayerResults> playersResults;
-	int i = 0;
-	auto it = m_players.begin();
 
-	for (it = m_players.begin(), i = 0; it != m_players.end(); it++, i++)
+	for (auto it = m_players.begin(); it != m_players.end(); ++it)
 	{
-		playersResults[i].username = (*it).first.getUsername();
-		playersResults[i].correctAnswerCount = (*it).second.correctAnswerCount;
-		playersResults[i].wrongAnswerCount = (*it).second.wrongAnswerCount;
-		playersResults[i].averageAnswerTime = (*it).second.averageAnswerTime;
+		PlayerResults results = { it->first.getUsername(), it->second.correctAnswerCount, it->second.wrongAnswerCount, it->second.averageAnswerTime };
+		playersResults.push_back(results);
 	}
 
 	return playersResults;

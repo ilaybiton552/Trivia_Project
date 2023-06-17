@@ -103,7 +103,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 {
 	RequestResult result;
 
-	GetGameResultsResponse response = { SUCCESS }; // need to add vector of results
+	GetGameResultsResponse response = { SUCCESS, m_game.getPlayersResults() }; // need to add vector of results
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 
