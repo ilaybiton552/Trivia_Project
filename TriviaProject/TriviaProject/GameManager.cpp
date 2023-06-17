@@ -28,6 +28,8 @@ Game GameManager::createGame(Room room)
 
 	Game game(questionsVector, room.getUsers(), gameId);
 	m_games.push_back(game);
+
+	return game;
 }
 
 /// <summary>

@@ -73,13 +73,17 @@ void Game::removePlayer(LoggedUser player)
 /// Gets the results of the players
 /// </summary>
 /// <returns>vector of PlayerResults, the result of the players</returns>
-vector<PlayerResults> Game::getPlayersResults() const
+vector<PlayerResults> Game::getPlayersResults()
 {
 	vector<PlayerResults> playersResults;
 
 	for (auto it = m_players.begin(); it != m_players.end(); ++it)
 	{
-		PlayerResults results = { it->first.getUsername(), it->second.correctAnswerCount, it->second.wrongAnswerCount, it->second.averageAnswerTime };
+		PlayerResults results;
+		results.username = it->first.getUsername();
+		results.correctAnswerCount = it->second.correctAnswerCount;
+		results.wrongAnswerCount = it->second.wrongAnswerCount;
+		results.averageAnswerTime = it->second.averageAnswerTime;
 		playersResults.push_back(results);
 	}
 
@@ -90,7 +94,7 @@ vector<PlayerResults> Game::getPlayersResults() const
 /// the function returns the game id
 /// </summary>
 /// <returns>game id</returns>
-unsigned int Game::getGameId() const
+unsigned int Game::getGameId()
 {
 	return m_gameId;
 }
