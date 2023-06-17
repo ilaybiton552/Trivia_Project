@@ -60,7 +60,20 @@ Game GameRequestHandler::getGame() const
 /// <returns>RequestResult, the result for the request</returns>
 RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 {
-	return RequestResult();
+	RequestResult result;
+
+	Question question = m_game.getQuestionForUser(m_user);
+	vector<string> possibleAnswers = question.getPossibleAnswers();
+	map<unsigned int, string> answers;
+	for (int i = 0; i < 4; i++)
+	{
+		answers[i] = possibleAnswers[i];
+	}
+	GetQuestionResponse response = { SUCCESS, question.getQuestion(), answers };
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+	result.newHandler = nullptr;
+
+	return result;
 }
 
 /// <summary>
