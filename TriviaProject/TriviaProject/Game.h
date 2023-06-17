@@ -19,6 +19,7 @@ public:
 	Question getQuestionForUser(LoggedUser player);
 	unsigned int submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database);
 	void removePlayer(LoggedUser player);
+	vector<PlayerResults> getPlayersResults() const;
 	unsigned int getGameId() const;
 
 private:
