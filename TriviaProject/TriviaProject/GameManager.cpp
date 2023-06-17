@@ -40,7 +40,7 @@ void GameManager::deleteGame(unsigned int gameId)
 {
 	for (auto it = m_games.begin(); it != m_games.end(); it++)
 	{
-		if ((*it).getGameId() == gameId)
+		if (it->getGameId() == gameId)
 		{
 			m_games.erase(it);
 		}
