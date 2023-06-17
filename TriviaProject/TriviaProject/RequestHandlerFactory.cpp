@@ -4,7 +4,7 @@
 /// Constructor of ReqeusetHandlerFactory
 /// </summary>
 /// <param name="database">pointer of IDatabase, the database of the program</param>
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : m_loginManager(database), m_statisticsManager(database)
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : m_loginManager(database), m_statisticsManager(database), m_gameManager(database)
 {
 	m_database = database;
 	m_roomManager;
@@ -52,6 +52,17 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 }
 
 /// <summary>
+/// Creates game request handler
+/// </summary>
+/// <param name="loggedUser">LoggedUser, the logged user</param>
+/// <param name="game">Game, the game</param>
+/// <returns>GameRequestHandler*</returns>
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(const LoggedUser& loggedUser, Game& game)
+{
+	return new GameRequestHandler(game, loggedUser, m_gameManager, *this);
+}
+
+/// <summary>
 /// Gets the login manager
 /// </summary>
 /// <returns>reference of LoginManager, the login manager of the object</returns>
@@ -76,4 +87,22 @@ StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 RoomManager& RequestHandlerFactory::getRoomManager()
 {
 	return m_roomManager;
+}
+
+/// <summary>
+/// Gets the game manager
+/// </summary>
+/// <returns>reference of GameManager, the game manager</returns>
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return m_gameManager;
+}
+
+/// <summary>
+/// Gets the database
+/// </summary>
+/// <returns>pointer of IDatabase, pointer for the database</returns>
+IDatabase* RequestHandlerFactory::getDatabase()
+{
+	return m_database;
 }

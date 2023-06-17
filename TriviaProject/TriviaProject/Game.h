@@ -17,7 +17,7 @@ public:
 	Game(vector<Question> questions, vector<LoggedUser> players, unsigned int gameId); // c'tor
 
 	Question getQuestionForUser(LoggedUser player);
-	void submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database);
+	unsigned int submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database);
 	void removePlayer(LoggedUser player);
 	vector<PlayerResults> getPlayersResults() const;
 	unsigned int getGameId() const;

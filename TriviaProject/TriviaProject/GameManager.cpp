@@ -1,5 +1,19 @@
 #include "GameManager.h"
 
+/// <summary>
+/// Constructor of GameManager
+/// </summary>
+/// <param name="database"></param>
+GameManager::GameManager(IDatabase* database)
+{
+	m_database = database;
+}
+
+/// <summary>
+/// Creates a game
+/// </summary>
+/// <param name="room">Room, the game to create from the room</param>
+/// <returns>Game, the created game</returns>
 Game GameManager::createGame(Room room)
 {
 	unsigned int gameId = m_database->getLastGameId() + 1;

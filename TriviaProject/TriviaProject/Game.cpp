@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="questions">vector of questions</param>
 /// <param name="players">vector of players</param>
-/// <param name="gameId"></param>
+/// <param name="gameId">unsigned int, the id of the game</param>
 Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int gameId)
 {
 	m_questions = questions;
@@ -37,10 +37,12 @@ Question Game::getQuestionForUser(LoggedUser player)
 /// <param name="answerId">the submited answer id</param>
 /// <param name="answerTime">the answer time</param>
 /// <param name="database">the database</param>
-void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database)
+/// <return>unsigned int, the correct answer id</return>
+unsigned int Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database)
 {
 	int isCorrect = 0;
-	if (m_players[player].currentQuestion.getCorrectAnswerId() == answerId)
+	unsigned int correctId = m_players[player].currentQuestion.getCorrectAnswerId();
+	if (correctId == answerId)
 	{
 		m_players[player].correctAnswerCount++;
 		isCorrect = 1;
@@ -54,6 +56,8 @@ void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTi
 	
 	// push the answer to the database
 	database->submitUserAnswer(player.getUsername(), isCorrect, answerTime, this->m_gameId);
+
+	return correctId;
 }
 
 /// <summary>
@@ -65,18 +69,18 @@ void Game::removePlayer(LoggedUser player)
 	this->m_answeredQuestions.erase(player);
 }
 
+/// <summary>
+/// Gets the results of the players
+/// </summary>
+/// <returns>vector of PlayerResults, the result of the players</returns>
 vector<PlayerResults> Game::getPlayersResults() const
 {
 	vector<PlayerResults> playersResults;
-	int i = 0;
-	auto it = m_players.begin();
 
-	for (it = m_players.begin(), i = 0; it != m_players.end(); it++, i++)
+	for (auto it = m_players.begin(); it != m_players.end(); ++it)
 	{
-		playersResults[i].username = (*it).first.getUsername();
-		playersResults[i].correctAnswerCount = (*it).second.correctAnswerCount;
-		playersResults[i].wrongAnswerCount = (*it).second.wrongAnswerCount;
-		playersResults[i].averageAnswerTime = (*it).second.averageAnswerTime;
+		PlayerResults results = { it->first.getUsername(), it->second.correctAnswerCount, it->second.wrongAnswerCount, it->second.averageAnswerTime };
+		playersResults.push_back(results);
 	}
 
 	return playersResults;

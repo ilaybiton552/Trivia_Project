@@ -9,6 +9,8 @@ using std::vector;
 class GameManager
 {
 public:
+	GameManager(IDatabase* database);
+
 	// Methods
 	Game createGame(Room room);
 	void deleteGame(unsigned int gameId);
