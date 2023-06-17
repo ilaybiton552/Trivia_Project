@@ -1,5 +1,6 @@
 #include "GameRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
+#include "JsonRequestPacketDeserializer.h"
 
 /// <summary>
 /// Constructor of GameRequestHandler
@@ -83,7 +84,14 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 /// <returns>RequestResult, the result for the request</returns>
 RequestResult GameRequestHandler::submitAnswer(const RequestInfo& requestInfo)
 {
-	return RequestResult();
+	RequestResult result;
+
+	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(requestInfo.buffer);
+	SubmitAnswerResponse response = { SUCCESS, m_game.submitAnswer(m_user, request.answerId, request.answerTime, m_handlerFactory.getDatabase()) };
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+	result.newHandler = nullptr;
+
+	return result;
 }
 
 /// <summary>

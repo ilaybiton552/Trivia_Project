@@ -84,6 +84,7 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
     SubmitAnswerRequest request;
     json data = getJsonFromBuffer(buffer);
     request.answerId = data["answerId"];
+    request.answerTime = data["answerTime"];
     return request;
 }
 

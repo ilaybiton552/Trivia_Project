@@ -33,6 +33,7 @@ public:
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
 	GameManager& getGameManager();
+	IDatabase* getDatabase();
 
 private:
 	//Fields

@@ -186,6 +186,7 @@ struct GetGameResultsResponse
 struct SubmitAnswerRequest
 {
 	unsigned int answerId;
+	float answerTime;
 };
 
 struct GameData

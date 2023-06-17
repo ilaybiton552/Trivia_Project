@@ -37,10 +37,12 @@ Question Game::getQuestionForUser(LoggedUser player)
 /// <param name="answerId">the submited answer id</param>
 /// <param name="answerTime">the answer time</param>
 /// <param name="database">the database</param>
-void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database)
+/// <return>unsigned int, the correct answer id</return>
+unsigned int Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database)
 {
 	int isCorrect = 0;
-	if (m_players[player].currentQuestion.getCorrectAnswerId() == answerId)
+	unsigned int correctId = m_players[player].currentQuestion.getCorrectAnswerId();
+	if (correctId == answerId)
 	{
 		m_players[player].correctAnswerCount++;
 		isCorrect = 1;
@@ -54,6 +56,8 @@ void Game::submitAnswer(LoggedUser player, unsigned int answerId, float answerTi
 	
 	// push the answer to the database
 	database->submitUserAnswer(player.getUsername(), isCorrect, answerTime, this->m_gameId);
+
+	return correctId;
 }
 
 /// <summary>

@@ -97,3 +97,12 @@ GameManager& RequestHandlerFactory::getGameManager()
 {
 	return m_gameManager;
 }
+
+/// <summary>
+/// Gets the database
+/// </summary>
+/// <returns>pointer of IDatabase, pointer for the database</returns>
+IDatabase* RequestHandlerFactory::getDatabase()
+{
+	return m_database;
+}
