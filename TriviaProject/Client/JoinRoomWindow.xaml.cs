@@ -37,6 +37,7 @@ namespace Client
         private const int GetPlayersInRoomRequestCode = 105;
         private const int GetPlayersInRoomResponseCode = 205;
         private const int SuccesStatus = 1;
+        private const int roomNotActive = 0;
         private BackgroundWorker backgroundWorker;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
@@ -70,12 +71,15 @@ namespace Client
             rooms.Children.Clear();
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
-                Button button = new Button();
-                button.Click += RoomClick;
-                button.Content = it.Value.name;
-                button.MouseEnter += ShowRoomDetails;
-                button.Tag = it.Value.id;
-                rooms.Children.Add(button);
+                if (it.Value.isActive == roomNotActive)
+                {
+                    Button button = new Button();
+                    button.Click += RoomClick;
+                    button.Content = it.Value.name;
+                    button.MouseEnter += ShowRoomDetails;
+                    button.Tag = it.Value.id;
+                    rooms.Children.Add(button);
+                }
             }
         }
 
