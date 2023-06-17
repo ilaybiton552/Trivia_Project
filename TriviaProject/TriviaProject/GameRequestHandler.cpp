@@ -1,4 +1,5 @@
 #include "GameRequestHandler.h"
+#include "JsonResponsePacketSerializer.h"
 
 /// <summary>
 /// Constructor of GameRequestHandler
@@ -89,5 +90,12 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 /// <returns>RequestResult, the result of the request</returns>
 RequestResult GameRequestHandler::leaveGame(const RequestInfo& requestInfo)
 {
-	return RequestResult();
+	RequestResult result;
+
+	m_game.removePlayer(m_user);
+	LeaveGameResponse response = { SUCCESS };
+	result.newHandler = nullptr;
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+	return result;
 }
