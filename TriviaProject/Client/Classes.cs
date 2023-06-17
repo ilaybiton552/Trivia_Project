@@ -100,4 +100,16 @@ namespace Client
         public int answerTimeout { get; set; }
     }
 
+    public class GetQuestionResponse
+    {
+        public int status { get; set; }
+        public string question { get; set; }
+        public string answers { get; set; }
+    }
+
+    public class Question
+    {
+        public string question { get; set;}
+        public List<string> answers { get; set; }
+    }
 }
