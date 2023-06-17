@@ -80,7 +80,13 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& requestInfo)
 /// <returns>RequestResult, the result for the request</returns>
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 {
-	return RequestResult();
+	RequestResult result;
+
+	GetGameResultsResponse response = { SUCCESS }; // need to add vector of results
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+	result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+
+	return result;
 }
 
 /// <summary>
