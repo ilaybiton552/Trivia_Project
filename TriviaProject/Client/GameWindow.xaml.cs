@@ -187,7 +187,7 @@ namespace Client
             stopwatch.Stop(); // stoping the answer time for the user
             Button answerButton = (Button)sender;
             int answerId = (int)answerButton.Tag;
-            int correctAnswerId = SubmitAnswer(answerId, stopwatch.ElapsedMilliseconds / 1000);
+            int correctAnswerId = SubmitAnswer(answerId, (float)(stopwatch.ElapsedMilliseconds / 1000.0));
             if (correctAnswerId == answerId) // correct answer
             {
                 answerButton.Background = Brushes.Green;
