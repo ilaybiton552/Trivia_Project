@@ -35,13 +35,15 @@ namespace Client
         private const int GetGameResultsResponseCode = 217;
         private const int GetGameResultsRequestCode = 117;
         private BackgroundWorker backgroundWorker;
+        private int timePerQuestion;
 
-        public GameWindow(ref Communicator communicator, string username)
+        public GameWindow(ref Communicator communicator, string username, int timePerQuestion)
         {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            this.timePerQuestion = timePerQuestion;
             backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
             GetQuestion();
