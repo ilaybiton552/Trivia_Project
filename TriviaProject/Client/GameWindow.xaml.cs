@@ -172,9 +172,23 @@ namespace Client
             stopwatch.Start(); // starting the answer time for the user
         }
 
+        /// <summary>
+        /// Sends the answer to the server
+        /// </summary>
         private void AnswerClick(object sender, RoutedEventArgs e)
         {
             stopwatch.Stop(); // stoping the answer time for the user
+            Button answerButton = (Button)sender;
+            int answerId = (int)answerButton.Tag;
+            int correctAnswerId = SubmitAnswer(answerId, stopwatch.ElapsedMilliseconds / 1000);
+            if (correctAnswerId == answerId) // correct answer
+            {
+                answerButton.Background = Brushes.Green;
+            }
+            else
+            {
+                answerButton.Background = Brushes.Red;
+            }
         }
 
         /// <summary>
