@@ -62,15 +62,23 @@ Game GameRequestHandler::getGame() const
 RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 {
 	RequestResult result;
+	GetQuestionResponse response;
 
-	Question question = m_game.getQuestionForUser(m_user);
-	vector<string> possibleAnswers = question.getPossibleAnswers();
-	map<unsigned int, string> answers;
-	for (int i = 0; i < 4; i++)
+	try
 	{
-		answers[i] = possibleAnswers[i];
+		Question question = m_game.getQuestionForUser(m_user);
+		vector<string> possibleAnswers = question.getPossibleAnswers();
+		map<unsigned int, string> answers;
+		for (int i = 0; i < 4; i++)
+		{
+			answers[i] = possibleAnswers[i];
+		}
+		response = { SUCCESS, question.getQuestion(), answers };
 	}
-	GetQuestionResponse response = { SUCCESS, question.getQuestion(), answers };
+	catch (const std::out_of_range& e) // no more questions
+	{
+		response = { STATUS_ERROR };
+	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = nullptr;
 
