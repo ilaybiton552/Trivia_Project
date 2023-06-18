@@ -94,11 +94,27 @@ namespace Client
         /// </summary>
         /// <param name="answerId">int, the id of the answer</param>
         /// <param name="answerTime">float, the time it took to the player to answer</param>
-        private void SubmitAnswer(int answerId, float answerTime)
+        /// <returns>int, the correct answer id</returns>
+        private int SubmitAnswer(int answerId, float answerTime)
         {
             SubmitAnswer answer = new SubmitAnswer() { answerId = NoAnswerId, answerTime = timePerQuestion };
             string json = JsonConvert.SerializeObject(answer);
             PacketInfo clientPacket = new PacketInfo() { code = SubmitAnswerRequestCode, data = json };
+            communicator.SendPacket(clientPacket);
+
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != SubmitAnswerResponseCode)
+            {
+                MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
+            SubmitAnswerResponse response = JsonConvert.DeserializeObject<SubmitAnswerResponse>(serverPacket.data);
+            if (response.status != StatusSuccess)
+            {
+                MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
+            return response.correctAnswerId;
         }
 
 

@@ -119,4 +119,10 @@ namespace Client
         public float answerTime { get; set;}
     }
 
+    public class SubmitAnswerResponse
+    {
+        public int status { get; set; }
+        public int correctAnswerId { get; set;}
+    }
+
 }
