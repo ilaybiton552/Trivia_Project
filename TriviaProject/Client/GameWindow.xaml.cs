@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -33,6 +34,7 @@ namespace Client
         private const int SubmitAnswerRequestCode = 116;
         private const int GetGameResultsResponseCode = 217;
         private const int GetGameResultsRequestCode = 117;
+        private BackgroundWorker backgroundWorker;
 
         public GameWindow(ref Communicator communicator, string username)
         {
@@ -40,12 +42,50 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            backgroundWorker = new BackgroundWorker();
+            SetBackgroundWorkerDetails();
             GetQuestion();
             tbQuestion.Text += question;
             AddAnswers();
         }
 
-      
+        /// <summary>
+        /// Sets the details of the background worker
+        /// </summary>
+        private void SetBackgroundWorkerDetails()
+        {
+            backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+        }
+
+        /// <summary>
+        /// Do the work of the background worker
+        /// </summary>
+        void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            for (int i = (int)e.Argument; i > 0; i--)
+            {
+                backgroundWorker.ReportProgress(i);
+                Thread.Sleep(1000); // wait for 1 second
+            }
+            backgroundWorker.ReportProgress(0);
+        }
+
+        /// <summary>
+        /// the function update the window with thread
+        /// </summary>
+        void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            time.Text = e.ProgressPercentage.ToString();
+            if (e.ProgressPercentage == 0)
+            {
+                // get the next question
+            }
+        }
+
+
         /// <summary>
         /// the function adds answer to the game screen
         /// </summary>

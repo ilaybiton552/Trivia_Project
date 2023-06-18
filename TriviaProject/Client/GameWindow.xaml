@@ -30,11 +30,13 @@
             <TextBlock Text="Game:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <TextBlock x:Name="tbQuestion" Text="Question:" FontSize="30" TextAlignment="Left" FontFamily="Berlin Sans FB Demi" Margin="5" Foreground="White"/>
+            <TextBlock x:Name="tbQuestion" Text="Question:" FontSize="30" TextAlignment="Left" FontFamily="Berlin Sans FB Demi" Margin="5" Foreground="White" TextWrapping="Wrap"/>
         </StackPanel>
         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="answers">
             
         </StackPanel>
+        <TextBlock Grid.Row="3" Text="Time Left: " FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB Demi" Margin="5" Foreground="White"/>
+        <TextBlock x:Name="time" Grid.Row="3" Text="" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB Demi" Margin="5, 35, 5, 0" Foreground="White"/>
         <Button Grid.Row="3" Content="Leave" Margin="5" HorizontalAlignment="Left" FontSize="25" Click="LeaveClick" Height="50" Width="75"/>
     </Grid>
 </Window>
