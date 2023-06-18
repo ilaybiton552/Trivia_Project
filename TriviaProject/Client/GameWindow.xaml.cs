@@ -34,6 +34,7 @@ namespace Client
         private const int SubmitAnswerRequestCode = 116;
         private const int GetGameResultsResponseCode = 217;
         private const int GetGameResultsRequestCode = 117;
+        private const int StatusSuccess = 1;
         private BackgroundWorker backgroundWorker;
         private int timePerQuestion;
 
@@ -140,7 +141,31 @@ namespace Client
         {
 
         }
-        
+
+        /// <summary>
+        /// Click for a button which let the player leave the game
+        /// </summary>
+        private void LeaveClick(object sender, RoutedEventArgs e)
+        {
+            PacketInfo clientPacket = new PacketInfo() { code = LeaveGameRequestCode, data = "" };
+            communicator.SendPacket(clientPacket);
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != LeaveGameResponseCode)
+            {
+                MessageBox.Show("Error leaving", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            StatusPacket packet = JsonConvert.DeserializeObject<StatusPacket>(serverPacket.data);
+            if (packet.status != StatusSuccess)
+            {
+                MessageBox.Show("Error leaving", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Close();
+            menuWindow.ShowDialog();
+        }
+
     }
 
 }
