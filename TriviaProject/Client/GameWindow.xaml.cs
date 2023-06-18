@@ -48,6 +48,7 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             this.timePerQuestion = timePerQuestion;
+            stopwatch = new Stopwatch();
             backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
             GetQuestion();
