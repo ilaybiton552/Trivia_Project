@@ -139,7 +139,8 @@ namespace Client
         /// <summary>
         /// Gets the question from the server
         /// </summary>
-        private void GetQuestion()
+        /// <returns>int, the status of the packet</returns>
+        private int GetQuestion()
         {
             PacketInfo packet = new PacketInfo() { code = GetQuestionRequestCode, data = ""};
             communicator.SendPacket(packet);
@@ -148,11 +149,15 @@ namespace Client
             if (receivedPacket.code != GetQuestionResponseCode)
             {
                 MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                return -1;
             }
 
             GetQuestionResponse response = JsonConvert.DeserializeObject<GetQuestionResponse>(receivedPacket.data);
 
+            if (response.status != StatusSuccess) // no more questions left
+            {
+                return response.status;
+            }
             question = new Question();
             question.question = response.question;
             tbQuestion.Text = "Question: " + question;
@@ -170,6 +175,7 @@ namespace Client
             }
             AddAnswers();
             stopwatch.Start(); // starting the answer time for the user
+            return response.status;
         }
 
         /// <summary>
