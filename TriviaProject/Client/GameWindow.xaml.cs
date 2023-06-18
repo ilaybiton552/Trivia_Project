@@ -124,13 +124,13 @@ namespace Client
         private void AddAnswers()
         {
             answers.Children.Clear();
-            for (int i = 0; i < 4; i++)
+            foreach (var answer in question.answers)
             {
                 Button button = new Button();
-                button.Content += i.ToString();
+                button.Content += answer.Key.ToString();
                 button.Content += ".";
-                button.Content += question.answers[i];
-                button.Tag = i;
+                button.Content += answer.Value;
+                button.Tag = answer.Key;
                 button.Click += AnswerClick;
                 answers.Children.Add(button);
             }
@@ -166,7 +166,7 @@ namespace Client
                 string answer = temp.Remove(temp.IndexOf(','));
                 response.answers = response.answers.Substring(response.answers.IndexOf(',') + 1);
 
-                question.answers.Add(answer);
+                question.answers.Add(answerId, answer);
             }
             AddAnswers();
             stopwatch.Start(); // starting the answer time for the user
