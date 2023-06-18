@@ -77,6 +77,10 @@ vector<PlayerResults> Game::getPlayersResults()
 {
 	vector<PlayerResults> playersResults;
 
+	if (m_answeredQuestions[m_players.begin()->first] < m_questions.size()) // didn't finish questions
+	{
+		throw std::exception("Didn't finish the game");
+	}
 	for (auto it = m_players.begin(); it != m_players.end(); ++it)
 	{
 		PlayerResults results;

@@ -110,10 +110,19 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& requestInfo)
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 {
 	RequestResult result;
+	GetGameResultsResponse response;
 
-	GetGameResultsResponse response = { SUCCESS, m_game.getPlayersResults() };
+	try
+	{
+		response = { SUCCESS, m_game.getPlayersResults() };
+		result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	}
+	catch (const std::exception& ex)
+	{
+		response = { STATUS_ERROR };
+		result.newHandler = nullptr;
+	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 
 	return result;
 }
