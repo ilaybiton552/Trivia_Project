@@ -112,4 +112,11 @@ namespace Client
         public string question { get; set;}
         public List<string> answers { get; set; }
     }
+
+    public class SubmitAnswer
+    {
+        public int answerId { get; set; }
+        public float answerTime { get; set;}
+    }
+
 }

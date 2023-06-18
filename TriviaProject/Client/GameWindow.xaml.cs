@@ -35,6 +35,7 @@ namespace Client
         private const int GetGameResultsResponseCode = 217;
         private const int GetGameResultsRequestCode = 117;
         private const int StatusSuccess = 1;
+        private const int NoAnswerId = 4; // when the user doesn't answer on time
         private BackgroundWorker backgroundWorker;
         private int timePerQuestion;
 
@@ -84,8 +85,20 @@ namespace Client
             time.Text = e.ProgressPercentage.ToString();
             if (e.ProgressPercentage == 0)
             {
-                // get the next question
+                SubmitAnswer(NoAnswerId, timePerQuestion);
             }
+        }
+
+        /// <summary>
+        /// Submits the answer of the client to the server
+        /// </summary>
+        /// <param name="answerId">int, the id of the answer</param>
+        /// <param name="answerTime">float, the time it took to the player to answer</param>
+        private void SubmitAnswer(int answerId, float answerTime)
+        {
+            SubmitAnswer answer = new SubmitAnswer() { answerId = NoAnswerId, answerTime = timePerQuestion };
+            string json = JsonConvert.SerializeObject(answer);
+            PacketInfo clientPacket = new PacketInfo() { code = SubmitAnswerRequestCode, data = json };
         }
 
 
