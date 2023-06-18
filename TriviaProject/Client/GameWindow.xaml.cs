@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -38,6 +39,7 @@ namespace Client
         private const int NoAnswerId = 4; // when the user doesn't answer on time
         private BackgroundWorker backgroundWorker;
         private int timePerQuestion;
+        private Stopwatch stopwatch;
 
         public GameWindow(ref Communicator communicator, string username, int timePerQuestion)
         {
@@ -49,8 +51,6 @@ namespace Client
             backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
             GetQuestion();
-            tbQuestion.Text += question;
-            AddAnswers();
         }
 
         /// <summary>
@@ -136,6 +136,9 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Gets the question from the server
+        /// </summary>
         private void GetQuestion()
         {
             PacketInfo packet = new PacketInfo() { code = GetQuestionRequestCode, data = ""};
@@ -152,6 +155,7 @@ namespace Client
 
             question = new Question();
             question.question = response.question;
+            tbQuestion.Text = "Question: " + question;
             while (response.answers != "")
             {
                 string temp = response.answers;
@@ -164,11 +168,13 @@ namespace Client
 
                 question.answers.Add(answer);
             }
+            AddAnswers();
+            stopwatch.Start(); // starting the answer time for the user
         }
 
         private void AnswerClick(object sender, RoutedEventArgs e)
         {
-
+            stopwatch.Stop(); // stoping the answer time for the user
         }
 
         /// <summary>
