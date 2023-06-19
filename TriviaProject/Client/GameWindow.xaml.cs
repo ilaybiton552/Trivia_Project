@@ -180,6 +180,22 @@ namespace Client
         /// </summary>
         private void GetGameResults()
         {
+            PacketInfo clientPacket = new PacketInfo() { code = GetGameResultsRequestCode, data = "" };
+            communicator.SendPacket(clientPacket);
+
+            PacketInfo serverPacket = communicator.GetMessageFromServer();
+            if (serverPacket.code != GetGameResultsResponseCode)
+            {
+                MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            GameResultResponse response = JsonConvert.DeserializeObject<GameResultResponse>(serverPacket.data);
+            if (response.status != StatusSuccess)
+            {
+                MessageBox.Show("Error occured", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            string results = response.results;
 
         }
 
