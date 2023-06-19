@@ -80,10 +80,18 @@ namespace Client
         /// </summary>
         void TimerBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = (int)e.Argument; i > 0; i--)
+            for (int i = (int)e.Argument; i > 0 && !e.Cancel && gameBackgroundWorker.IsBusy; i--)
             {
                 timerBackgroundWorker.ReportProgress(i);
-                Thread.Sleep(1000); // wait for 1 second
+                // spread 1 second into 10 0.1 second (to be more accurate with cancellation)
+                for (int j = 0; j < 10 && !e.Cancel; j++)
+                {
+                    if (timerBackgroundWorker.CancellationPending)
+                    {
+                        e.Cancel = true;
+                    }
+                    Thread.Sleep(100); // wait 0.1 second
+                }
             }
             timerBackgroundWorker.ReportProgress(0);
         }
@@ -120,7 +128,6 @@ namespace Client
             while (GetQuestion() == StatusSuccess && !gameBackgroundWorker.CancellationPending)
             {
                 gameBackgroundWorker.ReportProgress(0);
-                timerBackgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
                 stopwatch.Start(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
             }
@@ -244,6 +251,7 @@ namespace Client
             {
                 answerButton.Background = Brushes.Red;
             }
+            timerBackgroundWorker.CancelAsync();
             gameEvent.Set(); // notify game worker
         }
 
