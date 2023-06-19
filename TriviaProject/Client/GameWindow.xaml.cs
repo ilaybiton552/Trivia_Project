@@ -131,7 +131,7 @@ namespace Client
                 stopwatch.Start(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
             }
-            // get game results
+            GetGameResults();
         }
 
         /// <summary>
@@ -208,6 +208,14 @@ namespace Client
                 // get right answers
                 currResult.rightAnswers = int.Parse(results.Remove(results.IndexOf(',')));
                 results = results.Substring(results.IndexOf(',') + 1);
+
+                // get the wrong answers
+                currResult.wrongAnswers = int.Parse(results.Remove(results.IndexOf(',')));
+                results = results.Substring(results.IndexOf(',') + 1);
+
+                // get average time
+                currResult.averageTime = float.Parse(results.Remove(results.IndexOf(';')));
+                results = results.Substring(results.IndexOf(';') + 1);
 
                 playerResults.Add(currResult);
             }
