@@ -38,6 +38,7 @@ namespace Client
         private const int StatusSuccess = 1;
         private const int NoAnswerId = 4; // when the user doesn't answer on time
         private BackgroundWorker timerBackgroundWorker;
+        private BackgroundWorker gameBackgroundWorker;
         private int timePerQuestion;
         private Stopwatch stopwatch;
 
@@ -50,19 +51,8 @@ namespace Client
             this.timePerQuestion = timePerQuestion;
             stopwatch = new Stopwatch();
             timerBackgroundWorker = new BackgroundWorker();
+            gameBackgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
-            HandleGame();
-        }
-
-        /// <summary>
-        /// Handles the game
-        /// </summary>
-        private void HandleGame()
-        {
-            while (GetQuestion() == StatusSuccess) // client didn't answer all of the questions
-            {
-
-            }
         }
 
         /// <summary>
@@ -74,6 +64,11 @@ namespace Client
             timerBackgroundWorker.WorkerReportsProgress = true;
             timerBackgroundWorker.DoWork += TimerBackgroundWorker_DoWork;
             timerBackgroundWorker.ProgressChanged += TimerBackgroundWorker_ProgressChanged;
+
+            gameBackgroundWorker.WorkerSupportsCancellation = true;
+            gameBackgroundWorker.WorkerReportsProgress = true;
+            gameBackgroundWorker.DoWork += GameBackgroundWorker_DoWork;
+            gameBackgroundWorker.ProgressChanged += GameBackgroundWorker_ProgressChanged;
         }
 
         /// <summary>
@@ -99,6 +94,30 @@ namespace Client
             {
                 SubmitAnswer(NoAnswerId, timePerQuestion);
             }
+        }
+
+        /// <summary>
+        /// Do the work of the background worker
+        /// </summary>
+        void GameBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (GetQuestion() == StatusSuccess && !gameBackgroundWorker.CancellationPending)
+            {
+                gameBackgroundWorker.ReportProgress(0);
+                timerBackgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
+                stopwatch.Start(); // starting the answer time for the user
+                gameBackgroundWorker.CancelAsync();
+            }
+            // get game results
+        }
+
+        /// <summary>
+        /// the function update the window with thread
+        /// </summary>
+        void GameBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            tbQuestion.Text = "Question: " + question;
+            AddAnswers();
         }
 
         /// <summary>
@@ -165,14 +184,13 @@ namespace Client
             }
 
             GetQuestionResponse response = JsonConvert.DeserializeObject<GetQuestionResponse>(receivedPacket.data);
-
             if (response.status != StatusSuccess) // no more questions left
             {
                 return response.status;
             }
+
             question = new Question();
             question.question = response.question;
-            tbQuestion.Text = "Question: " + question;
             while (response.answers != "")
             {
                 string temp = response.answers;
@@ -185,9 +203,7 @@ namespace Client
 
                 question.answers.Add(answerId, answer);
             }
-            AddAnswers();
-            timerBackgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
-            stopwatch.Start(); // starting the answer time for the user
+
             return response.status;
         }
 
