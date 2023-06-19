@@ -17,6 +17,12 @@
 
         <TextBlock Text="Results: " FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White"/>
 
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel x:Name="scores" Margin="5">
+
+            </StackPanel>
+        </ScrollViewer>
+
         <Button Grid.Row="2" Content="Exit" Margin="5" FontSize="20" Width="75" Foreground="#8AAAE5" FontFamily="Berlin Sans FB Demi" Click="ExitClick"/>
 
     </Grid>

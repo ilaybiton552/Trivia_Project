@@ -19,15 +19,17 @@ namespace Client
     /// </summary>
     public partial class GameResultWindow : Window
     {
+        List<PlayerResult> results;
         public GameResultWindow(List<PlayerResult> results)
         {
             InitializeComponent();
+            this.results = results.OrderBy(result => -result.rightAnswers).ToList();
         }
 
         /// <summary>
         /// Click event, closes the score window
         /// </summary>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ExitClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
