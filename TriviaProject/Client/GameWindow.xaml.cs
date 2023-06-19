@@ -196,7 +196,21 @@ namespace Client
                 return;
             }
             string results = response.results;
+            List<PlayerResult> playerResults = new List<PlayerResult>();
+            while (results != "")
+            {
+                PlayerResult currResult = new PlayerResult();
 
+                // get username
+                currResult.username = results.Remove(results.IndexOf(','));
+                results = results.Substring(results.IndexOf(',') + 1);
+
+                // get right answers
+                currResult.rightAnswers = int.Parse(results.Remove(results.IndexOf(',')));
+                results = results.Substring(results.IndexOf(',') + 1);
+
+                playerResults.Add(currResult);
+            }
         }
 
 
