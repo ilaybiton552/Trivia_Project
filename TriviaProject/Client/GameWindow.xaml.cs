@@ -219,6 +219,9 @@ namespace Client
 
                 playerResults.Add(currResult);
             }
+
+            GameResultWindow gameResultWindow = new GameResultWindow(playerResults);
+            gameResultWindow.Show();
         }
 
 
