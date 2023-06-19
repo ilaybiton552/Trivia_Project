@@ -37,7 +37,7 @@ namespace Client
         private const int GetGameResultsRequestCode = 117;
         private const int StatusSuccess = 1;
         private const int NoAnswerId = 4; // when the user doesn't answer on time
-        private BackgroundWorker backgroundWorker;
+        private BackgroundWorker timerBackgroundWorker;
         private int timePerQuestion;
         private Stopwatch stopwatch;
 
@@ -49,7 +49,7 @@ namespace Client
             this.username = username;
             this.timePerQuestion = timePerQuestion;
             stopwatch = new Stopwatch();
-            backgroundWorker = new BackgroundWorker();
+            timerBackgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
             HandleGame();
         }
@@ -59,8 +59,10 @@ namespace Client
         /// </summary>
         private void HandleGame()
         {
-            GetQuestion();
-            
+            while (GetQuestion() == StatusSuccess) // client didn't answer all of the questions
+            {
+
+            }
         }
 
         /// <summary>
@@ -68,29 +70,29 @@ namespace Client
         /// </summary>
         private void SetBackgroundWorkerDetails()
         {
-            backgroundWorker.WorkerSupportsCancellation = true;
-            backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+            timerBackgroundWorker.WorkerSupportsCancellation = true;
+            timerBackgroundWorker.WorkerReportsProgress = true;
+            timerBackgroundWorker.DoWork += TimerBackgroundWorker_DoWork;
+            timerBackgroundWorker.ProgressChanged += TimerBackgroundWorker_ProgressChanged;
         }
 
         /// <summary>
         /// Do the work of the background worker
         /// </summary>
-        void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        void TimerBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             for (int i = (int)e.Argument; i > 0; i--)
             {
-                backgroundWorker.ReportProgress(i);
+                timerBackgroundWorker.ReportProgress(i);
                 Thread.Sleep(1000); // wait for 1 second
             }
-            backgroundWorker.ReportProgress(0);
+            timerBackgroundWorker.ReportProgress(0);
         }
 
         /// <summary>
         /// the function update the window with thread
         /// </summary>
-        void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        void TimerBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             time.Text = e.ProgressPercentage.ToString();
             if (e.ProgressPercentage == 0)
@@ -184,7 +186,7 @@ namespace Client
                 question.answers.Add(answerId, answer);
             }
             AddAnswers();
-            backgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
+            timerBackgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
             stopwatch.Start(); // starting the answer time for the user
             return response.status;
         }
