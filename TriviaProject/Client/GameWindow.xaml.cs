@@ -67,6 +67,7 @@ namespace Client
             timerBackgroundWorker.WorkerReportsProgress = true;
             timerBackgroundWorker.DoWork += TimerBackgroundWorker_DoWork;
             timerBackgroundWorker.ProgressChanged += TimerBackgroundWorker_ProgressChanged;
+            timerBackgroundWorker.RunWorkerCompleted += TimerBackgroundWorker_CompletedRun;
 
             gameBackgroundWorker.WorkerSupportsCancellation = true;
             gameBackgroundWorker.WorkerReportsProgress = true;
@@ -93,10 +94,21 @@ namespace Client
         void TimerBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             time.Text = e.ProgressPercentage.ToString();
-            if (e.ProgressPercentage == 0)
+            if (e.ProgressPercentage == 0) // end of time
             {
                 SubmitAnswer(NoAnswerId, timePerQuestion);
                 gameEvent.Set(); // notify game worker
+            }
+        }
+
+        /// <summary>
+        /// Start the timer again if the game worker is still running
+        /// </summary>
+        void TimerBackgroundWorker_CompletedRun(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (gameBackgroundWorker.IsBusy)
+            {
+                timerBackgroundWorker.RunWorkerAsync(timePerQuestion);
             }
         }
 
@@ -122,6 +134,10 @@ namespace Client
         {
             tbQuestion.Text = "Question: " + question;
             AddAnswers();
+            if (!timerBackgroundWorker.IsBusy) // timer isn't working
+            {
+                timerBackgroundWorker.RunWorkerAsync(timePerQuestion);
+            }
         }
 
         /// <summary>
