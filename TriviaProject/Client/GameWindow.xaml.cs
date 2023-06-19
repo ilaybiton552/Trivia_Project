@@ -51,7 +51,16 @@ namespace Client
             stopwatch = new Stopwatch();
             backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
+            HandleGame();
+        }
+
+        /// <summary>
+        /// Handles the game
+        /// </summary>
+        private void HandleGame()
+        {
             GetQuestion();
+            
         }
 
         /// <summary>
@@ -175,6 +184,7 @@ namespace Client
                 question.answers.Add(answerId, answer);
             }
             AddAnswers();
+            backgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
             stopwatch.Start(); // starting the answer time for the user
             return response.status;
         }
