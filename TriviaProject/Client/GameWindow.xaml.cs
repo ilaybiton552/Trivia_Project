@@ -53,6 +53,7 @@ namespace Client
             timerBackgroundWorker = new BackgroundWorker();
             gameBackgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
+            gameBackgroundWorker.RunWorkerAsync(0); // get the first question
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace Client
                 gameBackgroundWorker.ReportProgress(0);
                 timerBackgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
                 stopwatch.Start(); // starting the answer time for the user
-                gameBackgroundWorker.CancelAsync();
+                gameBackgroundWorker.CancelAsync(); // suspend the background worker until the user answers
             }
             // get game results
         }
@@ -224,6 +225,7 @@ namespace Client
             {
                 answerButton.Background = Brushes.Red;
             }
+            gameBackgroundWorker.RunWorkerAsync(0); // try to get the next question
         }
 
         /// <summary>
