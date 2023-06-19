@@ -125,4 +125,18 @@ namespace Client
         public int correctAnswerId { get; set;}
     }
 
+    public class PlayerResult
+    {
+        public string username { get; set; }
+        public int rightAnswers { get; set; }
+        public int wrongAnswers { get; set; }
+        public float averageTime { get; set; }
+    }
+
+    public class GameResultResponse
+    {
+        public int status { get; set;}
+        public string results { get; set; }
+    }
+
 }

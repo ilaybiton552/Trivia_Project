@@ -175,6 +175,14 @@ namespace Client
             return response.correctAnswerId;
         }
 
+        /// <summary>
+        /// Gets the results of the game
+        /// </summary>
+        private void GetGameResults()
+        {
+
+        }
+
 
         /// <summary>
         /// the function adds answer to the game screen
