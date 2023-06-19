@@ -41,6 +41,7 @@ namespace Client
         private BackgroundWorker gameBackgroundWorker;
         private int timePerQuestion;
         private Stopwatch stopwatch;
+        private AutoResetEvent gameEvent;
 
         public GameWindow(ref Communicator communicator, string username, int timePerQuestion)
         {
@@ -52,6 +53,7 @@ namespace Client
             stopwatch = new Stopwatch();
             timerBackgroundWorker = new BackgroundWorker();
             gameBackgroundWorker = new BackgroundWorker();
+            gameEvent = new AutoResetEvent(false);
             SetBackgroundWorkerDetails();
             gameBackgroundWorker.RunWorkerAsync(0); // get the first question
         }
@@ -94,6 +96,7 @@ namespace Client
             if (e.ProgressPercentage == 0)
             {
                 SubmitAnswer(NoAnswerId, timePerQuestion);
+                gameEvent.Set(); // notify game worker
             }
         }
 
@@ -107,7 +110,7 @@ namespace Client
                 gameBackgroundWorker.ReportProgress(0);
                 timerBackgroundWorker.RunWorkerAsync(timePerQuestion); // starting question timer
                 stopwatch.Start(); // starting the answer time for the user
-                gameBackgroundWorker.CancelAsync(); // suspend the background worker until the user answers
+                gameEvent.WaitOne(); // wait until answer
             }
             // get game results
         }
@@ -225,7 +228,7 @@ namespace Client
             {
                 answerButton.Background = Brushes.Red;
             }
-            gameBackgroundWorker.RunWorkerAsync(0); // try to get the next question
+            gameEvent.Set(); // notify game worker
         }
 
         /// <summary>
