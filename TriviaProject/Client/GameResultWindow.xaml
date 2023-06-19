@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="GameResultWindow" Height="250" Width="350">
-    
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+        </Style>
+    </Window.Resources>
     
     <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>

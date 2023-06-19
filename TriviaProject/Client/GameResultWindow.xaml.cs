@@ -24,6 +24,20 @@ namespace Client
         {
             InitializeComponent();
             this.results = results.OrderBy(result => -result.rightAnswers).ToList();
+            DisplayResults();
+        }
+
+        /// <summary>
+        /// Displayes the results of the game
+        /// </summary>
+        private void DisplayResults()
+        {
+            foreach (PlayerResult result in results) 
+            {
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = result.username + " score: " + result.rightAnswers.ToString() + " average time: " + result.averageTime.ToString();
+                scores.Children.Add(textBlock);
+            }
         }
 
         /// <summary>
