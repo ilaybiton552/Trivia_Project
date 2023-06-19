@@ -23,5 +23,13 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Click event, closes the score window
+        /// </summary>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
