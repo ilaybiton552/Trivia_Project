@@ -11,7 +11,7 @@ class RequestHandlerFactory;
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	GameRequestHandler(Game game, const LoggedUser& loggedUser, GameManager& gameManager, RequestHandlerFactory& handlerFactory);
+	GameRequestHandler(Game& game, const LoggedUser& loggedUser, GameManager& gameManager, RequestHandlerFactory& handlerFactory);
 
 	bool isRequestRelevant(const RequestInfo& requestInfo) override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;

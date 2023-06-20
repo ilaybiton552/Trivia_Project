@@ -57,7 +57,7 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 /// <param name="loggedUser">LoggedUser, the logged user</param>
 /// <param name="game">Game, the game</param>
 /// <returns>GameRequestHandler*</returns>
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(const LoggedUser& loggedUser, const Game game)
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(const LoggedUser& loggedUser, Game& game)
 {
 	return new GameRequestHandler(game, loggedUser, m_gameManager, *this);
 }

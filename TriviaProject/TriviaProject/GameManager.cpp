@@ -14,7 +14,7 @@ GameManager::GameManager(IDatabase* database)
 /// </summary>
 /// <param name="room">Room, the game to create from the room</param>
 /// <returns>Game, the created game</returns>
-Game GameManager::createGame(Room room)
+Game& GameManager::createGame(Room room)
 {
 	unsigned int gameId = m_database->getLastGameId() + 1;
 	m_database->addGame();
@@ -28,6 +28,15 @@ Game GameManager::createGame(Room room)
 
 	Game game(questionsVector, room.getUsers(), gameId);
 	m_games.push_back(game);
+
+	// need to find the game to get the reference to a game that won't destruct itself after this method ends
+	for (auto it = m_games.begin(); it != m_games.end(); ++it)
+	{
+		if (it->getGameId() == gameId)
+		{
+			return *it;
+		}
+	}
 
 	return game;
 }
