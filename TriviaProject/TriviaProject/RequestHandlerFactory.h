@@ -26,7 +26,7 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser loggedUser);
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser admin, const Room& room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(const LoggedUser member, const Room& room);
-	GameRequestHandler* createGameRequestHandler(const LoggedUser& loggedUser, Game& game);
+	GameRequestHandler* createGameRequestHandler(const LoggedUser& loggedUser, const Game game);
 
 	//Getters
 	LoginManager& getLoginManager();
