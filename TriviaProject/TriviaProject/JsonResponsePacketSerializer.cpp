@@ -249,10 +249,6 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestio
         answers += it->second;
         answers += ",";
     }
-    if (!answers.empty())
-    {
-        answers.pop_back(); // deleting last comma
-    }
     
     json response = { {"status", getQuestionResponse.status}, {"question", getQuestionResponse.question},
                         {"answers", answers} };

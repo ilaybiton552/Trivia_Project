@@ -267,6 +267,7 @@ namespace Client
 
             question = new Question();
             question.question = response.question;
+            question.answers = new Dictionary<int, string>();
             while (response.answers != "")
             {
                 string temp = response.answers;
