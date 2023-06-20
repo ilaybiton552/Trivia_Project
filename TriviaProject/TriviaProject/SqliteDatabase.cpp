@@ -185,13 +185,7 @@ vector<string> SqliteDatabase::getHighScores()
 list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
 {
 	list<Question> questions;
-	sqlQuery("SELECT * FROM QUESTIONS;", getQuestions, &questions);
-
-	for (int i = 0; i < (questions.size() - numOfQuestions); i++) // shorten the list of question 
-	{
-		questions.pop_front();
-	}
-
+	sqlQuery(("SELECT * FROM QUESTIONS LIMIT " + std::to_string(numOfQuestions) + ';').c_str(), getQuestions, &questions);
 	return questions;
 }
 
