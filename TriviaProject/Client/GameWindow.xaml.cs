@@ -130,7 +130,7 @@ namespace Client
             while (GetQuestion() == StatusSuccess && !gameBackgroundWorker.CancellationPending)
             {
                 gameBackgroundWorker.ReportProgress(0);
-                stopwatch.Start(); // starting the answer time for the user
+                stopwatch.Restart(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
             }
             GetGameResults();
@@ -276,8 +276,8 @@ namespace Client
                 response.answers = temp.Substring(response.answers.IndexOf(':') + 1);
 
                 temp = response.answers;
-                string answer = temp.Remove(temp.IndexOf(','));
-                response.answers = response.answers.Substring(response.answers.IndexOf(',') + 1);
+                string answer = temp.Remove(temp.IndexOf(';'));
+                response.answers = response.answers.Substring(response.answers.IndexOf(';') + 1);
 
                 question.answers.Add(answerId, answer);
             }
