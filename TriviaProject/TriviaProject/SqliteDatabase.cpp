@@ -20,7 +20,7 @@ bool SqliteDatabase::open()
 		sqlQuery("CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY, PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL, ADDRESS TEXT NOT NULL, PHONE TEXT NOT NULL, BIRTH_DATE TEXT NOT NULL);");
 		sqlQuery("CREATE TABLE IF NOT EXISTS GAMES (ID INTEGER PRIMARY KEY AUTOINCREMENT);");
 		sqlQuery("CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME TEXT NOT NULL, IS_CORRECT_ANSWER INTEGER NOT NULL, ANSWER_TIME REAL NOT NULL, GAME_ID INTEGER NOT NULL, FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME), FOREIGN KEY(GAME_ID) REFERENCES GAMES(ID));");
-		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT NOT NULL, CORRECT_ANSWER TEXT NOT NULL, INCCORRECT_ANSWER1 TEXT NOT NULL, INCCORRECT_ANSWER2 TEXT NOT NULL, INCCORRECT_ANSWER3 TEXT NOT NULL);");
+		sqlQuery("CREATE TABLE IF NOT EXISTS QUESTIONS (QUESTION TEXT NOT NULL, CORRECT_ANSWER TEXT NOT NULL, INCORRECT_ANSWER1 TEXT NOT NULL, INCORRECT_ANSWER2 TEXT NOT NULL, INCORRECT_ANSWER3 TEXT NOT NULL);");
 		createQuestionDataBase();
 	}
 
@@ -317,9 +317,9 @@ int SqliteDatabase::createQuestionDataBase()
 	{
 		string question;
 		string correctAnswer;
-		string inccorrectAnswer1;
-		string inccorrectAnswer2;
-		string inccorrectAnswer3;
+		string incorrectAnswer1;
+		string incorrectAnswer2;
+		string incorrectAnswer3;
 
 		for (int i = 0; i < NUM_OF_QUESTIONS; i++) // put the question in the database
 		{
@@ -337,13 +337,13 @@ int SqliteDatabase::createQuestionDataBase()
 
 				if (it.key() == "incorrect_answers")
 				{
-					inccorrectAnswer1 = it.value()[0];
-					inccorrectAnswer2 = it.value()[1];
-					inccorrectAnswer3 = it.value()[2];
+					incorrectAnswer1 = it.value()[0];
+					incorrectAnswer2 = it.value()[1];
+					incorrectAnswer3 = it.value()[2];
 				}
 			}
 			// insert the data into the table
-			string query = "INSERT INTO QUESTIONS VALUES (\"" + question + "\", \"" + correctAnswer + "\", \"" + inccorrectAnswer1 + "\", \"" + inccorrectAnswer2 + "\", \"" + inccorrectAnswer3 + "\");";
+			string query = "INSERT INTO QUESTIONS VALUES (\"" + question + "\", \"" + correctAnswer + "\", \"" + incorrectAnswer1 + "\", \"" + incorrectAnswer2 + "\", \"" + incorrectAnswer3 + "\");";
 			sqlQuery(query.c_str());
 		}
 	}
@@ -378,47 +378,38 @@ int SqliteDatabase::getUsernames(void* data, int argc, char** argv, char** azCol
 /// </summary>
 int SqliteDatabase::getQuestions(void* data, int argc, char** argv, char** azColName)
 {
-	list<Question> questions;
+	list<Question>* questions = static_cast<list<Question>*>(data);
 
 	string question;
 	string correctAnswer;
-	string inccorrectAnswer1;
-	string inccorrectAnswer2;
-	string inccorrectAnswer3;
+	string incorrectAnswer1;
+	string incorrectAnswer2;
+	string incorrectAnswer3;
 
 	for (int i = 0; i < argc; i++)
 	{
-		if (azColName[i] == "QUESTION")
+		if (string(azColName[i]) == "QUESTION")
 		{
 			question = argv[i];
 		}
-		else if (azColName[i] == "CORRECT_ANSWER")
+		else if (string(azColName[i]) == "CORRECT_ANSWER")
 		{
-			correctAnswer = (int(argv[i]));
+			correctAnswer = argv[i];
 		}
-		else if (azColName[i] == "INCCORRECT_ANSWER1")
+		else if (string(azColName[i]) == "INCORRECT_ANSWER1")
 		{
-			inccorrectAnswer1 = argv[i];
+			incorrectAnswer1 = argv[i];
 		}
-		else if (azColName[i] == "INCCORRECT_ANSWER2")
+		else if (string(azColName[i]) == "INCORRECT_ANSWER2")
 		{
-			inccorrectAnswer2 = argv[i];
+			incorrectAnswer2 = argv[i];
 		}
-		else if (azColName[i] == "INCCORRECT_ANSWER3")
+		else if (string(azColName[i]) == "INCORRECT_ANSWER3")
 		{
-			inccorrectAnswer3 = argv[i];
-		}
-
-		if (i % 4 == 0 && i != 0)
-		{
-			questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
+			incorrectAnswer3 = argv[i];
 		}
 	}
-
-	questions.push_back(Question(question, correctAnswer, inccorrectAnswer1, inccorrectAnswer2, inccorrectAnswer3));
-
-	*(static_cast<list<Question>*>(data)) = questions;
-
+	questions->push_back(Question(question, correctAnswer, incorrectAnswer1, incorrectAnswer2, incorrectAnswer3));
 	return 0;
 }
 

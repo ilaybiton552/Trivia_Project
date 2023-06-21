@@ -67,7 +67,6 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 	try
 	{
 		Question question = m_game.getQuestionForUser(m_user);
-		std::cout << "Question: " << question.getQuestion() << std::endl;
 		vector<string> possibleAnswers = question.getPossibleAnswers();
 		map<unsigned int, string> answers;
 		for (int i = 0; i < 4; i++)
