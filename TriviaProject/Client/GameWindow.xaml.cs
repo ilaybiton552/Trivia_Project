@@ -80,20 +80,22 @@ namespace Client
         /// </summary>
         void TimerBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = (int)e.Argument; i > 0 && !e.Cancel && gameBackgroundWorker.IsBusy; i--)
+            for (int i = (int)e.Argument; i >= 0 && !e.Cancel && gameBackgroundWorker.IsBusy; i--)
             {
                 timerBackgroundWorker.ReportProgress(i);
-                // spread 1 second into 10 0.1 second (to be more accurate with cancellation)
-                for (int j = 0; j < 10 && !e.Cancel; j++)
+                if (i != 0) // don't want to wait when time is over
                 {
-                    if (timerBackgroundWorker.CancellationPending)
+                    // spread 1 second into 10 0.1 second (to be more accurate with cancellation)
+                    for (int j = 0; j < 10 && !e.Cancel; j++)
                     {
-                        e.Cancel = true;
+                        if (timerBackgroundWorker.CancellationPending)
+                        {
+                            e.Cancel = true;
+                        }
+                        Thread.Sleep(100); // wait 0.1 second
                     }
-                    Thread.Sleep(100); // wait 0.1 second
                 }
             }
-            timerBackgroundWorker.ReportProgress(0);
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace Client
         /// </summary>
         void GameBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            tbQuestion.Text = "Question: " + question;
+            tbQuestion.Text = "Question: " + question.question;
             AddAnswers();
             if (!timerBackgroundWorker.IsBusy) // timer isn't working
             {
@@ -155,7 +157,7 @@ namespace Client
         /// <returns>int, the correct answer id</returns>
         private int SubmitAnswer(int answerId, float answerTime)
         {
-            SubmitAnswer answer = new SubmitAnswer() { answerId = NoAnswerId, answerTime = timePerQuestion };
+            SubmitAnswer answer = new SubmitAnswer() { answerId = answerId, answerTime = answerTime };
             string json = JsonConvert.SerializeObject(answer);
             PacketInfo clientPacket = new PacketInfo() { code = SubmitAnswerRequestCode, data = json };
             communicator.SendPacket(clientPacket);
@@ -234,11 +236,10 @@ namespace Client
             foreach (var answer in question.answers)
             {
                 Button button = new Button();
-                button.Content += answer.Key.ToString();
-                button.Content += ".";
                 button.Content += answer.Value;
                 button.Tag = answer.Key;
                 button.Click += AnswerClick;
+                button.Width = 200;
                 answers.Children.Add(button);
             }
         }
