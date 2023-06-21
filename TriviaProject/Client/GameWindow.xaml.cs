@@ -242,7 +242,6 @@ namespace Client
                 button.Content += answer.Value;
                 button.Tag = answer.Key;
                 button.Click += AnswerClick;
-                button.Width = 300;
                 answers.Children.Add(button);
             }
         }
