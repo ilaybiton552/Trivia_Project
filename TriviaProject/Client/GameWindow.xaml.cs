@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Net;
 
 namespace Client
 {
@@ -132,6 +133,7 @@ namespace Client
                 gameBackgroundWorker.ReportProgress(0);
                 stopwatch.Restart(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
+                Thread.Sleep(500); // wait to see if the client is right or wrong
             }
             GetGameResults();
         }
@@ -269,8 +271,9 @@ namespace Client
             }
 
             question = new Question();
-            question.question = response.question;
+            question.question = WebUtility.HtmlDecode(response.question);
             question.answers = new Dictionary<int, string>();
+            response.answers = WebUtility.HtmlDecode(response.answers);
             while (response.answers != "")
             {
                 string temp = response.answers;
