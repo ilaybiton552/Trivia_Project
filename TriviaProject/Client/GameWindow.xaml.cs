@@ -226,7 +226,7 @@ namespace Client
 
             Dispatcher.Invoke(() =>
             {
-                GameResultWindow gameResultWindow = new GameResultWindow(playerResults);
+                GameResultWindow gameResultWindow = new GameResultWindow(ref communicator, username, playerResults);
                 gameResultWindow.Show();
             });
         }
