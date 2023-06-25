@@ -297,6 +297,7 @@ namespace Client
         {
             stopwatch.Stop(); // stoping the answer time for the user
             Button answerButton = (Button)sender;
+            answerButton.Template = (ControlTemplate)Resources["NoHover"];
             int answerId = (int)answerButton.Tag;
             int correctAnswerId = SubmitAnswer(answerId, (float)(stopwatch.ElapsedMilliseconds / 1000.0));
             if (correctAnswerId == answerId) // correct answer
