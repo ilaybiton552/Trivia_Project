@@ -22,6 +22,7 @@ public:
 	void removePlayer(LoggedUser player);
 	vector<PlayerResults> getPlayersResults();
 	unsigned int getGameId();
+	bool areAllUsersAnswered();
 
 private:
 	// Fields

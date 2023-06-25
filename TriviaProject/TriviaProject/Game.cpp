@@ -25,7 +25,6 @@ Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int 
 Question Game::getQuestionForUser(LoggedUser player)
 {
 	Question question = this->m_questions.at(m_answeredQuestions[player]);
-	m_answeredQuestions[player]++;
 	m_players[player].currentQuestion = question;
 	return question;
 }
@@ -56,6 +55,8 @@ unsigned int Game::submitAnswer(LoggedUser player, unsigned int answerId, float 
 	
 	// push the answer to the database
 	database->submitUserAnswer(player.getUsername(), isCorrect, answerTime, this->m_gameId);
+
+	m_answeredQuestions[player]++;
 
 	return correctId;
 }
@@ -101,4 +102,25 @@ vector<PlayerResults> Game::getPlayersResults()
 unsigned int Game::getGameId()
 {
 	return m_gameId;
+}
+
+/// <summary>
+/// the function return if all of the users answered the question
+/// </summary>
+/// <returns>if all the users answered the question</returns>
+bool Game::areAllUsersAnswered()
+{
+	unsigned int helper = (*m_answeredQuestions.begin()).second;
+
+	for (auto it = m_answeredQuestions.begin(); it != m_answeredQuestions.end(); ++it)
+	{
+		if (helper != (*it).second)
+		{
+			return false;
+		}
+
+		helper = (*it).second;
+	}
+
+	return true;
 }
