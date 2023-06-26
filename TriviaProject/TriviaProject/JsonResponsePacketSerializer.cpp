@@ -247,11 +247,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestio
         answers += std::to_string(it->first);
         answers += ":";
         answers += it->second;
-        answers += ",";
-    }
-    if (!answers.empty())
-    {
-        answers.pop_back(); // deleting last comma
+        answers += ";";
     }
     
     json response = { {"status", getQuestionResponse.status}, {"question", getQuestionResponse.question},

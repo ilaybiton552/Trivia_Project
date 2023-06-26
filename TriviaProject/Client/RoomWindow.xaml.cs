@@ -209,16 +209,9 @@ namespace Client
             else
             {
                 backgroundWorker.CancelAsync();
-                TextBlock textBlock = new TextBlock() { Text = "Starting the game..." };
-                textBlock.FontSize = 30;
-                textBlock.Foreground = new SolidColorBrush(Color.FromRgb(14, 33, 68));
-                textBlock.Margin = new Thickness(10);
-                roomDataPanel.Children.Add(textBlock);
-                grid.Children.Remove(leaveButton);
-                if (roomData.admin == username)
-                {
-                    grid.Children.Remove(startGame);
-                }
+                GameWindow gameWindow = new GameWindow(ref communicator, username, roomData.timePerQuestion);
+                Close();
+                gameWindow.ShowDialog();
             }
         }
 

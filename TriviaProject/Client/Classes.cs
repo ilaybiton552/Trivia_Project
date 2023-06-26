@@ -100,4 +100,43 @@ namespace Client
         public int answerTimeout { get; set; }
     }
 
+    public class GetQuestionResponse
+    {
+        public int status { get; set; }
+        public string question { get; set; }
+        public string answers { get; set; }
+    }
+
+    public class Question
+    {
+        public string question { get; set;}
+        public Dictionary<int, string> answers { get; set; }
+    }
+
+    public class SubmitAnswer
+    {
+        public int answerId { get; set; }
+        public float answerTime { get; set;}
+    }
+
+    public class SubmitAnswerResponse
+    {
+        public int status { get; set; }
+        public int correctAnswerId { get; set;}
+    }
+
+    public class PlayerResult
+    {
+        public string username { get; set; }
+        public int rightAnswers { get; set; }
+        public int wrongAnswers { get; set; }
+        public float averageTime { get; set; }
+    }
+
+    public class GameResultResponse
+    {
+        public int status { get; set;}
+        public string results { get; set; }
+    }
+
 }

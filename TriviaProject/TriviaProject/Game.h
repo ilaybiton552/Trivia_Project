@@ -9,6 +9,7 @@
 
 using std::vector;
 using std::map;
+using std::pair;
 
 class Game
 {
@@ -19,8 +20,8 @@ public:
 	Question getQuestionForUser(LoggedUser player);
 	unsigned int submitAnswer(LoggedUser player, unsigned int answerId, float answerTime, IDatabase* database);
 	void removePlayer(LoggedUser player);
-	vector<PlayerResults> getPlayersResults() const;
-	unsigned int getGameId() const;
+	vector<PlayerResults> getPlayersResults();
+	unsigned int getGameId();
 
 private:
 	// Fields

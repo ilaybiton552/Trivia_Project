@@ -1,6 +1,11 @@
 #include "Question.h"
 
 /// <summary>
+/// Default constructor (used for GameData struct)
+/// </summary>
+Question::Question() {}
+
+/// <summary>
 /// Constructor
 /// </summary>
 /// <param name="question">the question</param>

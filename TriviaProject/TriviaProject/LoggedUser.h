@@ -10,6 +10,7 @@ public:
 	LoggedUser(const string username); // c'tor
 	//Getter
 	string getUsername() const;
+	friend bool operator<(const LoggedUser& user1, const LoggedUser& user2);
 
 private:
 	//Field

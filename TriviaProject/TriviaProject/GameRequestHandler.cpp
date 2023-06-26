@@ -62,15 +62,23 @@ Game GameRequestHandler::getGame() const
 RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 {
 	RequestResult result;
+	GetQuestionResponse response;
 
-	Question question = m_game.getQuestionForUser(m_user);
-	vector<string> possibleAnswers = question.getPossibleAnswers();
-	map<unsigned int, string> answers;
-	for (int i = 0; i < 4; i++)
+	try
 	{
-		answers[i] = possibleAnswers[i];
+		Question question = m_game.getQuestionForUser(m_user);
+		vector<string> possibleAnswers = question.getPossibleAnswers();
+		map<unsigned int, string> answers;
+		for (int i = 0; i < 4; i++)
+		{
+			answers[i] = possibleAnswers[i];
+		}
+		response = { SUCCESS, question.getQuestion(), answers };
 	}
-	GetQuestionResponse response = { SUCCESS, question.getQuestion(), answers };
+	catch (const std::out_of_range& e) // no more questions
+	{
+		response = { STATUS_ERROR };
+	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = nullptr;
 
@@ -102,10 +110,19 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& requestInfo)
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 {
 	RequestResult result;
+	GetGameResultsResponse response;
 
-	GetGameResultsResponse response = { SUCCESS, m_game.getPlayersResults() }; // need to add vector of results
+	try
+	{
+		response = { SUCCESS, m_game.getPlayersResults() };
+		result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	}
+	catch (const std::exception& ex)
+	{
+		response = { STATUS_ERROR };
+		result.newHandler = nullptr;
+	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 
 	return result;
 }
