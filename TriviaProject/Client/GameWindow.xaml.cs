@@ -130,6 +130,7 @@ namespace Client
         {
             while (GetQuestion() == StatusSuccess && !gameBackgroundWorker.CancellationPending)
             {
+                timerBackgroundWorker.CancelAsync();
                 gameBackgroundWorker.ReportProgress(0);
                 stopwatch.Restart(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
@@ -320,7 +321,6 @@ namespace Client
             {
                 answerButton.Background = Brushes.Red;
             }
-            timerBackgroundWorker.CancelAsync();
             gameEvent.Set(); // notify game worker
         }
 
