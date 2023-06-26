@@ -7,6 +7,8 @@
 #include "Room.h"
 #include "IDatabase.h"
 
+#define WAIT_FOR_ALL_PLAYERS 250
+
 using std::vector;
 using std::map;
 using std::pair;

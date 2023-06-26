@@ -16,7 +16,7 @@ public:
 	bool isRequestRelevant(const RequestInfo& requestInfo) override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
-	Game getGame() const;
+	Game& getGame() const;
 
 private:
 	Game& m_game;

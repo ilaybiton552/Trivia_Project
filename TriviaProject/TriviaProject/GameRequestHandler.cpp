@@ -49,7 +49,7 @@ RequestResult GameRequestHandler::handleRequest(const RequestInfo& requestInfo)
 /// Getter for game
 /// </summary>
 /// <returns>Game, the game of the handler</returns>
-Game GameRequestHandler::getGame() const
+Game& GameRequestHandler::getGame() const
 {
 	return m_game;
 }

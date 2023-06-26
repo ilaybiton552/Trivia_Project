@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <Windows.h>
 
 /// <summary>
 /// Constructor
@@ -25,6 +26,10 @@ Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int 
 Question Game::getQuestionForUser(LoggedUser player)
 {
 	Question question = this->m_questions.at(m_answeredQuestions[player]);
+	while (!areAllUsersAnswered())
+	{
+		Sleep(WAIT_FOR_ALL_PLAYERS);
+	}
 	m_players[player].currentQuestion = question;
 	return question;
 }

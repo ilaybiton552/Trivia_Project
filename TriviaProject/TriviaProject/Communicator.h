@@ -43,7 +43,7 @@ private:
 	void disconnectClient(const SOCKET& clientSocket);
 	void handleClientsInRooms(const unsigned int code, const SOCKET& clientSocket, IRequestHandler* clientHandler, unsigned int roomId);
 	void sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, const Room& room);
-	void sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket = 0, const bool changeHandler = false, Game* pGame = nullptr);
+	void sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket = 0);
 	unsigned int getRoomId(const unsigned int code, IRequestHandler* clientHanlder);
 
 	//Fields
