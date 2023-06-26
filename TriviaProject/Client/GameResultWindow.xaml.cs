@@ -19,10 +19,15 @@ namespace Client
     /// </summary>
     public partial class GameResultWindow : Window
     {
-        List<PlayerResult> results;
-        public GameResultWindow(List<PlayerResult> results)
+        private List<PlayerResult> results;
+        private string username;
+        private Communicator communicator;
+        public GameResultWindow(ref Communicator communicator, string username, List<PlayerResult> results)
         {
             InitializeComponent();
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            this.communicator = communicator;
+            this.username = username;
             this.results = results.OrderBy(result => -result.rightAnswers).ToList();
             DisplayResults();
         }
@@ -35,7 +40,7 @@ namespace Client
             foreach (PlayerResult result in results) 
             {
                 TextBlock textBlock = new TextBlock();
-                textBlock.Text = result.username + " score: " + result.rightAnswers.ToString() + " average time: " + result.averageTime.ToString();
+                textBlock.Text = result.username + " score: " + result.rightAnswers.ToString() + " average time: " + Math.Round(result.averageTime, 2).ToString();
                 scores.Children.Add(textBlock);
             }
         }
@@ -45,7 +50,10 @@ namespace Client
         /// </summary>
         private void ExitClick(object sender, RoutedEventArgs e)
         {
+            MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            Application.Current.Windows[0].Close(); // closing GameWindow
             Close();
+            menuWindow.ShowDialog();
         }
     }
 }
