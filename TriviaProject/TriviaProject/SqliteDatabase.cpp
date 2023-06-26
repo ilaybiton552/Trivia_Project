@@ -185,7 +185,7 @@ vector<string> SqliteDatabase::getHighScores()
 list<Question> SqliteDatabase::getQuestions(const int numOfQuestions)
 {
 	list<Question> questions;
-	sqlQuery(("SELECT * FROM QUESTIONS LIMIT " + std::to_string(numOfQuestions) + ';').c_str(), getQuestions, &questions);
+	sqlQuery(("SELECT * FROM QUESTIONS ORDER BY RANDOM() LIMIT " + std::to_string(numOfQuestions) + ';').c_str(), getQuestions, &questions);
 	return questions;
 }
 

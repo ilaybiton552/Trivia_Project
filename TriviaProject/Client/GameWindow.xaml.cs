@@ -133,7 +133,7 @@ namespace Client
                 gameBackgroundWorker.ReportProgress(0);
                 stopwatch.Restart(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
-                Thread.Sleep(500); // wait to see if the client is right or wrong
+                Thread.Sleep(250); // wait to see if the client is right or wrong
             }
             GetGameResults();
         }
@@ -144,6 +144,18 @@ namespace Client
         void GameBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             tbQuestion.Text = "Question: " + question.question;
+            if (question.question.Length > 70)
+            {
+                tbQuestion.FontSize = 20;
+            }
+            else if (question.question.Length > 55)
+            {
+                tbQuestion.FontSize = 25;
+            }
+            else
+            {
+                tbQuestion.FontSize = 30;
+            }
             AddAnswers();
             if (!timerBackgroundWorker.IsBusy) // timer isn't working
             {
