@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net;
+using System.Globalization;
 
 namespace Client
 {
@@ -216,6 +217,7 @@ namespace Client
             List<PlayerResult> playerResults = new List<PlayerResult>();
             while (results != "")
             {
+                MessageBox.Show(results, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 PlayerResult currResult = new PlayerResult();
 
                 // get username
@@ -231,7 +233,7 @@ namespace Client
                 results = results.Substring(results.IndexOf(',') + 1);
 
                 // get average time
-                currResult.averageTime = float.Parse(results.Remove(results.IndexOf(';')));
+                currResult.averageTime = float.Parse(results.Remove(results.IndexOf(';')), CultureInfo.InvariantCulture.NumberFormat);
                 results = results.Substring(results.IndexOf(';') + 1);
 
                 playerResults.Add(currResult);
