@@ -40,6 +40,7 @@ namespace Client
             foreach (PlayerResult result in results) 
             {
                 TextBlock textBlock = new TextBlock();
+                textBlock.Foreground = Brushes.White;
                 textBlock.Text = result.username + " score: " + result.rightAnswers.ToString() + " average time: " + Math.Round(result.averageTime, 2).ToString();
                 scores.Children.Add(textBlock);
             }

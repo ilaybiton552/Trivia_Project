@@ -32,7 +32,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Button Grid.Row="2" Content="Exit" Margin="5" FontSize="20" Width="75" Foreground="#8AAAE5" FontFamily="Berlin Sans FB Demi" Click="ExitClick"/>
+        <Button Grid.Row="2" Content="Exit" Margin="5" FontSize="20" Width="75" Foreground="#8AAAE5" Background="White" FontFamily="Berlin Sans FB Demi" Click="ExitClick"/>
 
     </Grid>
 </Window>

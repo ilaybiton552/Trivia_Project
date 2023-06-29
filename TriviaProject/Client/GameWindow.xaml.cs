@@ -217,7 +217,6 @@ namespace Client
             List<PlayerResult> playerResults = new List<PlayerResult>();
             while (results != "")
             {
-                MessageBox.Show(results, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 PlayerResult currResult = new PlayerResult();
 
                 // get username
