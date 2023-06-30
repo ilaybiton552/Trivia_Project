@@ -19,6 +19,7 @@ public:
 	static GetPlayersInRoomRequest deserializeGetPlayersInRoomRequest(const vector<unsigned char>& buffer);
 	static JoinRoomRequest deserializeJoinRoomRequest(const vector<unsigned char>& buffer);
 	static CreateRoomRequest deserializeCreateRoomRequest(const vector<unsigned char>& buffer);
+	static SubmitAnswerRequest deserializeSubmitAnswerRequest(const vector<unsigned char>& buffer);
 private:
 	static json getJsonFromBuffer(const vector<unsigned char>& buffer);
 };

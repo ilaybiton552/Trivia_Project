@@ -85,7 +85,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo requestInfo)
 	if (response.status == SUCCESS)
 	{
 		m_room.setIsActive(ACTIVE_ROOM);
-		result.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room); // until next version, want to change the handler to call handleClientsInRooms
+		result.newHandler = m_handlerFactory.createGameRequestHandler(m_user, m_handlerFactory.getGameManager().createGame(m_room));
 	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 

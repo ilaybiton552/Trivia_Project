@@ -109,7 +109,7 @@ void Communicator::handleNewClient(const SOCKET client_socket)
 			int roomId = 0; // in case of leave/close room, want to get the id before handling the request (changes the handler)
 			if (clientHandler->isRequestRelevant(requestInfo))
 			{
-				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE)
+				if (requestInfo.id == LEAVE_ROOM_CODE || requestInfo.id == CLOSE_ROOM_CODE || requestInfo.id == START_GAME_CODE)
 				{
 					roomId = getRoomId(requestInfo.id, clientHandler);
 				}
@@ -304,9 +304,23 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	}
 	else if (code == START_GAME_CODE)
 	{
-		roomId = static_cast<RoomAdminRequestHandler*>(clientHandler)->getRoomId();
 		StartGameResponse response = { STATUS_SUCCESS };
-		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket, true, false);
+		vector<SOCKET> clients(m_roomsSocket[roomId]);
+		sendMessageToAllClients(clients, JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
+		for (auto it = clients.begin(); it != clients.end(); ++it)
+		{
+			if (*it != clientSocket)
+			{
+				IRequestHandler** pCurrHandler = &m_clients[*it];
+				// will always be room member request handler
+				LoggedUser loggedUser = static_cast<RoomMemberRequestHandler*>(*pCurrHandler)->getLoggedUser();
+				delete* pCurrHandler;
+				*pCurrHandler = m_handlerFactory.createGameRequestHandler(loggedUser, static_cast<GameRequestHandler*>(clientHandler)->getGame());
+			}
+		}
+		// deleting the room (after the game sends to menu)
+		m_handlerFactory.getRoomManager().deleteRoom(roomId); 
+		m_roomsSocket.erase(roomId);
 	}
 	else if (code == LEAVE_ROOM_CODE)
 	{
@@ -324,7 +338,19 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 	else // close room
 	{
 		LeaveRoomResponse response = { STATUS_CLOSED_ROOM };
-		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket, true);
+		sendMessageToAllClients(m_roomsSocket[roomId], JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
+		vector<SOCKET> clients(m_roomsSocket[roomId]);
+		for (auto it = clients.begin(); it != clients.end(); ++it)
+		{
+			if (*it != clientSocket)
+			{
+				IRequestHandler** pCurrHandler = &m_clients[*it];
+				// will always be room member request handler
+				LoggedUser loggedUser = static_cast<RoomMemberRequestHandler*>(*pCurrHandler)->getLoggedUser();
+				delete* pCurrHandler;
+				*pCurrHandler = m_handlerFactory.createMenuRequestHandler(loggedUser);
+			}
+		}
 		m_roomsSocket.erase(roomId);
 	}
 }
@@ -350,29 +376,14 @@ void Communicator::sendToAllClientsPlayersInRoom(const vector<SOCKET>& clients, 
 /// <param name="message">vector of bytes, the message to send</param>
 /// <param name="clientSocket">SOCKET, the socket of the client, if don't want to send a message back to him</param>
 /// <param name="changeHandler">bool, if need to change the handler</param>
-/// <param name="menuHandler">bool, if need to change the handler to menu handler</param>
-void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket, const bool changeHandler, const bool menuHandler)
+/// <param name="game">pointer of game, if null - menu handler, if not - game handler</param>
+void Communicator::sendMessageToAllClients(const vector<SOCKET>& clients, const vector<unsigned char>& message, const SOCKET& clientSocket)
 {
-	// sends to every client the list of players
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		if (*it != clientSocket)
 		{
 			sendMessageToClient(message, *it);
-			if (changeHandler) // will be true for start game or close room
-			{
-				IRequestHandler** pCurrHandler = &m_clients[*it];
-				// will always be room member request handler
-				RoomMemberRequestHandler* currHandler = static_cast<RoomMemberRequestHandler*>(*pCurrHandler);
-				if (menuHandler) // close room case
-				{
-					*pCurrHandler = m_handlerFactory.createMenuRequestHandler(currHandler->getLoggedUser());
-				}
-				else // game handler (start game case)
-				{
-					// currently nothing to do here
-				}
-			}
 		}
 	}
 }

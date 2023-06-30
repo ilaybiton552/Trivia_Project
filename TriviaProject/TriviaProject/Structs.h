@@ -2,10 +2,13 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <map>
 #include "IRequestHandler.h"
+#include "Question.h"
 
 using std::string;
 using std::vector;
+using std::map;
 
 class IRequestHandler; // problem of circular reference
 
@@ -146,4 +149,50 @@ struct GetRoomStateResponse
 struct LeaveRoomResponse
 {
 	unsigned int status;
+};
+
+struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+struct GetQuestionResponse
+{
+	unsigned int status;
+	string question;
+	map<unsigned int, string> answers;
+};
+
+struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+struct PlayerResults
+{
+	string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	float averageAnswerTime;
+};
+
+struct GetGameResultsResponse
+{
+	unsigned int status;
+	vector<PlayerResults> results;
+};
+
+struct SubmitAnswerRequest
+{
+	unsigned int answerId;
+	float answerTime;
+};
+
+struct GameData
+{
+	Question currentQuestion;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	float averageAnswerTime;
 };

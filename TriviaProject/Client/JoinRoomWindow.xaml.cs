@@ -29,7 +29,6 @@ namespace Client
         private Communicator communicator;
         private string username;
         private LinkedList<RoomData> roomDataList;
-        private const int ErrorResponseCode = 200;
         private const int GetRoomsResponseCode = 204;
         private const int GetRoomsRequestCode = 104;
         private const int JoinRoomResponseCode = 206;
@@ -37,6 +36,7 @@ namespace Client
         private const int GetPlayersInRoomRequestCode = 105;
         private const int GetPlayersInRoomResponseCode = 205;
         private const int SuccesStatus = 1;
+        private const int roomNotActive = 0;
         private BackgroundWorker backgroundWorker;
 
         public JoinRoomWindow(ref Communicator communicator, string username)
@@ -57,8 +57,8 @@ namespace Client
         {
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.DoWork += backgroundWorker_DoWork;
-            backgroundWorker.ProgressChanged += backgroundWorker_ProgressChanged;
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -70,12 +70,15 @@ namespace Client
             rooms.Children.Clear();
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
-                Button button = new Button();
-                button.Click += RoomClick;
-                button.Content = it.Value.name;
-                button.MouseEnter += ShowRoomDetails;
-                button.Tag = it.Value.id;
-                rooms.Children.Add(button);
+                if (it.Value.isActive == roomNotActive)
+                {
+                    Button button = new Button();
+                    button.Click += RoomClick;
+                    button.Content = it.Value.name;
+                    button.MouseEnter += ShowRoomDetails;
+                    button.Tag = it.Value.id;
+                    rooms.Children.Add(button);
+                }
             }
         }
 
@@ -239,7 +242,7 @@ namespace Client
         /// <summary>
         /// the function starts the background worker main thread
         /// </summary>
-        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
@@ -256,7 +259,7 @@ namespace Client
         /// <summary>
         /// the function update the window with thread
         /// </summary>
-        void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             this.roomDataList.Clear(); // clear the room list
             rooms.Children.Clear(); // clear the window

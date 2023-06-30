@@ -201,6 +201,72 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomR
 }
 
 /// <summary>
+/// Serializes a get game results response
+/// </summary>
+/// <param name="getGameResultsResponse">getGameResultsResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse getGameResultsResponse)
+{
+    string results; // username, correctAnswerCount, wrongAnswerCount, averageAnswerTime
+    for (auto it = getGameResultsResponse.results.begin(); it != getGameResultsResponse.results.end(); it++)
+    {
+        results += it->username;
+        results += ",";
+        results += std::to_string(it->correctAnswerCount);
+        results += ",";
+        results += std::to_string(it->wrongAnswerCount);
+        results += ",";
+        results += std::to_string(it->averageAnswerTime);
+        results += ";";
+    }
+
+    json response = { {"status", getGameResultsResponse.status}, {"results", results} };
+    return makeSerializedPacket(response, GET_GAME_RESULTS_RESPONSE);
+}
+
+/// <summary>
+/// Serializes a submit answer response
+/// </summary>
+/// <param name="submitAnswerResponse">submitAnswerResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse submitAnswerResponse)
+{
+    json response = { {"status", submitAnswerResponse.status}, {"correctAnswerId", submitAnswerResponse.correctAnswerId} };
+    return makeSerializedPacket(response, SUBMIT_ANSWER_RESPONSE_CODE);
+}
+/// <summary>
+/// Serializes a get question response
+/// </summary>
+/// <param name="getQuestionResponse">getQuestionResponse, the response to serialize</param>
+/// <returns>vector of bytes, teh serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse getQuestionResponse)
+{
+    string answers; //id, answer
+    for (auto it = getQuestionResponse.answers.begin(); it != getQuestionResponse.answers.end(); ++it)
+    {
+        answers += std::to_string(it->first);
+        answers += ":";
+        answers += it->second;
+        answers += ";";
+    }
+    
+    json response = { {"status", getQuestionResponse.status}, {"question", getQuestionResponse.question},
+                        {"answers", answers} };
+    return makeSerializedPacket(response, GET_QUESTION_RESPONSE_CODE);
+}
+
+/// <summary>
+/// Serializes a leave game response
+/// </summary>
+/// <param name="leaveGameResponse">leaveGameResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse leaveGameResponse)
+{
+    json response = { {"status", leaveGameResponse.status} };
+    return makeSerializedPacket(response, LEAVE_GAME_RESPONSE_CODE);
+}
+
+/// <summary>
 /// Converts a number to a byte
 /// </summary>
 /// <param name="num">unsigned int, the number to convert</param>
@@ -211,7 +277,7 @@ vector<unsigned char> JsonResponsePacketSerializer::convertNumberToByte(const un
     for (int i = 0; i < MAX_BYTES_UNSIGNED_INT; i++)
     {
         // >> binary right shift, & binary and
-        numberInBytes.push_back((num >> NUM_OF_BITS_IN_BYTE * i) & MAX_VALUE_OF_BYTE); 
+        numberInBytes.push_back((num >> NUM_OF_BITS_IN_BYTE * i) & MAX_VALUE_OF_BYTE);
     }
     std::reverse(numberInBytes.begin(), numberInBytes.end());
     return numberInBytes;
@@ -252,3 +318,4 @@ vector<unsigned char> JsonResponsePacketSerializer::makeSerializedPacket(const j
 
     return buffer;
 }
+

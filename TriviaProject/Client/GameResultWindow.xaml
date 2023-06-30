@@ -1,0 +1,38 @@
+﻿<Window x:Class="Client.GameResultWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="GameResultWindow" Height="250" Width="350">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Background="#8AAAE5">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Results: " FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel x:Name="scores" Margin="5">
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Content="Exit" Margin="5" FontSize="20" Width="75" Foreground="#8AAAE5" Background="White" FontFamily="Berlin Sans FB Demi" Click="ExitClick"/>
+
+    </Grid>
+</Window>
