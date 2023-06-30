@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace Client
         private Communicator communicator;
         private string username;
         private AddQuestion question;
+        private const int AddQuestionRequestCode = 118;
+        private const int AddQuestionResponseCode = 218;
 
         public AddQuestionWindow(ref Communicator communicator, string username)
         {
@@ -60,13 +63,30 @@ namespace Client
             tbIncorrectAnswer2.BorderBrush = tbIncorrectAnswer2.Text.Length == 0 ? Brushes.Red : Brushes.Green;
             tbIncorrectAnswer3.BorderBrush = tbIncorrectAnswer3.Text.Length == 0 ? Brushes.Red : Brushes.Green;
 
-            if (tbQuestion.BorderBrush == Brushes.Red || tbCorrectAnswer.BorderBrush == Brushes.Red || tbIncorrectAnswer1.BorderBrush == Brushes.Red || tbIncorrectAnswer2.BorderBrush == Brushes.Red || tbIncorrectAnswer3.BorderBrush == Brushes.Red)
+            if (tbQuestion.BorderBrush == Brushes.Red || tbCorrectAnswer.BorderBrush == Brushes.Red || tbIncorrectAnswer1.BorderBrush == Brushes.Red || 
+                tbIncorrectAnswer2.BorderBrush == Brushes.Red || tbIncorrectAnswer3.BorderBrush == Brushes.Red)
             {
-                MessageBox.Show("Error", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Empty field", "Error", MessageBoxButton.OK);
             }
             else
             {
                 // send the question to server
+                string json = JsonConvert.SerializeObject(question);
+                PacketInfo packetToSend = new PacketInfo() { code = AddQuestionRequestCode, data = json };
+                communicator.SendPacket(packetToSend);
+
+                PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
+                if(receivedPacket.code == AddQuestionResponseCode)
+                {
+                    MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                    Close();
+                    menuWindow.ShowDialog();                           
+                }
+                else
+                {
+                    MessageBox.Show("An error occured", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
 
         }
