@@ -102,6 +102,7 @@ AddQuestionRequest JsonRequestPacketDeserializer::deserializeAddQuestionRequest(
     request.incorrectAnswer1 = data["incorrectAnswer1"];
     request.incorrectAnswer2 = data["incorrectAnswer2"];
     request.incorrectAnswer3 = data["incorrectAnswer3"];
+    return request;
 }
 
 /// <summary>

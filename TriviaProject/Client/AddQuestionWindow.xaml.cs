@@ -35,6 +35,7 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             question = new AddQuestion();
+            this.DataContext = question;
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace Client
                 }
                 else
                 {
-                    MessageBox.Show("An error occured", "Error",
+                    MessageBox.Show(receivedPacket.code.ToString(), "Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
