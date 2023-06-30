@@ -267,6 +267,17 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveGameR
 }
 
 /// <summary>
+/// Serializes an add question response
+/// </summary>
+/// <param name="addQuestionResponse">addQuestionResponse, the response to serialize</param>
+/// <returns>vector of bytes, the serialized response</returns>
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(AddQuestionResponse addQuestionResponse)
+{
+    json response = { {"status", addQuestionResponse.status} };
+    return makeSerializedPacket(response, ADD_QUESTION_RESPONSE_CODE);
+}
+
+/// <summary>
 /// Converts a number to a byte
 /// </summary>
 /// <param name="num">unsigned int, the number to convert</param>

@@ -21,7 +21,7 @@ MenuRequestHandler::MenuRequestHandler(const LoggedUser user, RoomManager& roomM
 /// <returns>bool, true if the request is relevant and false otherwise</returns>
 bool MenuRequestHandler::isRequestRelevant(const RequestInfo& requestInfo)
 {
-    return (requestInfo.id <= CREATE_ROOM_CODE && requestInfo.id >= SIGNOUT_CODE);
+    return ((requestInfo.id <= CREATE_ROOM_CODE && requestInfo.id >= SIGNOUT_CODE) || requestInfo.id == ADD_QUESTION_CODE);
 }
 
 /// <summary>
@@ -47,6 +47,8 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
         return joinRoom(requestInfo);
     case CREATE_ROOM_CODE:
         return createRoom(requestInfo);
+    case ADD_QUESTION_CODE:
+        return addQuestion(requestInfo);
     }
     return RequestResult();
 }
@@ -181,6 +183,21 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
     {
         result.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_roomManager.getRoom(newRoomId));
     }
+    result.response = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return result;
+}
+
+RequestResult MenuRequestHandler::addQuestion(const RequestInfo request)
+{
+    RequestResult result;
+    result.newHandler = nullptr; // don't want to change the handler
+
+    AddQuestionRequest requestData = JsonRequestPacketDeserializer::deserializeAddQuestionRequest(request.buffer);
+
+    AddQuestionResponse response = { m_handlerFactory.getDatabase()->addQuestion(requestData.question, requestData.correctAnswer, requestData.incorrectAnswer1,
+        requestData.incorrectAnswer2, requestData.incorrectAnswer3) };
+
     result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
     return result;

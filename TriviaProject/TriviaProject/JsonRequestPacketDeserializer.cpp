@@ -1,7 +1,7 @@
 #include "JsonRequestPacketDeserializer.h"
 
 /// <summary>
-/// Deserizlizes login request
+/// Deserializes login request
 /// </summary>
 /// <param name="buffer">vector of bytes, the login request from the client</param>
 /// <returns>struct LoginRequest, struct with the data of login request</returns>
@@ -15,7 +15,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(const vector
 }
 
 /// <summary>
-/// Deserizlizes signup request
+/// Deserializes signup request
 /// </summary>
 /// <param name="buffer">vector of bytes, the signup request from the client</param>
 /// <returns>struct SignupRequest, struct with the data of signup request</returns>
@@ -33,7 +33,7 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(const vect
 }
 
 /// <summary>
-/// Deserizlizes get players in room request
+/// Deserializes get players in room request
 /// </summary>
 /// <param name="buffer">vector of bytes, the get players in room request from the client</param>
 /// <returns>struct GetPlayersInRoomRequest, struct with the data of get players in room request</returns>
@@ -46,7 +46,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRo
 }
 
 /// <summary>
-/// Deserizlizes join room request
+/// Deserializes join room request
 /// </summary>
 /// <param name="buffer">vector of bytes, the join room request from the client</param>
 /// <returns>struct JoinRoomRequest, struct with the data of join room request</returns>
@@ -59,7 +59,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const 
 }
 
 /// <summary>
-/// Deserizlizes create room request
+/// Deserializes create room request
 /// </summary>
 /// <param name="buffer">vector of bytes, the get players in create room client</param>
 /// <returns>struct CreateRoomRequest, struct with the data of create room request</returns>
@@ -75,7 +75,7 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(co
 }
 
 /// <summary>
-/// Deserizlizes submit answer request
+/// Deserializes submit answer request
 /// </summary>
 /// <param name="buffer">vector of bytes, the sumbit answer request from the client</param>
 /// <returns>struct SubmitAnswerRequest, struct with the data of submit answer request</returns>
@@ -86,6 +86,22 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
     request.answerId = data["answerId"];
     request.answerTime = data["answerTime"];
     return request;
+}
+
+/// <summary>
+/// Deserializes add question request
+/// </summary>
+/// <param name="buffer">vector of bytes, the add question request from the client</param>
+/// <returns>struct AddQuestionRequest, struct with the data of add question request</returns>
+AddQuestionRequest JsonRequestPacketDeserializer::deserializeAddQuestionRequest(const vector<unsigned char>& buffer)
+{
+    AddQuestionRequest request;
+    json data = getJsonFromBuffer(buffer);
+    request.question = data["question"];
+    request.correctAnswer = data["correctAnswer"];
+    request.incorrectAnswer1 = data["incorrectAnswer1"];
+    request.incorrectAnswer2 = data["incorrectAnswer2"];
+    request.incorrectAnswer3 = data["incorrectAnswer3"];
 }
 
 /// <summary>
