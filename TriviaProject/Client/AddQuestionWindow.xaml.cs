@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace Client
     {
         private Communicator communicator;
         private string username;
+        private AddQuestion question;
 
         public AddQuestionWindow(ref Communicator communicator, string username)
         {
@@ -29,6 +31,16 @@ namespace Client
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
+            question = new AddQuestion();
+        }
+
+        /// <summary>
+        /// Clears the data of all the text boxes
+        /// </summary>
+        private void ClearClick(object sender, RoutedEventArgs e)
+        {
+            question = new AddQuestion();
+            this.DataContext = question;
         }
 
         /// <summary>

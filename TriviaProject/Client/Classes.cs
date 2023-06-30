@@ -113,6 +113,15 @@ namespace Client
         public Dictionary<int, string> answers { get; set; }
     }
 
+    public class AddQuestion
+    {
+        public string question { get; set; }
+        public string correctAnswer { get; set; }
+        public string incorrectAnswer1 { get; set; }
+        public string incorrectAnswer2 { get; set; }
+        public string incorrectAnswer3 { get; set; }
+    }
+
     public class SubmitAnswer
     {
         public int answerId { get; set; }
