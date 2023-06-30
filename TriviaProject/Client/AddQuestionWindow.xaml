@@ -15,21 +15,79 @@
             <Setter Property="Foreground" Value="#8AAAE5"/>
             <Setter Property="Height" Value="50"/>
         </Style>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Margin" Value="10, 20, 10, 0"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="FontFamily" Value="Berlin Sans FB Demi"/>
+            <Setter Property="Foreground" Value="#8AAAE5"/>
+        </Style>
     </Window.Resources>
 
     <Grid Background="#8AAAE5">
         <Grid.RowDefinitions>
+            <RowDefinition Height="1.25*"/>
             <RowDefinition/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White"/>
-            <TextBlock Text="Add Question:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White"/>
+            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White" Margin="2.5"/>
+            <TextBlock Text="Add Question:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White" Margin="2.5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="Question:"/>
+            <TextBox Text="{Binding question, 
+                UpdateSourceTrigger=PropertyChanged}"
+                    FontSize="15" x:Name="tbQuestion" Width="300"/>
         </StackPanel>
         
-        <Button Grid.Row="3" Margin="5, 1.5, 0, 5" Width="50" FontSize="20" Height="30" Content="Back" HorizontalAlignment="Left" Click="BackClick"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="Correct answer:"/>
+            <TextBox Text="{Binding correctAnswer, 
+                UpdateSourceTrigger=PropertyChanged}"
+                    FontSize="15" x:Name="tbCorrectAnswer"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="Incorrect answer 1:"/>
+            <TextBox Text="{Binding incorrectAnswer1, 
+                UpdateSourceTrigger=PropertyChanged}"
+                    FontSize="15" x:Name="tbIncorrectAnswer1"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="Incorrect answer 2:"/>
+            <TextBox Text="{Binding incorrectAnswer2, 
+                UpdateSourceTrigger=PropertyChanged}"
+                    FontSize="15" x:Name="tbIncorrectAnswer2"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="Incorrect answer 3:"/>
+            <TextBox Text="{Binding incorrectAnswer3, 
+                UpdateSourceTrigger=PropertyChanged}"
+                    FontSize="15" x:Name="tbIncorrectAnswer3"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="5" Width="50" FontSize="20" Height="30" Content="Back" HorizontalAlignment="Center" Click="BackClick"/>
+            <Button Margin="5" Width="50" FontSize="20" Height="30" Content="Send" HorizontalAlignment="Center" Click="SendClick"/>
+            <Button Margin="5" Width="50" FontSize="20" Height="30" Content="Clear" HorizontalAlignment="Center" Click="ClearClick"/>
+        </StackPanel>
         
     </Grid>
 </Window>

@@ -41,6 +41,34 @@ namespace Client
         {
             question = new AddQuestion();
             this.DataContext = question;
+
+            tbQuestion.BorderBrush = Brushes.Gray;
+            tbCorrectAnswer.BorderBrush = Brushes.Gray;
+            tbIncorrectAnswer1.BorderBrush = Brushes.Gray;
+            tbIncorrectAnswer2.BorderBrush = Brushes.Gray;
+            tbIncorrectAnswer3.BorderBrush = Brushes.Gray;
+        }
+
+        /// <summary>
+        /// Sends the question to the server
+        /// </summary>
+        private void SendClick(object sender, RoutedEventArgs e)
+        {
+            tbQuestion.BorderBrush = tbQuestion.Text.Length == 0 ? Brushes.Red : Brushes.Green;
+            tbCorrectAnswer.BorderBrush = tbCorrectAnswer.Text.Length == 0 ? Brushes.Red : Brushes.Green;
+            tbIncorrectAnswer1.BorderBrush = tbIncorrectAnswer1.Text.Length == 0 ? Brushes.Red : Brushes.Green;
+            tbIncorrectAnswer2.BorderBrush = tbIncorrectAnswer2.Text.Length == 0 ? Brushes.Red : Brushes.Green;
+            tbIncorrectAnswer3.BorderBrush = tbIncorrectAnswer3.Text.Length == 0 ? Brushes.Red : Brushes.Green;
+
+            if (tbQuestion.BorderBrush == Brushes.Red || tbCorrectAnswer.BorderBrush == Brushes.Red || tbIncorrectAnswer1.BorderBrush == Brushes.Red || tbIncorrectAnswer2.BorderBrush == Brushes.Red || tbIncorrectAnswer3.BorderBrush == Brushes.Red)
+            {
+                MessageBox.Show("Error", "Error", MessageBoxButton.OK);
+            }
+            else
+            {
+                // send the question to server
+            }
+
         }
 
         /// <summary>
