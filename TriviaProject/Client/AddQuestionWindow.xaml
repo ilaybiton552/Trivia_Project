@@ -32,7 +32,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="#8AAAE5">
+    <Grid Background="#8AAAE5" x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.25*"/>
             <RowDefinition/>
@@ -48,35 +48,35 @@
             <TextBlock Text="Add Question:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White" Margin="2.5"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow1">
             <TextBlock Text="Question:"/>
             <TextBox Text="{Binding question, 
                 UpdateSourceTrigger=PropertyChanged}"
                     FontSize="15" x:Name="tbQuestion" Width="300"/>
         </StackPanel>
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow2">
             <TextBlock Text="Correct answer:"/>
             <TextBox Text="{Binding correctAnswer, 
                 UpdateSourceTrigger=PropertyChanged}"
                     FontSize="15" x:Name="tbCorrectAnswer"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow3">
             <TextBlock Text="Incorrect answer 1:"/>
             <TextBox Text="{Binding incorrectAnswer1, 
                 UpdateSourceTrigger=PropertyChanged}"
                     FontSize="15" x:Name="tbIncorrectAnswer1"/>
         </StackPanel>
-        
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow4">
             <TextBlock Text="Incorrect answer 2:"/>
             <TextBox Text="{Binding incorrectAnswer2, 
                 UpdateSourceTrigger=PropertyChanged}"
                     FontSize="15" x:Name="tbIncorrectAnswer2"/>
         </StackPanel>
         
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow5">
             <TextBlock Text="Incorrect answer 3:"/>
             <TextBox Text="{Binding incorrectAnswer3, 
                 UpdateSourceTrigger=PropertyChanged}"
@@ -84,9 +84,9 @@
         </StackPanel>
 
         <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Margin="5" Width="50" FontSize="20" Height="30" Content="Back" HorizontalAlignment="Center" Click="BackClick"/>
-            <Button Margin="5" Width="50" FontSize="20" Height="30" Content="Send" HorizontalAlignment="Center" Click="SendClick"/>
-            <Button Margin="5" Width="50" FontSize="20" Height="30" Content="Clear" HorizontalAlignment="Center" Click="ClearClick"/>
+            <Button Margin="5" x:Name="backButton" Width="50" FontSize="20" Height="30" Content="Back" HorizontalAlignment="Center" Click="BackClick"/>
+            <Button Margin="5" x:Name="sendButton" Width="50" FontSize="20" Height="30" Content="Send" HorizontalAlignment="Center" Click="SendClick"/>
+            <Button Margin="5" x:Name="clearButton" Width="50" FontSize="20" Height="30" Content="Clear" HorizontalAlignment="Center" Click="ClearClick"/>
         </StackPanel>
         
     </Grid>
