@@ -88,6 +88,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayers
     {
         players.pop_back(); // deleting last comma
     }
+
     json response = { {"players", players} };
     return makeSerializedPacket(response, GET_PLAYERS_IN_ROOM_RESPONSE_CODE);
 }

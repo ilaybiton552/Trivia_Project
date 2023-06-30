@@ -226,6 +226,8 @@ namespace Client
             GetPlayersResponse response = JsonConvert.DeserializeObject<GetPlayersResponse>(serverPacket.data);
             string players = response.players;
 
+            MessageBox.Show(players, "ok", MessageBoxButton.OK, MessageBoxImage.Error);
+
             // getting the players
             if (players.IndexOf(',') == -1) // only admin in the room
             {
