@@ -43,6 +43,7 @@ public:
 	virtual unsigned int getLastGameId() override;
 	virtual bool addGame() override;
 	virtual bool submitUserAnswer(const string& username, const int isCorrect, const float answerTime, const int gameId) override;
+	virtual bool addQuestion(const string& question, const string& correctAnswer, const string& incorrectAnswer1, const string& incorrectAnswer2, const string& incorrectAnswer3);
 
 private:
 	//Field
