@@ -25,7 +25,7 @@ Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int 
 /// <returns>the question for the user</returns>
 Question Game::getQuestionForUser(LoggedUser player)
 {
-	while (m_answeredQuestions.size() != 1 && !areAllUsersAnswered()) // more than 1 player remains
+	while (!areAllUsersAnswered())
 	{
 		Sleep(WAIT_FOR_ALL_PLAYERS);
 	}
