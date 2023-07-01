@@ -70,7 +70,8 @@ namespace Client
             rooms.Children.Clear();
             for (var it = roomDataList.First; it != null; it = it.Next) 
             {
-                if (it.Value.isActive == roomNotActive)
+                if (it.Value.isActive == roomNotActive && // room's not active
+                    it.Value.players.Split(',').Length < it.Value.maxPlayers) // don't have max players
                 {
                     Button button = new Button();
                     button.Click += RoomClick;
