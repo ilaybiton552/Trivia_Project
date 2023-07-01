@@ -48,7 +48,6 @@ namespace Client
         public GameWindow(ref Communicator communicator, string username, int timePerQuestion)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             this.timePerQuestion = timePerQuestion;
@@ -248,6 +247,9 @@ namespace Client
             Dispatcher.Invoke(() =>
             {
                 GameResultWindow gameResultWindow = new GameResultWindow(ref communicator, username, playerResults);
+                gameResultWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                gameResultWindow.Left = this.Left + 50;
+                gameResultWindow.Top = this.Top + 125;
                 gameResultWindow.Show();
             });
         }
@@ -355,6 +357,9 @@ namespace Client
             gameEvent.Set();
             timerBackgroundWorker.CancelAsync();
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left;
+            menuWindow.Top = this.Top;
             Close();
             menuWindow.ShowDialog();
         }

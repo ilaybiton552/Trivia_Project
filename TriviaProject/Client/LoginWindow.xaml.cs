@@ -42,7 +42,6 @@ namespace Client
         public LoginWindow(ref Communicator communicator)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             loginRequest = new LoginRequest();
             this.DataContext = loginRequest;
@@ -65,6 +64,9 @@ namespace Client
                 {
                     case Codes.Success:
                         MenuWindow menuWindow = new MenuWindow(ref communicator, loginRequest.username);
+                        menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                        menuWindow.Left = this.Left;
+                        menuWindow.Top = this.Top;
                         Close();
                         menuWindow.ShowDialog();
                         break;
@@ -104,6 +106,9 @@ namespace Client
         private void SignUpClick(object sender, RoutedEventArgs e)
         {
             SignupWindow signupWindow = new SignupWindow(ref communicator);
+            signupWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            signupWindow.Left = this.Left;
+            signupWindow.Top = this.Top;
             Close();
             signupWindow.ShowDialog();
         }

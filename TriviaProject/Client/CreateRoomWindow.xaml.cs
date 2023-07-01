@@ -30,7 +30,6 @@ namespace Client
         public CreateRoomWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             request = new CreateRoomRequest();
@@ -95,6 +94,9 @@ namespace Client
                         name = tbRoomName.Text, maxPlayers = int.Parse(tbMaxUsers.Text), id = response.roomId,
                         numOfQuestions = int.Parse(tbQuestionCount.Text), timePerQuestion = int.Parse(tbAnswerTimeout.Text)};
                     RoomWindow roomWindow = new RoomWindow(ref communicator, username, roomData);
+                    roomWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                    roomWindow.Left = this.Left;
+                    roomWindow.Top = this.Top;
                     Close();
                     roomWindow.ShowDialog();
                 }
@@ -128,6 +130,9 @@ namespace Client
         private void BackClick(object sender, RoutedEventArgs e)
         {
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left;
+            menuWindow.Top = this.Top;
             Close();
             menuWindow.ShowDialog();
         }

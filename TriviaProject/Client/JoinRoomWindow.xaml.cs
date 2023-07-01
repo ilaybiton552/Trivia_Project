@@ -42,7 +42,6 @@ namespace Client
         public JoinRoomWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             roomDataList = new LinkedList<RoomData>();
@@ -144,6 +143,9 @@ namespace Client
 
             backgroundWorker.CancelAsync(); // closes the background worker
             RoomWindow roomWindow = new RoomWindow(ref communicator, username, GetRoomData(id));
+            roomWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            roomWindow.Left = this.Left;
+            roomWindow.Top = this.Top;
             Close();
             roomWindow.ShowDialog();
         }
@@ -274,6 +276,9 @@ namespace Client
         {
             backgroundWorker.CancelAsync(); // closes the background worker
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left;
+            menuWindow.Top = this.Top;
             Close();
             menuWindow.ShowDialog();
         }

@@ -25,7 +25,6 @@ namespace Client
         public StatisticsWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
         }
@@ -36,6 +35,9 @@ namespace Client
         private void PersonlStatisticsClick(object sender, RoutedEventArgs e)
         {
             PersonalStatsWindow personalStatsWindow = new PersonalStatsWindow(ref communicator, username);
+            personalStatsWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            personalStatsWindow.Left = this.Left;
+            personalStatsWindow.Top = this.Top;
             Close();
             personalStatsWindow.ShowDialog();
         }
@@ -46,6 +48,9 @@ namespace Client
         private void HighScoresClick(object sender, RoutedEventArgs e)
         {
             HighScoreWindow highScoreWindow = new HighScoreWindow(ref communicator, username);
+            highScoreWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            highScoreWindow.Left = this.Left;
+            highScoreWindow.Top = this.Top;
             Close();
             highScoreWindow.ShowDialog();
         }
@@ -56,6 +61,9 @@ namespace Client
         private void BackClick(object sender, RoutedEventArgs e)
         {
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left;
+            menuWindow.Top = this.Top;
             Close();
             menuWindow.ShowDialog();
         }

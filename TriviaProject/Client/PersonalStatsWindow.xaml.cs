@@ -29,7 +29,6 @@ namespace Client
         public PersonalStatsWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             getPersonalStats();
@@ -60,6 +59,9 @@ namespace Client
         private void BackClick(object sender, RoutedEventArgs e)
         {
             StatisticsWindow statisticsWindow = new StatisticsWindow(ref communicator, username);
+            statisticsWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            statisticsWindow.Left = this.Left;
+            statisticsWindow.Top = this.Top;
             Close();
             statisticsWindow.ShowDialog();
         }

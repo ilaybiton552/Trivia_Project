@@ -46,7 +46,6 @@ namespace Client
         public RoomWindow(ref Communicator communicator, string username, RoomData roomData)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             this.roomData = roomData;
@@ -133,6 +132,9 @@ namespace Client
         private void OkClick(object sender, RoutedEventArgs e)
         {
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left;
+            menuWindow.Top = this.Top;
             Close();
             menuWindow.ShowDialog();
         }
@@ -210,6 +212,9 @@ namespace Client
             {
                 backgroundWorker.CancelAsync();
                 GameWindow gameWindow = new GameWindow(ref communicator, username, roomData.timePerQuestion);
+                gameWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                gameWindow.Left = this.Left;
+                gameWindow.Top = this.Top;
                 Close();
                 gameWindow.ShowDialog();
             }
@@ -244,6 +249,9 @@ namespace Client
             else // the user decided to leave
             {
                 MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                menuWindow.Left = this.Left;
+                menuWindow.Top = this.Top;
                 Close();
                 menuWindow.ShowDialog();
             }
@@ -265,6 +273,9 @@ namespace Client
             {
                 backgroundWorker.CancelAsync();
                 MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                menuWindow.Left = this.Left;
+                menuWindow.Top = this.Top;
                 Close();
                 menuWindow.ShowDialog();
             }

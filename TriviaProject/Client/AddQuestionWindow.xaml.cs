@@ -31,7 +31,6 @@ namespace Client
         public AddQuestionWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             question = new AddQuestion();
@@ -81,6 +80,9 @@ namespace Client
                 {
                     MessageBox.Show("Added the question");
                     MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                    menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+                    menuWindow.Left = this.Left;
+                    menuWindow.Top = this.Top;
                     Close();
                     menuWindow.ShowDialog();                           
                 }
@@ -99,6 +101,9 @@ namespace Client
         private void BackClick(object sender, RoutedEventArgs e)
         {
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left; 
+            menuWindow.Top = this.Top;
             Close();
             menuWindow.ShowDialog();
         }

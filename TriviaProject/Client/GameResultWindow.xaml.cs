@@ -25,7 +25,6 @@ namespace Client
         public GameResultWindow(ref Communicator communicator, string username, List<PlayerResult> results)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             this.username = username;
             this.results = results.OrderBy(result => -result.rightAnswers).ToList();
@@ -53,6 +52,9 @@ namespace Client
         {
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Application.Current.Windows[0].Close(); // closing GameWindow
+            menuWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            menuWindow.Left = this.Left - 50;
+            menuWindow.Top = this.Top - 125;
             Close();
             menuWindow.ShowDialog();
         }

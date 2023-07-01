@@ -28,7 +28,6 @@ namespace Client
         public MenuWindow(ref Communicator communicator, string username)
         {
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.communicator = communicator;
             connectedUser = username;
             usernameTextBlock.Text += connectedUser;
@@ -40,6 +39,9 @@ namespace Client
         private void CreateRoomClick(object sender, RoutedEventArgs e)
         {
             CreateRoomWindow createRoomWindow = new CreateRoomWindow(ref communicator, connectedUser);
+            createRoomWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            createRoomWindow.Left = this.Left;
+            createRoomWindow.Top = this.Top;
             Close();
             createRoomWindow.ShowDialog();
         }
@@ -50,6 +52,9 @@ namespace Client
         private void JoinRoomClick(object sender, RoutedEventArgs e)
         {
             JoinRoomWindow joinRoomWindow = new JoinRoomWindow(ref communicator, connectedUser);
+            joinRoomWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            joinRoomWindow.Left = this.Left;
+            joinRoomWindow.Top = this.Top;
             Close();
             joinRoomWindow.ShowDialog();
         }
@@ -60,6 +65,9 @@ namespace Client
         private void StatisticsClick(object sender, RoutedEventArgs e)
         {
             StatisticsWindow statisticsWindow = new StatisticsWindow(ref communicator, connectedUser);
+            statisticsWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            statisticsWindow.Left = this.Left;
+            statisticsWindow.Top = this.Top;
             Close();
             statisticsWindow.ShowDialog();
         }
@@ -70,6 +78,9 @@ namespace Client
         private void AddQuestionClick(object sender, RoutedEventArgs e)
         {
             AddQuestionWindow addQuestionWindow = new AddQuestionWindow(ref communicator, connectedUser);
+            addQuestionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            addQuestionWindow.Left = this.Left; 
+            addQuestionWindow.Top = this.Top;
             Close();
             addQuestionWindow.ShowDialog();
         }
@@ -107,6 +118,9 @@ namespace Client
             }
 
             LoginWindow loginWindow = new LoginWindow(ref communicator);
+            loginWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            loginWindow.Left = this.Left;
+            loginWindow.Top = this.Top;
             Close();
             loginWindow.Show();
         }
