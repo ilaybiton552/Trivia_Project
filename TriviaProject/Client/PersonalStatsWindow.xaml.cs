@@ -51,6 +51,7 @@ namespace Client
                 return;
             }
             statistics = JsonConvert.DeserializeObject<PersonalStatistics>(serverPacket.data);
+            statistics.averageAnswerTime = (float)Math.Round(statistics.averageAnswerTime, 2);
         }
 
         /// <summary>
