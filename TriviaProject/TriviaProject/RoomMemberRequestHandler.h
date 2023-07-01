@@ -13,7 +13,7 @@ class RequestHandlerFactory;
 class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
-	RoomMemberRequestHandler(const LoggedUser& user, const Room& room, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
+	RoomMemberRequestHandler(const LoggedUser& user, Room& room, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
 	
 	//Methods
 	bool isRequestRelevant(const RequestInfo& requestInfo) override;
@@ -24,7 +24,7 @@ public:
 
 private:
 	//Fields
-	Room m_room;
+	Room& m_room;
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;
