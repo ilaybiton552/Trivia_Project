@@ -54,7 +54,7 @@
             <TextBlock x:Name="playersTextBlock" TextWrapping="Wrap"/>
         </StackPanel>
 
-        <Button Grid.Row="3" Margin="5, 1.5, 0, 5" Width="50" FontSize="20" Height="30" Content="Back" HorizontalAlignment="Left" Click="BackClick"/>
+        <Button Grid.Row="3" Margin="5, 0, 0, 5" Width="50" FontSize="20" Height="30" Content="Back" HorizontalAlignment="Left" Click="BackClick"/>
 
     </Grid>
 </Window>
