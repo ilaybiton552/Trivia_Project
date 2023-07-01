@@ -196,3 +196,17 @@ struct GameData
 	unsigned int wrongAnswerCount;
 	float averageAnswerTime;
 };
+
+struct AddQuestionRequest
+{
+	string question;
+	string correctAnswer;
+	string incorrectAnswer1;
+	string incorrectAnswer2;
+	string incorrectAnswer3;
+};
+
+struct AddQuestionResponse
+{
+	unsigned int status;
+};

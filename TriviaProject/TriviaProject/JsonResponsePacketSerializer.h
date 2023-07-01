@@ -12,7 +12,7 @@ enum RESPONSE_CODES {ERROR_RESPONSE_CODE = 200, LOGIN_RESPONSE_CODE, SIGNUP_RESP
 			GET_PLAYERS_IN_ROOM_RESPONSE_CODE, JOIN_ROOM_RESPONSE_CODE, CREATE_ROOM_RESPONSE_CODE, GET_HIGH_SCORE_RESPONSE_CODE, 
 			GET_PERSONAL_STATS_RESPONSE_CODE, CLOSE_ROOM_RESPONSE_CODE, START_GAME_RESPONSE_CODE, GET_ROOM_STATE_RESPONSE_CODE,
 			LEAVE_ROOM_RESPONSE_CODE, LEAVE_GAME_RESPONSE_CODE, GET_QUESTION_RESPONSE_CODE, SUBMIT_ANSWER_RESPONSE_CODE,
-			GET_GAME_RESULTS_RESPONSE};
+			GET_GAME_RESULTS_RESPONSE, ADD_QUESTION_RESPONSE_CODE};
 
 
 using json = nlohmann::json;
@@ -39,6 +39,7 @@ public:
 	static vector<unsigned char> serializeResponse(SubmitAnswerResponse submitAnswerResponse);
 	static vector<unsigned char> serializeResponse(GetQuestionResponse getQuestionResponse);
 	static vector<unsigned char> serializeResponse(LeaveGameResponse leaveGameResponse);
+	static vector<unsigned char> serializeResponse(AddQuestionResponse addQuestionResponse);
 private:
 	static vector<unsigned char> convertNumberToByte(const unsigned int num);
 	static vector<unsigned char> convertJsonToByte(const json jsonObject);

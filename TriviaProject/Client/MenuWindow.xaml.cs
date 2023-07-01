@@ -65,6 +65,16 @@ namespace Client
         }
 
         /// <summary>
+        /// Gets to add question window
+        /// </summary>
+        private void AddQuestionClick(object sender, RoutedEventArgs e)
+        {
+            AddQuestionWindow addQuestionWindow = new AddQuestionWindow(ref communicator, connectedUser);
+            Close();
+            addQuestionWindow.ShowDialog();
+        }
+
+        /// <summary>
         /// Exits the client
         /// </summary>
         private void ExitClick(object sender, RoutedEventArgs e)

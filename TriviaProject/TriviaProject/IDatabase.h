@@ -27,5 +27,6 @@ public:
 	virtual unsigned int getLastGameId() = 0;
 	virtual bool addGame() = 0;
 	virtual bool submitUserAnswer(const string& username, const int isCorrect, const float answerTime, const int gameId) = 0;
+	virtual bool addQuestion(const string& question, const string& correctAnswer, const string& incorrectAnswer1, const string& incorrectAnswer2, const string& incorrectAnswer3) = 0;
 };
 

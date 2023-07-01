@@ -16,6 +16,7 @@ LeaveGameResponse - 214
 GetQuestionResponse - 215
 SubmitAnswerResponse - 216
 GetGameResultsResponse - 217
+AddQuestionResponse - 218
 
 LoginRequest - 101
 SignupRequest - 102
@@ -34,6 +35,7 @@ LeaveGameRequest - 114
 GetQuestionRequest - 115
 SubmitAnswerRequest - 116
 GetGameResultRequest - 117
+AddQuestionRequest - 118
 
 status of RequestResult of login:
 success - 1

@@ -6,7 +6,7 @@
 #include "RoomManager.h"
 
 enum CODES {SIGNOUT_CODE = 103, GET_ROOM_CODE, GET_PLAYERS_CODE, GET_STATS_CODE, 
-			GET_HIGH_SCORE_CODE, JOIN_ROOM_CODE, CREATE_ROOM_CODE};
+			GET_HIGH_SCORE_CODE, JOIN_ROOM_CODE, CREATE_ROOM_CODE, ADD_QUESTION_CODE = 118};
 enum STATS_INDEXES {NUM_OF_GAMES, RIGHT_ANSWERS, WRONG_ANSWERS, AVERAGE_TIME};
 #define NON_ACTIVE_ROOM 0
 #define STATUS_SUCCESS 1
@@ -34,5 +34,6 @@ private:
 	RequestResult getHighScore(const RequestInfo request);
 	RequestResult joinRoom(const RequestInfo request);
 	RequestResult createRoom(const RequestInfo request);
+	RequestResult addQuestion(const RequestInfo request);
 
 };
