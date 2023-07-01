@@ -25,7 +25,6 @@ Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int 
 /// <returns>the question for the user</returns>
 Question Game::getQuestionForUser(LoggedUser player)
 {
-	std::cout << "P: " << m_answeredQuestions.size() << std::endl;
 	while (m_answeredQuestions.size() != 1 && !areAllUsersAnswered()) // more than 1 player remains
 	{
 		Sleep(WAIT_FOR_ALL_PLAYERS);
@@ -74,7 +73,6 @@ unsigned int Game::submitAnswer(LoggedUser player, unsigned int answerId, float 
 void Game::removePlayer(LoggedUser player)
 {
 	this->m_answeredQuestions.erase(player);
-	std::cout << "P: " << m_answeredQuestions.size() << std::endl;
 }
 
 /// <summary>

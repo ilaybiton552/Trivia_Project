@@ -129,7 +129,7 @@ namespace Client
         /// </summary>
         void GameBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (GetQuestion() == StatusSuccess && !gameBackgroundWorker.CancellationPending)
+            while (!gameBackgroundWorker.CancellationPending && GetQuestion() == StatusSuccess)
             {
                 timerBackgroundWorker.CancelAsync();
                 gameBackgroundWorker.ReportProgress(0);
