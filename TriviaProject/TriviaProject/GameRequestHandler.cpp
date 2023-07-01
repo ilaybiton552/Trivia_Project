@@ -138,7 +138,7 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& requestInfo)
 
 	m_game.removePlayer(m_user);
 	LeaveGameResponse response = { SUCCESS };
-	result.newHandler = nullptr;
+	result.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 
 	return result;
