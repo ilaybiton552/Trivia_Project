@@ -307,6 +307,7 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 		StartGameResponse response = { STATUS_SUCCESS };
 		vector<SOCKET> clients(m_roomsSocket[roomId]);
 		sendMessageToAllClients(clients, JsonResponsePacketSerializer::serializeResponse(response), clientSocket);
+		Game& game = static_cast<GameRequestHandler*>(clientHandler)->getGame();
 		for (auto it = clients.begin(); it != clients.end(); ++it)
 		{
 			if (*it != clientSocket)
@@ -315,7 +316,7 @@ void Communicator::handleClientsInRooms(const unsigned int code, const SOCKET& c
 				// will always be room member request handler
 				LoggedUser loggedUser = static_cast<RoomMemberRequestHandler*>(*pCurrHandler)->getLoggedUser();
 				delete* pCurrHandler;
-				*pCurrHandler = m_handlerFactory.createGameRequestHandler(loggedUser, static_cast<GameRequestHandler*>(clientHandler)->getGame());
+				*pCurrHandler = m_handlerFactory.createGameRequestHandler(loggedUser, game);
 			}
 		}
 		// deleting the room (after the game sends to menu)

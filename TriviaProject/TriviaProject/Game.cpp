@@ -25,7 +25,8 @@ Game::Game(vector<Question> questions, vector<LoggedUser> players, unsigned int 
 /// <returns>the question for the user</returns>
 Question Game::getQuestionForUser(LoggedUser player)
 {
-	while (!areAllUsersAnswered())
+	std::cout << "P: " << m_answeredQuestions.size() << std::endl;
+	while (m_answeredQuestions.size() != 1 && !areAllUsersAnswered()) // more than 1 player remains
 	{
 		Sleep(WAIT_FOR_ALL_PLAYERS);
 	}
@@ -73,6 +74,7 @@ unsigned int Game::submitAnswer(LoggedUser player, unsigned int answerId, float 
 void Game::removePlayer(LoggedUser player)
 {
 	this->m_answeredQuestions.erase(player);
+	std::cout << "P: " << m_answeredQuestions.size() << std::endl;
 }
 
 /// <summary>
@@ -83,7 +85,7 @@ vector<PlayerResults> Game::getPlayersResults()
 {
 	vector<PlayerResults> playersResults;
 
-	if (m_answeredQuestions[m_players.begin()->first] < m_questions.size()) // didn't finish questions
+	if (m_answeredQuestions.begin()->second < m_questions.size()) // didn't finish questions
 	{
 		throw std::exception("Didn't finish the game");
 	}
@@ -115,16 +117,14 @@ unsigned int Game::getGameId()
 /// <returns>if all the users answered the question</returns>
 bool Game::areAllUsersAnswered()
 {
-	unsigned int helper = (*m_answeredQuestions.begin()).second;
+	unsigned int firstNumOfAnswers = m_answeredQuestions.begin()->second;
 
 	for (auto it = m_answeredQuestions.begin(); it != m_answeredQuestions.end(); ++it)
 	{
-		if (helper != (*it).second)
+		if (firstNumOfAnswers != it->second)
 		{
 			return false;
 		}
-
-		helper = (*it).second;
 	}
 
 	return true;
