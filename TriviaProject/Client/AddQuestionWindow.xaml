@@ -59,28 +59,28 @@
             <TextBlock Text="Correct answer:"/>
             <TextBox Text="{Binding correctAnswer, 
                 UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="15" x:Name="tbCorrectAnswer"/>
+                    FontSize="15" x:Name="tbCorrectAnswer" Width="250"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow3">
             <TextBlock Text="Incorrect answer 1:"/>
             <TextBox Text="{Binding incorrectAnswer1, 
                 UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="15" x:Name="tbIncorrectAnswer1"/>
+                    FontSize="15" x:Name="tbIncorrectAnswer1" Width="228"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow4">
             <TextBlock Text="Incorrect answer 2:"/>
             <TextBox Text="{Binding incorrectAnswer2, 
                 UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="15" x:Name="tbIncorrectAnswer2"/>
+                    FontSize="15" x:Name="tbIncorrectAnswer2" Width="228"/>
         </StackPanel>
         
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left" x:Name="stackPanelRow5">
             <TextBlock Text="Incorrect answer 3:"/>
             <TextBox Text="{Binding incorrectAnswer3, 
                 UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="15" x:Name="tbIncorrectAnswer3"/>
+                    FontSize="15" x:Name="tbIncorrectAnswer3" Width="228"/>
         </StackPanel>
 
         <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">

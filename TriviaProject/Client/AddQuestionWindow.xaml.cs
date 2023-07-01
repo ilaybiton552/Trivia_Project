@@ -79,9 +79,10 @@ namespace Client
                 PacketInfo receivedPacket = this.communicator.GetMessageFromServer();
                 if(receivedPacket.code == AddQuestionResponseCode)
                 {
-                   MenuWindow menuWindow = new MenuWindow(ref communicator, username);
-                   Close();
-                   menuWindow.ShowDialog();                           
+                    MessageBox.Show("Added the question");
+                    MenuWindow menuWindow = new MenuWindow(ref communicator, username);
+                    Close();
+                    menuWindow.ShowDialog();                           
                 }
                 else
                 {
