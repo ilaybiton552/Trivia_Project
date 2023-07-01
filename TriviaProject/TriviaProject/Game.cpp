@@ -83,7 +83,7 @@ vector<PlayerResults> Game::getPlayersResults()
 {
 	vector<PlayerResults> playersResults;
 
-	if (m_answeredQuestions[m_players.begin()->first] < m_questions.size()) // didn't finish questions
+	if (m_answeredQuestions.begin()->second < m_questions.size()) // didn't finish questions
 	{
 		throw std::exception("Didn't finish the game");
 	}
@@ -115,16 +115,14 @@ unsigned int Game::getGameId()
 /// <returns>if all the users answered the question</returns>
 bool Game::areAllUsersAnswered()
 {
-	unsigned int helper = (*m_answeredQuestions.begin()).second;
+	unsigned int firstNumOfAnswers = m_answeredQuestions.begin()->second;
 
 	for (auto it = m_answeredQuestions.begin(); it != m_answeredQuestions.end(); ++it)
 	{
-		if (helper != (*it).second)
+		if (firstNumOfAnswers != it->second)
 		{
 			return false;
 		}
-
-		helper = (*it).second;
 	}
 
 	return true;

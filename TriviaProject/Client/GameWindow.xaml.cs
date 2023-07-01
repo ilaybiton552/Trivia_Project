@@ -129,7 +129,7 @@ namespace Client
         /// </summary>
         void GameBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (GetQuestion() == StatusSuccess && !gameBackgroundWorker.CancellationPending)
+            while (!gameBackgroundWorker.CancellationPending && GetQuestion() == StatusSuccess)
             {
                 timerBackgroundWorker.CancelAsync();
                 gameBackgroundWorker.ReportProgress(0);
@@ -137,7 +137,14 @@ namespace Client
                 gameEvent.WaitOne(); // wait until answer
                 Thread.Sleep(250); // wait to see if the client is right or wrong
             }
-            GetGameResults();
+            if (!gameBackgroundWorker.CancellationPending)
+            {
+                GetGameResults();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         /// <summary>
@@ -344,6 +351,9 @@ namespace Client
                 MessageBox.Show("Error leaving", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            gameBackgroundWorker.CancelAsync();
+            gameEvent.Set();
+            timerBackgroundWorker.CancelAsync();
             MenuWindow menuWindow = new MenuWindow(ref communicator, username);
             Close();
             menuWindow.ShowDialog();
