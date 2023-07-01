@@ -44,6 +44,7 @@ namespace Client
         private int timePerQuestion;
         private Stopwatch stopwatch;
         private AutoResetEvent gameEvent;
+        private bool isAnswered;
 
         public GameWindow(ref Communicator communicator, string username, int timePerQuestion)
         {
@@ -106,7 +107,8 @@ namespace Client
         void TimerBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             time.Text = e.ProgressPercentage.ToString();
-            if (e.ProgressPercentage == 0) // end of time
+            if (e.ProgressPercentage == 0 && // end of time
+                !isAnswered) // client didn't answer in time
             {
                 SubmitAnswer(NoAnswerId, timePerQuestion);
                 gameEvent.Set(); // notify game worker
@@ -132,6 +134,7 @@ namespace Client
             while (!gameBackgroundWorker.CancellationPending && GetQuestion() == StatusSuccess)
             {
                 timerBackgroundWorker.CancelAsync();
+                isAnswered = false;
                 gameBackgroundWorker.ReportProgress(0);
                 stopwatch.Restart(); // starting the answer time for the user
                 gameEvent.WaitOne(); // wait until answer
@@ -320,6 +323,7 @@ namespace Client
         private void AnswerClick(object sender, RoutedEventArgs e)
         {
             stopwatch.Stop(); // stoping the answer time for the user
+            isAnswered = true;
             Button answerButton = (Button)sender;
             answerButton.Template = (ControlTemplate)Resources["NoHover"];
             int answerId = (int)answerButton.Tag;
