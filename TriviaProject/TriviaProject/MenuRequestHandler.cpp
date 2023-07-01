@@ -144,8 +144,8 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
 
     result.newHandler = nullptr; // don't want to change the handler
     JoinRoomRequest requestData = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(request.buffer);
-    Room room = m_roomManager.getRoom(requestData.roomId);
-    JoinRoomResponse response = { room.addUser(m_user.getUsername())};
+    Room& room = m_roomManager.getRoom(requestData.roomId);
+    JoinRoomResponse response = { room.addUser(m_user)};
     if (response.status == SUCCESS)
     {
         result.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user, room);
