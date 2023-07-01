@@ -51,6 +51,7 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             this.timePerQuestion = timePerQuestion;
+            trivia.Text = username + ", " + trivia.Text;
             stopwatch = new Stopwatch();
             timerBackgroundWorker = new BackgroundWorker();
             gameBackgroundWorker = new BackgroundWorker();

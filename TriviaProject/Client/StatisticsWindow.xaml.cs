@@ -27,6 +27,7 @@ namespace Client
             InitializeComponent();
             this.communicator = communicator;
             this.username = username;
+            trivia.Text = username + ", " + trivia.Text;
         }
 
         /// <summary>

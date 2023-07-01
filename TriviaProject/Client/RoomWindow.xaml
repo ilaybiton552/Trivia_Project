@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
+            <TextBlock x:Name="trivia" TextWrapping="Wrap" Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
             <TextBlock Text="Room information:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB"/>
         </StackPanel>
 

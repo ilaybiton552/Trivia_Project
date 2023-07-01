@@ -49,6 +49,7 @@ namespace Client
             this.communicator = communicator;
             this.username = username;
             this.roomData = roomData;
+            trivia.Text = username + ", " + trivia.Text;
             UpdateRoomData();
             if (roomData.admin == username)
             {

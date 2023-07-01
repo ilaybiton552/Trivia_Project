@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="#FFFFFF" Height="30"/>
+            <TextBlock x:Name="trivia" TextWrapping="Wrap" Text="Ready for some Trivia?" FontSize="30" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="#FFFFFF" Height="30"/>
             <TextBlock Text="Create room:" FontSize="35" TextAlignment="Center" FontFamily="Berlin Sans FB" Foreground="White" Height="35"/>
         </StackPanel>
         

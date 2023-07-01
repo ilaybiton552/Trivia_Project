@@ -32,6 +32,7 @@ namespace Client
             InitializeComponent();
             this.communicator = communicator;
             this.username = username;
+            trivia.Text = username + ", " + trivia.Text;
             request = new CreateRoomRequest();
             this.DataContext = request;
         }

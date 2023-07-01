@@ -32,7 +32,7 @@
 			<RowDefinition Height="0.5*"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
-            <TextBlock Text="Ready for some Trivia?" FontFamily="Berlin Sans FB" FontSize="30"/>
+            <TextBlock x:Name="trivia" TextWrapping="Wrap" Text="Ready for some Trivia?" FontFamily="Berlin Sans FB" FontSize="30"/>
             <TextBlock Text="Join room:" FontFamily="Berlin Sans FB" FontSize="35"/>
 		</StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">

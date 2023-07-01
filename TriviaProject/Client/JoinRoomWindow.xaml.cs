@@ -44,6 +44,7 @@ namespace Client
             InitializeComponent();
             this.communicator = communicator;
             this.username = username;
+            trivia.Text = username + ", " + trivia.Text;
             roomDataList = new LinkedList<RoomData>();
             backgroundWorker = new BackgroundWorker();
             SetBackgroundWorkerDetails();
