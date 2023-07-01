@@ -322,21 +322,24 @@ namespace Client
         /// </summary>
         private void AnswerClick(object sender, RoutedEventArgs e)
         {
-            stopwatch.Stop(); // stoping the answer time for the user
-            isAnswered = true;
-            Button answerButton = (Button)sender;
-            answerButton.Template = (ControlTemplate)Resources["NoHover"];
-            int answerId = (int)answerButton.Tag;
-            int correctAnswerId = SubmitAnswer(answerId, (float)(stopwatch.ElapsedMilliseconds / 1000.0));
-            if (correctAnswerId == answerId) // correct answer
+            if (!isAnswered) // only if the client didn't answer already
             {
-                answerButton.Background = Brushes.Green;
+                stopwatch.Stop(); // stoping the answer time for the user
+                isAnswered = true;
+                Button answerButton = (Button)sender;
+                answerButton.Template = (ControlTemplate)Resources["NoHover"];
+                int answerId = (int)answerButton.Tag;
+                int correctAnswerId = SubmitAnswer(answerId, (float)(stopwatch.ElapsedMilliseconds / 1000.0));
+                if (correctAnswerId == answerId) // correct answer
+                {
+                    answerButton.Background = Brushes.Green;
+                }
+                else
+                {
+                    answerButton.Background = Brushes.Red;
+                }
+                gameEvent.Set(); // notify game worker
             }
-            else
-            {
-                answerButton.Background = Brushes.Red;
-            }
-            gameEvent.Set(); // notify game worker
         }
 
         /// <summary>
