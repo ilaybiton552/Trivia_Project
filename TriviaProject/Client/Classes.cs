@@ -1,0 +1,151 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.RightsManagement;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Client
+{
+    public class LoginRequest
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+    }
+
+    public class PacketInfo
+    {
+        public byte code { get; set; }
+        public string data { get; set; }
+    }
+
+    public class StatusPacket
+    {
+        public int status {get; set; }
+    }
+
+    public class PersonalStatistics
+    {
+        public int numOfGames { get; set; }
+        public int numOfRightAnswers { get; set; }
+        public int numOfWrongAnswers { get; set; }
+        public float averageAnswerTime { get; set; }
+    }
+
+    public class HighScores
+    {
+        public string highScores { get; set;}
+    }
+
+    public class HighScoresDetails
+    {
+        private const int numOfScores = 3;
+        public string[] usernames { get; set; }
+        public int[] scores { get; set; }
+        public HighScoresDetails()
+        {
+            usernames = new string[numOfScores];
+            scores = new int[numOfScores];
+        }
+    }
+
+    public class CreateRoomRequest
+    {
+        public string roomName { get; set; }
+        public int maxUsers { get; set; }
+        public int questionCount { get; set; }
+        public int answerTimeout { get; set; }
+    }
+
+    public class GetRoomResponse
+    {
+        public string rooms { get; set; }
+    }
+
+    public class RoomData
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public int maxPlayers { get; set; }
+        public int numOfQuestions { get; set; }
+        public int timePerQuestion { get; set; }
+        public int isActive { get; set; } 
+
+        public string admin { get; set; }
+        public string players { get; set; }
+    }
+
+    public class RoomIdRequest
+    {
+        public int roomId { get; set; }
+    }
+
+    public class GetPlayersResponse
+    {
+        public string players { get; set; }
+    }
+
+    public class CreateRoomResponse
+    {
+        public int status { get; set; }
+        public int roomId { get; set;}
+    }
+
+    public class GetRoomStateResponse
+    {
+        public int status { get; set; }
+        public bool hasGameBegan { get; set; }
+        public string players { get; set; }
+        public int questionCount { get; set; }
+        public int answerTimeout { get; set; }
+    }
+
+    public class GetQuestionResponse
+    {
+        public int status { get; set; }
+        public string question { get; set; }
+        public string answers { get; set; }
+    }
+
+    public class Question
+    {
+        public string question { get; set;}
+        public Dictionary<int, string> answers { get; set; }
+    }
+
+    public class AddQuestion
+    {
+        public string question { get; set; }
+        public string correctAnswer { get; set; }
+        public string incorrectAnswer1 { get; set; }
+        public string incorrectAnswer2 { get; set; }
+        public string incorrectAnswer3 { get; set; }
+    }
+
+    public class SubmitAnswer
+    {
+        public int answerId { get; set; }
+        public float answerTime { get; set;}
+    }
+
+    public class SubmitAnswerResponse
+    {
+        public int status { get; set; }
+        public int correctAnswerId { get; set;}
+    }
+
+    public class PlayerResult
+    {
+        public string username { get; set; }
+        public int rightAnswers { get; set; }
+        public int wrongAnswers { get; set; }
+        public float averageTime { get; set; }
+    }
+
+    public class GameResultResponse
+    {
+        public int status { get; set;}
+        public string results { get; set; }
+    }
+
+}

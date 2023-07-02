@@ -1,0 +1,32 @@
+#pragma once
+#include <string>
+#include <iostream>
+#include <vector>
+#include <list>
+#include "Question.h"
+
+using std::string;
+using std::vector;
+using std::list;
+
+class IDatabase
+{
+public:
+	virtual bool open() = 0;
+	virtual bool close() = 0;
+	virtual int doesUserExist(const string username) = 0;
+	virtual int doesPasswordMatch(const string username, const string password) = 0;
+	virtual int addNewUser(const string username, const string password, const string email, const string address, const string phone, const string birthDate) = 0;
+	virtual float getPlayerAverageTime(const string& username) = 0;
+	virtual int getNumOfCorrectAnswers(const string& username) = 0;
+	virtual int getNumOfTotalAnswers(const string& username) = 0;
+	virtual int getNumOfTotalGames(const string& username) = 0;
+	virtual int getPlayerScore(const string& username) = 0;
+	virtual vector<string> getHighScores() = 0;
+	virtual list<Question> getQuestions(const int numOfQuestions) = 0;
+	virtual unsigned int getLastGameId() = 0;
+	virtual bool addGame() = 0;
+	virtual bool submitUserAnswer(const string& username, const int isCorrect, const float answerTime, const int gameId) = 0;
+	virtual bool addQuestion(const string& question, const string& correctAnswer, const string& incorrectAnswer1, const string& incorrectAnswer2, const string& incorrectAnswer3) = 0;
+};
+
