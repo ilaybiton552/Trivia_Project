@@ -9,6 +9,32 @@ using System.Text.RegularExpressions;
 
 namespace Client
 {
+    public class ValidationUsername : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+                string username = value as string;
+                Regex letter = new Regex("[a-zA-z]");
+                if (username.Length > 12) 
+                {
+                    return new ValidationResult(false, "username can't be longer than 12");
+                }
+                if (!letter.IsMatch(username))
+                {
+                    return new ValidationResult(false, "username must contain a letter");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult(false, ex.Message);
+            }
+
+            return ValidationResult.ValidResult;
+        }
+    }
+
     public class ValidationPassword : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)

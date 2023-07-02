@@ -64,9 +64,13 @@
         
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Username:"/>
-            <TextBox Text="{Binding username, 
-                UpdateSourceTrigger=PropertyChanged}"
-                    FontSize="15" x:Name="tbUsername"/>
+            <TextBox x:Name="tbUsername">
+                <Binding Path="username" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                    <Binding.ValidationRules>
+                        <local:ValidationUsername/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Password:"/>

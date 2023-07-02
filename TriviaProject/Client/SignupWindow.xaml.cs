@@ -55,7 +55,9 @@ namespace Client
         /// </summary>
         private void SignupClick(object sender, RoutedEventArgs e)
         {
-            if (!user.isEmpty() && !Validation.GetHasError(tbPassword) && !Validation.GetHasError(tbEmail) && !Validation.GetHasError(tbAddress) && !Validation.GetHasError(tbPhone) && !Validation.GetHasError(tbBirthdate))
+            if (!user.isEmpty() && !Validation.GetHasError(tbUsername) && !Validation.GetHasError(tbPassword) && 
+                !Validation.GetHasError(tbEmail) && !Validation.GetHasError(tbAddress) && 
+                !Validation.GetHasError(tbPhone) && !Validation.GetHasError(tbBirthdate))
             {
                 tbUsername.BorderBrush = Brushes.Green;
                 tbPassword.BorderBrush = Brushes.Green;
