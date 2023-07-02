@@ -161,12 +161,12 @@ namespace Client
             try
             {
                 string birthdate = value as string;
-                Regex birthdateRegex = new Regex("([0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4})");
+                Regex birthdateRegex = new Regex("^(3[01]|[12][0-9]|0[1-9]).(1[0-2]|0[1-9]).(19\\d\\d|20[01]\\d)$");
                 Match match = birthdateRegex.Match(birthdate);
 
                 if (!match.Success)
                 {
-                    return new ValidationResult(false, "not in the right format");
+                    return new ValidationResult(false, "not in the right format - dd.mm.yyyy");
                 }
 
             }

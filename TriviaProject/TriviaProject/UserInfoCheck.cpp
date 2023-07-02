@@ -100,7 +100,7 @@ bool UserInfoCheck::phoneNumberCheck(const string phoneNumber)
 /// <returns>if the birthdate is in the right format</returns>
 bool UserInfoCheck::birthdateCheck(const string birthdate)
 {
-	regex birthdate_regex("([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})"); // the regex expression
+	regex birthdate_regex("^(3[01]|[12][0-9]|0[1-9]).(1[0-2]|0[1-9]).(19\d\d|20[01]\d)$"); // the regex expression
 	return bool(regex_match(birthdate.begin(), birthdate.end(), birthdate_regex));
 }
 
