@@ -30,7 +30,7 @@ LoginManager::~LoginManager()
 /// <returns>the result code</returns>
 int LoginManager::signup(const string username, const string password, const string email, const string address, const string phoneNumber, const string birthdate)
 {
-	if (!UserInfoCheck::checkUserInfo(password, email, address, phoneNumber, birthdate))
+	if (!UserInfoCheck::checkUserInfo(username, password, email, address, phoneNumber, birthdate))
 	{
 		return REGEX_ERROR;
 	}

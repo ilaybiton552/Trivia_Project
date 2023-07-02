@@ -1,17 +1,31 @@
 #include "UserInfoCheck.h"
+#include "UserInfoCheck.h"
 
 /// <summary>
 /// the fucntion checks if all the user information is in the wanted format
 /// </summary>
+/// <param name="username">string, the username</param>
 /// <param name="password">the password</param>
 /// <param name="email">the email</param>
 /// <param name="address">the address</param>
 /// <param name="phone_number">the phone number</param>
 /// <param name="birthdate">the birthdate</param>
 /// <returns>if all the user information is in the wanted format</returns>
-bool UserInfoCheck::checkUserInfo(const string password, const string email, const string address, const string phone_number, const string birthdate)
+bool UserInfoCheck::checkUserInfo(const string username, const string password, const string email, const string address, const string phone_number, const string birthdate)
 {
-	return(passwordCheck(password) && emailCheck(email) && addressCheck(address) && phoneNumberCheck(phone_number), birthdateCheck(birthdate));
+	return(usernameCheck(username) && passwordCheck(password) && emailCheck(email) && 
+		addressCheck(address) && phoneNumberCheck(phone_number), birthdateCheck(birthdate));
+}
+
+/// <summary>
+/// Checks if the username is valid
+/// </summary>
+/// <param name="username">string, the username</param>
+/// <returns>bool, if the username is valid</returns>
+bool UserInfoCheck::usernameCheck(const string username)
+{
+	smatch m;
+	return (username.size() <= 12 && regex_search(username, m, regex("[a-zA-Z]")));
 }
 
 /// <summary>
