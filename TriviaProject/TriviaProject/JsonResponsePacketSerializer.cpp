@@ -82,10 +82,11 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayers
     for (auto it = getPlayersInRoomResponse.players.begin(); it != getPlayersInRoomResponse.players.end(); ++it)
     {
         players += *it;
-        players += ",";
+        players += ", ";
     }
     if (!players.empty())
     {
+        players.pop_back(); // deleting last space
         players.pop_back(); // deleting last comma
     }
     json response = { {"players", players} };

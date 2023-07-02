@@ -58,8 +58,8 @@
                 <TextBlock x:Name="timeTextBlock"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Players: "/>
-                <TextBlock x:Name="playersTextBlock" TextWrapping="Wrap"/>
+                <TextBlock Text="Players: " TextWrapping="Wrap"/>
+                <TextBlock MaxWidth="350" x:Name="playersTextBlock" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
         
