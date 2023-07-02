@@ -177,10 +177,11 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomSta
     for (auto it = getRoomStateResponse.players.begin(); it != getRoomStateResponse.players.end(); ++it)
     {
         players += *it;
-        players += ",";
+        players += ", ";
     }
     if (!players.empty())
     {
+        players.pop_back(); // deleting last space
         players.pop_back(); // deleting last comma
     }
 
